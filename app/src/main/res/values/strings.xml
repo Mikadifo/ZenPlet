@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">ZenPlet</string>
+    <string name="splash_logo_image_description">ZenPlet Logo Image</string>
+    <string name="splash_app_name_image_description">ZenPlet App Name Image</string>
+    <string name="splash_tag_line_image_description">ZenPlet Tag line Image</string>
+    <string name="menu_welcome">Welcome!</string>
+    <string name="menu_welcome_info">Before start using the app you need to have an account.</string>
+    <string name="sign_up_button">Sign up</string>
+    <string name="log_in_button">Log in</string>
+    <string name="sign_in_fb_or_google">Sign in with <b>Facebook</b> or <b>Google</b></string>
+    <string name="logo_description">ZenPlet Logo</string>
+    <string name="appname_description">ZENPLET</string>
+    <string name="already_have_account">Already have an account? <b>Log in</b></string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="Password">Password</string>
+    <string name="no_have_account">Don\'t have an account? <b>Sign Up</b></string>
+    <string name="forgot_password">Forgot your password?</string>
+    <string name="username_or_email">Username or Email</string>
+</resources>
