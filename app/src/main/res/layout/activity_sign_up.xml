@@ -63,7 +63,7 @@
 
     <ImageView
         android:id="@+id/img_appname_signup"
-        android:layout_width="229dp"
+        android:layout_width="0dp"
         android:layout_height="25dp"
         android:layout_marginStart="80dp"
         android:layout_marginTop="16dp"
