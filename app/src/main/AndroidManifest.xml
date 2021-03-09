@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".nav.BottomNavActivity"
+            android:label="@string/title_activity_bottom_nav"></activity>
+        <activity
             android:name=".ui.LogInActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
