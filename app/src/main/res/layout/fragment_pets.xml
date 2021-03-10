@@ -16,7 +16,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/ptsans"
-        android:text="@string/StrMyPets"
+        android:text="@string/my_pets_title"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
