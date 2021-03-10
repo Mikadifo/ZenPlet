@@ -18,4 +18,13 @@
     <string name="forgot_password">Forgot your password?</string>
     <string name="username_or_email">Username or Email</string>
     <string name="my_pets_title">MY PETS</string>
+    <string name="old_password">Old password</string>
+    <string name="new_password">New password</string>
+    <string name="repeat_password">Repeat new password</string>
+    <string name="account">ACCOUNT</string>
+    <string name="change_password">Change Password</string>
+    <string name="linea2">linea2</string>
+    <string name="linea">linea</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="phone_number">Phone Number</string>
 </resources>
