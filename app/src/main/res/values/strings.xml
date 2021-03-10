@@ -27,4 +27,5 @@
     <string name="linea">linea</string>
     <string name="delete_account">Delete Account</string>
     <string name="phone_number">Phone Number</string>
+    <string name="title_activity_bottom_nav">MainActivity</string>
 </resources>
