@@ -25,6 +25,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
+        android:id="@+id/list_pets"
         android:layout_width="376dp"
         android:layout_height="598dp"
         android:layout_marginStart="16dp"
