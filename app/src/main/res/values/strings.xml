@@ -27,4 +27,9 @@
     <string name="sdsds">Account</string>
     <string name="account">ACCOUNT</string>
     <string name="change_password">Change Password</string>
+    <string name="linea2">linea2</string>
+    <string name="linea">linea</string>
+    <string name="user_name">Username:</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="phone_number">Phone Number</string>
 </resources>
