@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.mikadifo.zenplet.nav.BottomNavActivity;
+import com.mikadifo.zenplet.ui.ForgotPasswordActivity;
 import com.mikadifo.zenplet.ui.LogInActivity;
 import com.mikadifo.zenplet.ui.SignUpActivity;
 
@@ -18,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         startActivity(
-                new Intent(this, BottomNavActivity.class)
+                new Intent(this, ForgotPasswordActivity.class)
         );
     }
 
