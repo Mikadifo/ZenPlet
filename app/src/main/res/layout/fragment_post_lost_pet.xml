@@ -9,7 +9,7 @@
     tools:context=".ui.pets.PostLostPet">
 
     <Button
-        android:id="@+id/btnChangePasswords2"
+        android:id="@+id/btnPublishLostPet"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="243dp"
         android:layout_height="45dp"
@@ -25,7 +25,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine2" />
+        app:layout_constraintTop_toBottomOf="@+id/texteditAdditionalInfo" />
 
     <ImageView
         android:id="@+id/imageView6"
@@ -72,18 +72,18 @@
         android:layout_height="28dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="75dp"
-        android:layout_marginBottom="17dp"
+        android:layout_marginBottom="16dp"
         android:fontFamily="@font/ptsans"
         android:text="@string/additional_info_text"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextMultiLine2"
+        app:layout_constraintBottom_toTopOf="@+id/texteditAdditionalInfo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_rules_to_post_lostpet" />
 
     <EditText
-        android:id="@+id/editTextTextMultiLine2"
+        android:id="@+id/texteditAdditionalInfo"
         android:layout_width="243dp"
         android:layout_height="0dp"
         android:layout_marginEnd="75dp"
@@ -95,7 +95,7 @@
         android:inputType="textMultiLine"
         android:textColor="@color/colorPrimaryDark"
         android:textColorHint="#99363537"
-        app:layout_constraintBottom_toTopOf="@+id/btnChangePasswords2"
+        app:layout_constraintBottom_toTopOf="@+id/btnPublishLostPet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_additional_info" />
 

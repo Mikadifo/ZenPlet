@@ -35,4 +35,6 @@
     <string name="additional_info_text">Additional Info:</string>
     <string name="additional_info">Additional Info...</string>
     <string name="publish_text">Publish</string>
+    <string name="save_text">Save</string>
+    <string name="pet_found_text">Pet Found</string>
 </resources>
