@@ -3,12 +3,16 @@ package com.mikadifo.zenplet.ui.pets;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.mikadifo.zenplet.R;
+import com.mikadifo.zenplet.ui.lost_pets_list.LostPetsList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,6 +65,19 @@ public class PostLostPet extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_post_lost_pet, container, false);
+        View root = inflater.inflate(R.layout.fragment_post_lost_pet, container, false);
+        Button btn = root.findViewById(R.id.btnPublishLostPet);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment, new LostPetsList());
+                fragmentTransaction.commit();
+            }
+        });
+
+        return root;
     }
 }
