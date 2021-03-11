@@ -2,9 +2,14 @@ package com.mikadifo.zenplet.ui.vaccines;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
 import com.mikadifo.zenplet.R;
 
 /**
@@ -59,6 +64,20 @@ public class Vaccines extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_vaccines, container, false);
+
+        View root = inflater.inflate(R.layout.fragment_vaccines, container, false);
+        Button btn = root.findViewById(R.id.buttonNewVaccines);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment, new Vaccines());
+                fragmentTransaction.commit();
+            }
+        });
+        return root;
     }
+
 }
