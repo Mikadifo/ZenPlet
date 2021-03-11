@@ -17,7 +17,7 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/edit_old_pwd7"
+        app:layout_constraintBottom_toTopOf="@+id/edit_genre"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.22"
         app:layout_constraintStart_toStartOf="parent" />
@@ -34,7 +34,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/edit_old_pwd5"
+        android:id="@+id/edit_size"
         android:layout_width="251dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
@@ -51,7 +51,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView9"
+        android:id="@+id/foto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="18dp"
@@ -62,7 +62,7 @@
         tools:src="@tools:sample/avatars" />
 
     <Button
-        android:id="@+id/btnChangePassword2"
+        android:id="@+id/btnAbrirCamara"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="112dp"
         android:layout_height="38dp"
@@ -76,10 +76,10 @@
         android:textColor="@color/colorLightBackground"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/btnChangePassword4"
+        app:layout_constraintBottom_toTopOf="@+id/btnAbrirGaleria"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.954"
-        app:layout_constraintStart_toEndOf="@+id/imageView9" />
+        app:layout_constraintStart_toEndOf="@+id/foto" />
 
     <TextView
         android:id="@+id/textView12"
@@ -91,13 +91,13 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/edit_new_passwords3"
+        app:layout_constraintBottom_toTopOf="@+id/edit_breed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.22"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btnViewPetOwners2"
+        android:id="@+id/ViewPetsOwners"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="251dp"
         android:layout_height="45dp"
@@ -164,7 +164,7 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/edit_repeat_passwords3"
+        app:layout_constraintBottom_toTopOf="@+id/edit_birthdate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.241"
         app:layout_constraintStart_toStartOf="parent" />
@@ -176,7 +176,7 @@
         android:layout_marginTop="16dp"
         android:contentDescription="@string/linea2"
         android:src="@drawable/ic_horizontal_red_line"
-        app:layout_constraintBottom_toTopOf="@+id/imageView9"
+        app:layout_constraintBottom_toTopOf="@+id/foto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -184,7 +184,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/edit_old_pwd6"
+        android:id="@+id/edit_name"
         android:layout_width="251dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -202,7 +202,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/edit_new_passwords3"
+        android:id="@+id/edit_breed"
         android:layout_width="251dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -220,7 +220,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btnChangePassword4"
+        android:id="@+id/btnAbrirGaleria"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="114dp"
         android:layout_height="39dp"
@@ -233,10 +233,10 @@
         android:textColor="@color/colorLightBackground"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/edit_old_pwd6"
+        app:layout_constraintBottom_toTopOf="@+id/edit_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.228"
-        app:layout_constraintStart_toEndOf="@+id/imageView9" />
+        app:layout_constraintStart_toEndOf="@+id/foto" />
 
     <TextView
         android:id="@+id/textView13"
@@ -248,13 +248,13 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/edit_old_pwd5"
+        app:layout_constraintBottom_toTopOf="@+id/edit_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.212"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/edit_repeat_passwords3"
+        android:id="@+id/edit_birthdate"
         android:layout_width="251dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
@@ -266,12 +266,12 @@
         android:inputType="textPersonName"
         android:textColor="@color/colorPrimaryDark"
         android:textColorHint="#99363537"
-        app:layout_constraintBottom_toTopOf="@+id/btnViewPetOwners2"
+        app:layout_constraintBottom_toTopOf="@+id/ViewPetsOwners"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/edit_old_pwd7"
+        android:id="@+id/edit_genre"
         android:layout_width="251dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -298,7 +298,7 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/edit_old_pwd6"
+        app:layout_constraintBottom_toTopOf="@+id/edit_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.212"
         app:layout_constraintStart_toStartOf="parent" />

@@ -28,4 +28,22 @@
     <string name="delete_account">Delete Account</string>
     <string name="phone_number">Phone Number</string>
     <string name="title_activity_bottom_nav">MainActivity</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="delete">Delete</string>
+    <string name="lost">Lost</string>
+    <string name="view_pet_owners">View Pet Owners</string>
+    <string name="abrir_galeria">Abrir Galería</string>
+    <string name="abrir_cámara">Abrir Cámara</string>
+    <string name="hint_name">Name</string>
+    <string name="name">Name:</string>
+    <string name="hint_genre">Genre</string>
+    <string name="genre">Genre:</string>
+    <string name="size">Size:</string>
+    <string name="hint_size">Size</string>
+    <string name="breed">Breed:</string>
+    <string name="hint_breed">Breed</string>
+    <string name="birthdate">Birthdate:</string>
+    <string name="hint_birthdate">Birthdate</string>
+    <string name="create_pet">Create Pet</string>
 </resources>
