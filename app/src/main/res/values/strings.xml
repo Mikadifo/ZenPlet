@@ -28,8 +28,6 @@
     <string name="delete_account">Delete Account</string>
     <string name="phone_number">Phone Number</string>
     <string name="title_activity_bottom_nav">MainActivity</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="StringName">Name</string>
     <string name="StringDate">Date</string>
     <string name="StringNext">Next:</string>
@@ -41,4 +39,11 @@
     <string name="StringDescriptionSinDosPuntos">Description</string>
     <string name="StringSaveVaccine">Save Vaccine</string>
     <string name="StringDeleteVaccine">Delete Vaccine</string>
+    <string name="search_text">Search</string>
+    <string name="publish_rules">To publish your pet as lost you need to include additional information such as: place where it was last seen, details of your pet, or if you did not configure your phone number, it is advisable to provide contact information.</string>
+    <string name="additional_info_text">Additional Info:</string>
+    <string name="additional_info">Additional Info...</string>
+    <string name="publish_text">Publish</string>
+    <string name="save_text">Save</string>
+    <string name="pet_found_text">Pet Found</string>
 </resources>
