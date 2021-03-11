@@ -5,6 +5,7 @@
     android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorLightBackground"
     tools:context=".ui.pets.NewPet">
 
 
@@ -13,6 +14,7 @@
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="251dp"
             android:layout_height="45dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/ic_button"
             android:backgroundTint="@color/colorPrimaryDark"
             android:fontFamily="@font/ptsans"
@@ -21,9 +23,9 @@
             android:textColor="@color/colorLightBackground"
             android:textSize="18sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/btnViewPetOwners"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="624dp" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/imageView5"
@@ -60,7 +62,7 @@
             android:background="@drawable/ic_button"
             android:backgroundTint="@color/colorPrimaryDark"
             android:fontFamily="@font/ptsans"
-            android:text="@string/abrir_cámara"
+            android:text="@string/abrir_camara"
             android:textAllCaps="false"
             android:textColor="@color/colorLightBackground"
             android:textSize="18sp"
