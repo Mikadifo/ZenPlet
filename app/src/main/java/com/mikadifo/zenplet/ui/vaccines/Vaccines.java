@@ -66,14 +66,14 @@ public class Vaccines extends Fragment {
         // Inflate the layout for this fragment
 
         View root = inflater.inflate(R.layout.fragment_vaccines, container, false);
-        Button btn = root.findViewById(R.id.buttonNewVaccines);
+        Button btn = root.findViewById(R.id.butNewVaccines);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager
                         .beginTransaction()
-                        .replace(R.id.nav_host_fragment, new Vaccines());
+                        .replace(R.id.nav_host_fragment, new NewVaccines());
                 fragmentTransaction.commit();
             }
         });

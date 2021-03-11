@@ -155,7 +155,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
     <Button
-        android:id="@+id/buttonNewVaccines"
+        android:id="@+id/buttonSaveVaccines"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginStart="100dp"

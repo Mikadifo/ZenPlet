@@ -65,7 +65,7 @@ public class EditVaccines extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_edit_vaccines, container, false);
-        Button btn = root.findViewById(R.id.btnDelete);
+        Button btn = root.findViewById(R.id.delete_vaccine);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
