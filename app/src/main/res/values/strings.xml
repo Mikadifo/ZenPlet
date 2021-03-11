@@ -50,6 +50,7 @@
     <string name="delete">Delete</string>
     <string name="lost">Lost</string>
     <string name="view_pet_owners">View Pet Owners</string>
+    <string name="add_pet_owners">Add Pet Owners</string>
     <string name="abrir_galeria">Abrir Galería</string>
     <string name="abrir_camara">Abrir Cámara</string>
     <string name="hint_name">Name</string>
