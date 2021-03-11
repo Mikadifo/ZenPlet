@@ -5,4 +5,28 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_lost_pets">
 
+    <fragment
+        android:id="@+id/navigation_lost_pets"
+        android:name="com.mikadifo.zenplet.ui.lost_pets_list.LostPetsList"
+        android:label="Lost Pets"
+        tools:layout="@layout/fragment_lost_pets_list" />
+
+    <fragment
+        android:id="@+id/navigation_health"
+        android:name="com.mikadifo.zenplet.ui.vaccines.Vaccines"
+        android:label="Health"
+        tools:layout="@layout/fragment_vaccines" />
+
+    <fragment
+        android:id="@+id/navigation_pets"
+        android:name="com.mikadifo.zenplet.ui.pets.FragmentPets"
+        android:label="Pets"
+        tools:layout="@layout/fragment_pets" />
+
+    <fragment
+        android:id="@+id/navigation_account"
+        android:name="com.mikadifo.zenplet.ui.account.Account1"
+        android:label="Account"
+        tools:layout="@layout/fragment_account1" />
+
 </navigation>
