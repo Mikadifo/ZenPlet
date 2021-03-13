@@ -13,22 +13,38 @@
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            >
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="center">
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+
+                            <ImageView
+                                android:id="@+id/imageView5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="96dp"
+                                android:contentDescription="@string/linea"
+                                android:src="@drawable/ic_horizontal_red_line"
+                                app:layout_constraintBottom_toTopOf="@+id/textView3"
+                                app:layout_constraintEnd_toEndOf="parent"/>
+
+
                         <ImageView
-                            android:id="@+id/imageView5"
+                            android:id="@+id/imageView14"
+                            android:layout_marginTop="230dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="96dp"
-                            android:contentDescription="@string/linea"
+                            android:contentDescription="@string/linea2"
                             android:src="@drawable/ic_horizontal_red_line"
                             app:layout_constraintBottom_toTopOf="@+id/textView3"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent" />
+                            app:layout_constraintEnd_toEndOf="parent" />
 
                         <ImageView
                             android:id="@+id/imageView6"
@@ -44,282 +60,293 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintVertical_bias="0.0" />
 
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="298dp"
-                    android:layout_height="136dp"
-                    android:layout_gravity="center"
-                    android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/imgFoto"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="12dp"
-                            app:layout_constraintBottom_toTopOf="@+id/textView10"
-                            app:layout_constraintEnd_toStartOf="@+id/btnCamara"
-                            app:layout_constraintHorizontal_bias="0.757"
-                            app:layout_constraintStart_toStartOf="parent"
-                            tools:src="@tools:sample/avatars" />
-
                         <LinearLayout
-                            android:layout_width="169dp"
-                            android:layout_height="128dp"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            >
-                                <Button
-                                    android:id="@+id/btnGaleria"
-                                    style="@style/Widget.AppCompat.Button.Borderless"
-                                    android:layout_width="114dp"
-                                    android:layout_height="39dp"
-                                    android:layout_marginStart="153dp"
-                                    android:layout_marginBottom="32dp"
-                                    android:background="@drawable/ic_button"
-                                    android:backgroundTint="@color/colorPrimaryDark"
-                                    android:fontFamily="@font/ptsans"
-                                    android:text="@string/abrir_galeria"
-                                    android:onClick="onclick"
-                                    android:textAllCaps="false"
-                                    android:textColor="@color/colorLightBackground"
-                                    android:textSize="18sp"
-                                    android:textStyle="bold"
+                            android:layout_width="298dp"
+                            android:layout_height="136dp"
+                            android:layout_gravity="center"
+                            android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/imgFoto"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="12dp"
+                                    android:contentDescription="fotompet"
                                     app:layout_constraintBottom_toTopOf="@+id/textView10"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintHorizontal_bias="0.015"
-                                    app:layout_constraintStart_toStartOf="@+id/imgFoto" />
+                                    app:layout_constraintEnd_toStartOf="@+id/btnCamara"
+                                    app:layout_constraintHorizontal_bias="0.757"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    tools:src="@tools:sample/avatars" />
+
+                                <LinearLayout
+                                    android:layout_width="181dp"
+                                    android:layout_height="120dp"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                        <Button
+                                            android:id="@+id/btnGaleria"
+                                            style="@style/Widget.AppCompat.Button.Borderless"
+                                            android:layout_width="114dp"
+                                            android:layout_height="39dp"
+                                            android:background="@drawable/ic_button"
+                                            android:backgroundTint="@color/colorPrimaryDark"
+                                            android:fontFamily="@font/ptsans"
+                                            android:onClick="onclick"
+                                            android:text="@string/abrir_galeria"
+                                            android:textAllCaps="false"
+                                            android:textColor="@color/colorLightBackground"
+                                            android:textSize="18sp"
+                                            android:textStyle="bold"
+                                            app:layout_constraintBottom_toTopOf="@+id/textView10"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintHorizontal_bias="0.015"
+                                            app:layout_constraintStart_toStartOf="@+id/imgFoto" />
+
+                                        <Space
+                                            android:layout_width="149dp"
+                                            android:layout_height="15dp" />
+
+                                        <Button
+                                            android:id="@+id/btnCamara"
+                                            style="@style/Widget.AppCompat.Button.Borderless"
+                                            android:layout_width="112dp"
+                                            android:layout_height="38dp"
+                                            android:background="@drawable/ic_button"
+                                            android:backgroundTint="@color/colorPrimaryDark"
+                                            android:fontFamily="@font/ptsans"
+                                            android:onClick="accesoCamara"
+                                            android:text="@string/abrir_camara"
+                                            android:textAllCaps="false"
+                                            android:textColor="@color/colorLightBackground"
+                                            android:textSize="18sp"
+                                            android:textStyle="bold"
+                                            app:layout_constraintBottom_toTopOf="@+id/btnGaleria"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintHorizontal_bias="0.954"
+                                            app:layout_constraintStart_toEndOf="@+id/foto" />
+                                </LinearLayout>
+                        </LinearLayout>
+
                                 <Space
                                     android:layout_width="match_parent"
-                                    android:layout_height="20dp"
-                                    />
+                                    android:layout_height="20dp" />
 
-                                <Button
-                                    android:id="@+id/btnCamara"
-                                    style="@style/Widget.AppCompat.Button.Borderless"
-                                    android:layout_width="112dp"
-                                    android:layout_height="38dp"
-                                    android:layout_marginEnd="64dp"
-                                    android:layout_marginBottom="16dp"
-                                    android:background="@drawable/ic_button"
-                                    android:backgroundTint="@color/colorPrimaryDark"
-                                    android:fontFamily="@font/ptsans"
-                                    android:text="@string/abrir_camara"
-                                    android:onClick="accesoCamara"
-                                    android:textAllCaps="false"
-                                    android:textColor="@color/colorLightBackground"
-                                    android:textSize="18sp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintBottom_toTopOf="@+id/btnGaleria"
-                                    app:layout_constraintEnd_toEndOf="parent" />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/textView10"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="4dp"
+                                            android:fontFamily="@font/ptsans"
+                                            android:text="@string/name"
+                                            android:textColor="@color/colorPrimaryDark"
+                                            android:textSize="18sp"
+                                            android:textStyle="bold"
+                                            app:layout_constraintBottom_toTopOf="@+id/edit_new_name"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintHorizontal_bias="0.223"
+                                            app:layout_constraintStart_toStartOf="parent" />
+
+                                        <EditText
+                                            android:id="@+id/edit_new_name"
+                                            android:layout_width="251dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="12dp"
+                                            android:backgroundTint="@color/colorPrimaryDark"
+                                            android:ems="10"
+                                            android:fontFamily="@font/ptsans"
+                                            android:hint="@string/hint_name"
+                                            android:importantForAutofill="no"
+                                            android:inputType="textPersonName"
+                                            android:textColor="@color/colorPrimaryDark"
+                                            android:textColorHint="#99363537"
+                                            app:layout_constraintBottom_toTopOf="@+id/textView11"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent" />
+
+                                        <TextView
+                                            android:id="@+id/textView8"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="8dp"
+                                            android:fontFamily="@font/ptsans"
+                                            android:text="@string/size"
+                                            android:textColor="@color/colorPrimaryDark"
+                                            android:textSize="18sp"
+                                            android:textStyle="bold"
+                                            app:layout_constraintBottom_toTopOf="@+id/edit_nw_size"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintHorizontal_bias="0.212"
+                                            app:layout_constraintStart_toStartOf="parent" />
+
+                                        <EditText
+                                            android:id="@+id/edit_nw_size"
+                                            android:layout_width="251dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="8dp"
+                                            android:backgroundTint="@color/colorPrimaryDark"
+                                            android:ems="10"
+                                            android:fontFamily="@font/ptsans"
+                                            android:hint="@string/hint_size"
+                                            android:importantForAutofill="no"
+                                            android:inputType="textPersonName"
+                                            android:textColor="@color/colorPrimaryDark"
+                                            android:textColorHint="#99363537"
+                                            app:layout_constraintBottom_toTopOf="@+id/textView9"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent" />
+
+                                        <TextView
+                                            android:id="@+id/textView11"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="8dp"
+                                            android:fontFamily="@font/ptsans"
+                                            android:text="@string/genre"
+                                            android:textColor="@color/colorPrimaryDark"
+                                            android:textSize="18sp"
+                                            android:textStyle="bold"
+                                            app:layout_constraintBottom_toTopOf="@+id/edit_new_genre"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintHorizontal_bias="0.223"
+                                            app:layout_constraintStart_toStartOf="parent" />
+
+
+                                        <EditText
+                                            android:id="@+id/edit_new_genre"
+                                            android:layout_width="251dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="8dp"
+                                            android:backgroundTint="@color/colorPrimaryDark"
+                                            android:ems="10"
+                                            android:fontFamily="@font/ptsans"
+                                            android:hint="@string/hint_genre"
+                                            android:importantForAutofill="no"
+                                            android:inputType="textPersonName"
+                                            android:textColor="@color/colorPrimaryDark"
+                                            android:textColorHint="#99363537"
+                                            app:layout_constraintBottom_toTopOf="@+id/textView8"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent" />
+
+                                        <TextView
+                                            android:id="@+id/textView9"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="8dp"
+                                            android:fontFamily="@font/ptsans"
+                                            android:text="@string/breed"
+                                            android:textColor="@color/colorPrimaryDark"
+                                            android:textSize="18sp"
+                                            android:textStyle="bold"
+                                            app:layout_constraintBottom_toTopOf="@+id/edit_new_breed"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintHorizontal_bias="0.22"
+                                            app:layout_constraintStart_toStartOf="parent" />
+
+                                        <EditText
+                                            android:id="@+id/edit_new_breed"
+                                            android:layout_width="251dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="8dp"
+                                            android:backgroundTint="@color/colorPrimaryDark"
+                                            android:ems="10"
+                                            android:fontFamily="@font/ptsans"
+                                            android:hint="@string/hint_breed"
+                                            android:importantForAutofill="no"
+                                            android:inputType="textPersonName"
+                                            android:textColor="@color/colorPrimaryDark"
+                                            android:textColorHint="#99363537"
+                                            app:layout_constraintBottom_toTopOf="@+id/textViewRepeat3"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent" />
+
+                                        <TextView
+                                            android:id="@+id/textViewRepeat3"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="8dp"
+                                            android:fontFamily="@font/ptsans"
+                                            android:text="@string/birthdate"
+                                            android:textColor="@color/colorPrimaryDark"
+                                            android:textSize="18sp"
+                                            android:textStyle="bold"
+                                            app:layout_constraintBottom_toTopOf="@+id/edit_new_birthdate"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintHorizontal_bias="0.238"
+                                            app:layout_constraintStart_toStartOf="parent" />
+
+                                        <EditText
+                                            android:id="@+id/edit_new_birthdate"
+                                            android:layout_width="251dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="28dp"
+                                            android:backgroundTint="@color/colorPrimaryDark"
+                                            android:ems="10"
+                                            android:fontFamily="@font/ptsans"
+                                            android:hint="@string/hint_birthdate"
+                                            android:importantForAutofill="no"
+                                            android:inputType="textPersonName"
+                                            android:textColor="@color/colorPrimaryDark"
+                                            android:textColorHint="#99363537"
+                                            app:layout_constraintBottom_toTopOf="@+id/btnViewPetOwners"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent" />
+
+                                        <LinearLayout
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="match_parent"
+                                            android:layout_gravity="center"
+                                            android:orientation="vertical">
+
+                                                <Button
+                                                    android:id="@+id/btnViewPetOwners"
+                                                    style="@style/Widget.AppCompat.Button.Borderless"
+                                                    android:layout_width="251dp"
+                                                    android:layout_height="45dp"
+                                                    android:layout_marginBottom="12dp"
+                                                    android:background="@drawable/ic_button"
+                                                    android:backgroundTint="@color/colorPrimaryDark"
+                                                    android:fontFamily="@font/ptsans"
+                                                    android:text="@string/add_pet_owners"
+                                                    android:textAllCaps="false"
+                                                    android:textColor="@color/colorLightBackground"
+                                                    android:textSize="18sp"
+                                                    android:textStyle="bold"
+                                                    app:layout_constraintBottom_toTopOf="@+id/btnCreatPet"
+                                                    app:layout_constraintEnd_toEndOf="parent"
+                                                    app:layout_constraintStart_toStartOf="parent" />
+
+                                                <Button
+                                                    android:id="@+id/btnCreatPet"
+                                                    style="@style/Widget.AppCompat.Button.Borderless"
+                                                    android:layout_width="251dp"
+                                                    android:layout_height="45dp"
+                                                    android:layout_marginBottom="4dp"
+                                                    android:background="@drawable/ic_button"
+                                                    android:backgroundTint="@color/colorPrimaryDark"
+                                                    android:fontFamily="@font/ptsans"
+                                                    android:text="@string/create_pet"
+                                                    android:textAllCaps="false"
+                                                    android:textColor="@color/colorLightBackground"
+                                                    android:textSize="18sp"
+                                                    android:textStyle="bold"
+                                                    app:layout_constraintBottom_toBottomOf="parent"
+                                                    app:layout_constraintEnd_toEndOf="parent"
+                                                    app:layout_constraintStart_toStartOf="parent" />
+
+                                        </LinearLayout>
+
+                                </LinearLayout>
+
                         </LinearLayout>
-                </LinearLayout>
 
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center">
-                        <TextView
-                            android:id="@+id/textView10"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="4dp"
-                            android:fontFamily="@font/ptsans"
-                            android:text="@string/name"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toTopOf="@+id/edit_name2"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.223"
-                            app:layout_constraintStart_toStartOf="parent" />
-                        <EditText
-                            android:id="@+id/edit_name2"
-                            android:layout_width="251dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="12dp"
-                            android:backgroundTint="@color/colorPrimaryDark"
-                            android:ems="10"
-                            android:fontFamily="@font/ptsans"
-                            android:hint="@string/hint_name"
-                            android:importantForAutofill="no"
-                            android:inputType="textPersonName"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textColorHint="#99363537"
-                            app:layout_constraintBottom_toTopOf="@+id/textView11"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent" />
-                        <TextView
-                            android:id="@+id/textView8"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:fontFamily="@font/ptsans"
-                            android:text="@string/size"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toTopOf="@+id/edit_size2"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.212"
-                            app:layout_constraintStart_toStartOf="parent" />
-                        <EditText
-                            android:id="@+id/edit_size2"
-                            android:layout_width="251dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:backgroundTint="@color/colorPrimaryDark"
-                            android:ems="10"
-                            android:fontFamily="@font/ptsans"
-                            android:hint="@string/hint_size"
-                            android:importantForAutofill="no"
-                            android:inputType="textPersonName"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textColorHint="#99363537"
-                            app:layout_constraintBottom_toTopOf="@+id/textView9"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent" />
-
-                        <TextView
-                            android:id="@+id/textView11"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:fontFamily="@font/ptsans"
-                            android:text="@string/genre"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toTopOf="@+id/edit_genre2"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.223"
-                            app:layout_constraintStart_toStartOf="parent" />
-
-                        <EditText
-                            android:id="@+id/edit_genre2"
-                            android:layout_width="251dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:backgroundTint="@color/colorPrimaryDark"
-                            android:ems="10"
-                            android:fontFamily="@font/ptsans"
-                            android:hint="@string/hint_genre"
-                            android:importantForAutofill="no"
-                            android:inputType="textPersonName"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textColorHint="#99363537"
-                            app:layout_constraintBottom_toTopOf="@+id/textView8"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent" />
-
-                        <TextView
-                            android:id="@+id/textView9"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:fontFamily="@font/ptsans"
-                            android:text="@string/breed"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toTopOf="@+id/edit_breed2"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.22"
-                            app:layout_constraintStart_toStartOf="parent" />
-
-                        <EditText
-                            android:id="@+id/edit_breed2"
-                            android:layout_width="251dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:backgroundTint="@color/colorPrimaryDark"
-                            android:ems="10"
-                            android:fontFamily="@font/ptsans"
-                            android:hint="@string/hint_breed"
-                            android:importantForAutofill="no"
-                            android:inputType="textPersonName"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textColorHint="#99363537"
-                            app:layout_constraintBottom_toTopOf="@+id/textViewRepeat3"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent" />
-                        <TextView
-                            android:id="@+id/textViewRepeat3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:fontFamily="@font/ptsans"
-                            android:text="@string/birthdate"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toTopOf="@+id/edit_birthdate2"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.238"
-                            app:layout_constraintStart_toStartOf="parent" />
-
-                        <EditText
-                            android:id="@+id/edit_birthdate2"
-                            android:layout_width="251dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="28dp"
-                            android:backgroundTint="@color/colorPrimaryDark"
-                            android:ems="10"
-                            android:fontFamily="@font/ptsans"
-                            android:hint="@string/hint_birthdate"
-                            android:importantForAutofill="no"
-                            android:inputType="textPersonName"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textColorHint="#99363537"
-                            app:layout_constraintBottom_toTopOf="@+id/btnViewPetOwners"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center">
-                        <Button
-                            android:id="@+id/btnViewPetOwners"
-                            style="@style/Widget.AppCompat.Button.Borderless"
-                            android:layout_width="251dp"
-                            android:layout_height="45dp"
-                            android:layout_marginBottom="12dp"
-                            android:background="@drawable/ic_button"
-                            android:backgroundTint="@color/colorPrimaryDark"
-                            android:fontFamily="@font/ptsans"
-                            android:text="@string/add_pet_owners"
-                            android:textAllCaps="false"
-                            android:textColor="@color/colorLightBackground"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toTopOf="@+id/btnCreatPet"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent" />
-
-                        <Button
-                            android:id="@+id/btnCreatPet"
-                            style="@style/Widget.AppCompat.Button.Borderless"
-                            android:layout_width="251dp"
-                            android:layout_height="45dp"
-                            android:layout_marginBottom="4dp"
-                            android:background="@drawable/ic_button"
-                            android:backgroundTint="@color/colorPrimaryDark"
-                            android:fontFamily="@font/ptsans"
-                            android:text="@string/create_pet"
-                            android:textAllCaps="false"
-                            android:textColor="@color/colorLightBackground"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent" />
-
-                </LinearLayout>
         </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
