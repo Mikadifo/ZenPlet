@@ -74,19 +74,21 @@ public class EditPet extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_edit_pet, container, false);
 
+        Button btn = root.findViewById(R.id.btnDelete);
 
-            Button btn = root.findViewById(R.id.btnCreatPet);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment, new FragmentPets());
+                fragmentTransaction.commit();
+            }
+        });
 
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    FragmentManager fragmentManager = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager
-                            .beginTransaction().replace(R.id.nav_host_fragment, new FragmentPets());
-                    fragmentTransaction.commit();
-                }
-            });
-            Button btno = root.findViewById(R.id.btnLost);
+
+        Button btno = root.findViewById(R.id.btnLost);
 
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override

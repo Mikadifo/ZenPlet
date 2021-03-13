@@ -32,7 +32,6 @@ public class NewPet extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     ImageView imageView;
-    private View root;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -73,20 +72,19 @@ public class NewPet extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root= inflater.inflate(R.layout.fragment_new_pet, container, false);
-
-        Button btn = root.findViewById(R.id.btnDelete);
+        View root = inflater.inflate(R.layout.fragment_new_pet, container, false);
+        Button btn = root.findViewById(R.id.btnCreatPet);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager
-                        .beginTransaction()
-                        .replace(R.id.nav_host_fragment, new FragmentPets());
+                        .beginTransaction().replace(R.id.nav_host_fragment, new FragmentPets());
                 fragmentTransaction.commit();
             }
         });
+
         return root;
     }
     public void accesoCamara(View view){
