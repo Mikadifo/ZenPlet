@@ -67,6 +67,14 @@ public class NewPet extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View root= inflater.inflate(R.layout.fragment_new_pet, container, false);
+
         Button btn = root.findViewById(R.id.btnDelete);
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -79,13 +87,7 @@ public class NewPet extends Fragment {
                 fragmentTransaction.commit();
             }
         });
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_new_pet, container, false);
+        return root;
     }
     public void accesoCamara(View view){
         //llamar a un recurso desde el intent - recurso para la camara

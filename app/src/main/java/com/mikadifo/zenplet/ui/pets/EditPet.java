@@ -35,7 +35,7 @@ public class EditPet extends Fragment {
     private String mParam1;
     private String mParam2;
     ImageView imageView;
-    private View root;
+
 
     public EditPet() {
         // Required empty public constructor
@@ -66,37 +66,40 @@ public class EditPet extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        Button btn = root.findViewById(R.id.btnCreatPet);
-
-         btn.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager
-        .beginTransaction()
-        .replace(R.id.nav_host_fragment, new FragmentPets());
-        fragmentTransaction.commit();
-        }
-        });
-        Button btno = root.findViewById(R.id.btnLost);
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager
-                        .beginTransaction()
-                        .replace(R.id.nav_host_fragment, new PostLostPet());
-                fragmentTransaction.commit();
-            }
-        });
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_pet, container, false);
+        View root = inflater.inflate(R.layout.fragment_edit_pet, container, false);
+
+
+            Button btn = root.findViewById(R.id.btnCreatPet);
+
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager
+                            .beginTransaction().replace(R.id.nav_host_fragment, new FragmentPets());
+                    fragmentTransaction.commit();
+                }
+            });
+            Button btno = root.findViewById(R.id.btnLost);
+
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager
+                            .beginTransaction()
+                            .replace(R.id.nav_host_fragment, new PostLostPet());
+                    fragmentTransaction.commit();
+                }
+            });
+        return root;
+
     }
     public void accesoCamara(View view){
         //llamar a un recurso desde el intent - recurso para la camara
