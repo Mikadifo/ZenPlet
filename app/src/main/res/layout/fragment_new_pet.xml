@@ -24,23 +24,10 @@
                     android:orientation="vertical">
 
 
-                            <ImageView
-                                android:id="@+id/imageView5"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="96dp"
-                                android:contentDescription="@string/linea"
-                                android:src="@drawable/ic_horizontal_red_line"
-                                app:layout_constraintBottom_toTopOf="@+id/textView3"
-                                app:layout_constraintEnd_toEndOf="parent"/>
-
-
                         <ImageView
                             android:id="@+id/imageView14"
-                            android:layout_marginTop="230dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="96dp"
                             android:contentDescription="@string/linea2"
                             android:src="@drawable/ic_horizontal_red_line"
                             app:layout_constraintBottom_toTopOf="@+id/textView3"
@@ -50,7 +37,6 @@
                             android:id="@+id/imageView6"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
                             android:contentDescription="@string/linea2"
                             android:src="@drawable/ic_horizontal_red_line"
                             app:layout_constraintBottom_toTopOf="@+id/imgFoto"
@@ -79,9 +65,9 @@
                                     tools:src="@tools:sample/avatars" />
 
                                 <LinearLayout
-                                    android:layout_width="181dp"
-                                    android:layout_height="120dp"
                                     android:gravity="center"
+                                    android:layout_width="181dp"
+                                    android:layout_height="match_parent"
                                     android:orientation="vertical">
 
                                         <Button
@@ -140,7 +126,7 @@
 
                                         <TextView
                                             android:id="@+id/textView10"
-                                            android:layout_width="wrap_content"
+                                            android:layout_width="248dp"
                                             android:layout_height="wrap_content"
                                             android:layout_marginBottom="4dp"
                                             android:fontFamily="@font/ptsans"
@@ -172,7 +158,7 @@
 
                                         <TextView
                                             android:id="@+id/textView8"
-                                            android:layout_width="wrap_content"
+                                            android:layout_width="248dp"
                                             android:layout_height="wrap_content"
                                             android:layout_marginBottom="8dp"
                                             android:fontFamily="@font/ptsans"
@@ -187,7 +173,7 @@
 
                                         <EditText
                                             android:id="@+id/edit_nw_size"
-                                            android:layout_width="251dp"
+                                            android:layout_width="248dp"
                                             android:layout_height="wrap_content"
                                             android:layout_marginBottom="8dp"
                                             android:backgroundTint="@color/colorPrimaryDark"
@@ -204,7 +190,7 @@
 
                                         <TextView
                                             android:id="@+id/textView11"
-                                            android:layout_width="wrap_content"
+                                            android:layout_width="248dp"
                                             android:layout_height="wrap_content"
                                             android:layout_marginBottom="8dp"
                                             android:fontFamily="@font/ptsans"
@@ -220,7 +206,7 @@
 
                                         <EditText
                                             android:id="@+id/edit_new_genre"
-                                            android:layout_width="251dp"
+                                            android:layout_width="248dp"
                                             android:layout_height="wrap_content"
                                             android:layout_marginBottom="8dp"
                                             android:backgroundTint="@color/colorPrimaryDark"
@@ -237,7 +223,7 @@
 
                                         <TextView
                                             android:id="@+id/textView9"
-                                            android:layout_width="wrap_content"
+                                            android:layout_width="248dp"
                                             android:layout_height="wrap_content"
                                             android:layout_marginBottom="8dp"
                                             android:fontFamily="@font/ptsans"
@@ -252,7 +238,7 @@
 
                                         <EditText
                                             android:id="@+id/edit_new_breed"
-                                            android:layout_width="251dp"
+                                            android:layout_width="248dp"
                                             android:layout_height="wrap_content"
                                             android:layout_marginBottom="8dp"
                                             android:backgroundTint="@color/colorPrimaryDark"
@@ -269,7 +255,7 @@
 
                                         <TextView
                                             android:id="@+id/textViewRepeat3"
-                                            android:layout_width="wrap_content"
+                                            android:layout_width="248dp"
                                             android:layout_height="wrap_content"
                                             android:layout_marginBottom="8dp"
                                             android:fontFamily="@font/ptsans"
