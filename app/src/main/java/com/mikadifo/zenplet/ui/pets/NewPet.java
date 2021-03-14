@@ -31,12 +31,12 @@ public class NewPet extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    ImageView imageView;
-    View root;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private ImageView imageView;
 
     public NewPet() {
         // Required empty public constructor
@@ -66,7 +66,6 @@ public class NewPet extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-            imageView=(ImageView)root.findViewById(R.id.imgFoto);
         }
     }
 
@@ -75,6 +74,9 @@ public class NewPet extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_new_pet, container, false);
+        imageView = (ImageView)root.findViewById(R.id.imgFoto);
+        Button openCameraBtn = root.findViewById(R.id.btnCamara);
+        Button openGalleryBtn = root.findViewById(R.id.btnGaleria);
         Button btn = root.findViewById(R.id.btnCreatPet);
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -87,13 +89,15 @@ public class NewPet extends Fragment {
             }
         });
 
+        openCameraBtn.setOnClickListener(this::cameraAccess);
+        openGalleryBtn.setOnClickListener(this::loadImage);
+
         return root;
     }
-    public void accesoCamara(View view){
-        //llamar a un recurso desde el intent - recurso para la camara
+
+    public void cameraAccess(View view){
         Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(intent.resolveActivity(getActivity().getPackageManager())!=null){
-            //manejar el resultado
             startActivityForResult(intent,1);
         }
 
@@ -102,28 +106,20 @@ public class NewPet extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //comprobar si hay respuesta y resultado
-        if (requestCode==1&& resultCode==1){
-            //Recibir imagen
-            Bundle bundle=data.getExtras();
-            Bitmap image= (Bitmap)bundle.get("data");
-            //mostrar imagen en la pantalla
+        if (requestCode == 1 && resultCode == 1){
+            Bundle bundle = data.getExtras();
+            Bitmap image = (Bitmap)bundle.get("data");
             imageView.setImageBitmap(image);
         }
-        if (resultCode==1){
-            Uri path=data.getData();
+        if (resultCode == 1){
+            Uri path = data.getData();
             imageView.setImageURI(path);
         }
 
     }
-    public void onclick(View view) {
-        cargarImagen();
-    }
-    public void cargarImagen(){
-        //Acceder al contenido de la galeria
+    public void loadImage(View view){
         Intent intent= new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/");
-        //recibir el resultado de la foto
         startActivityForResult(Intent.createChooser(intent,"Seleccione la aplicacion"), 10);
     }
 
