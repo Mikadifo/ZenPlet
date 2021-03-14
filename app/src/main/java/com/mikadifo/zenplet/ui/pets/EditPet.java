@@ -67,7 +67,7 @@ public class EditPet extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-            imageView=(ImageView)root.findViewById(R.id.foto);
+
         }
     }
 
@@ -77,6 +77,7 @@ public class EditPet extends Fragment {
 
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_edit_pet, container, false);
+        imageView=(ImageView)root.findViewById(R.id.foto);
 
         Button btn = root.findViewById(R.id.btnDelete);
 
@@ -107,7 +108,7 @@ public class EditPet extends Fragment {
         return root;
 
     }
-    public void accesoCamara(View view){
+    public void AbrirCamara(View view){
         //llamar a un recurso desde el intent - recurso para la camara
         Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(intent.resolveActivity(getActivity().getPackageManager())!=null){
@@ -121,14 +122,14 @@ public class EditPet extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //comprobar si hay respuesta y resultado
-        if (requestCode==1&& resultCode==1){
+        if (requestCode==1&& resultCode==-1){
             //Recibir imagen
-            Bundle bundle=data.getExtras();
-            Bitmap image= (Bitmap)bundle.get("data");
+           // Bundle bundle=data.getExtras();
+            Bitmap image= (Bitmap)data.getExtras().get("data");
             //mostrar imagen en la pantalla
             imageView.setImageBitmap(image);
         }
-        if (resultCode==1){
+        if(resultCode==-1){
             Uri path=data.getData();
             imageView.setImageURI(path);
         }

@@ -106,15 +106,16 @@ public class NewPet extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == 1){
-            Bundle bundle = data.getExtras();
-            Bitmap image = (Bitmap)bundle.get("data");
+        if (requestCode == 1 && resultCode == -1){
+            //Bundle bundle = data.getExtras();
+            Bitmap image = (Bitmap)data.getExtras().get("data");
             imageView.setImageBitmap(image);
         }
-        if (resultCode == 1){
-            Uri path = data.getData();
-            imageView.setImageURI(path);
+        if(resultCode==-1){
+         Uri path=data.getData();
+         imageView.setImageURI(path);
         }
+
 
     }
     public void loadImage(View view){

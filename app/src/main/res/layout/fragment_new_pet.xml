@@ -78,6 +78,7 @@
                                             android:background="@drawable/ic_button"
                                             android:backgroundTint="@color/colorPrimaryDark"
                                             android:fontFamily="@font/ptsans"
+                                            android:onClick="loadImage"
                                             android:text="@string/abrir_galeria"
                                             android:textAllCaps="false"
                                             android:textColor="@color/colorLightBackground"

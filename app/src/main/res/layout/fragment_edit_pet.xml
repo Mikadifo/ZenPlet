@@ -100,7 +100,7 @@
                         android:background="@drawable/ic_button"
                         android:backgroundTint="@color/colorPrimaryDark"
                         android:fontFamily="@font/ptsans"
-                        android:onClick="accesoCamara"
+                        android:onClick="AbrirCamara"
                         android:text="@string/abrir_camara"
                         android:textAllCaps="false"
                         android:textColor="@color/colorLightBackground"
