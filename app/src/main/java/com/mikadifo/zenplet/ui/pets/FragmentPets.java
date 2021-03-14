@@ -21,8 +21,6 @@ import com.mikadifo.zenplet.ui.vaccines.Vaccines;
  */
 public class FragmentPets extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -31,7 +29,6 @@ public class FragmentPets extends Fragment {
     private String mParam2;
 
     public FragmentPets() {
-        // Required empty public constructor
     }
 
     /**
@@ -42,7 +39,6 @@ public class FragmentPets extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment FragmentPets.
      */
-    // TODO: Rename and change types and number of parameters
     public static FragmentPets newInstance(String param1, String param2) {
         FragmentPets fragment = new FragmentPets();
         Bundle args = new Bundle();
@@ -64,7 +60,6 @@ public class FragmentPets extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_pets, container, false);
         Button btn = root.findViewById(R.id.butAddPet);
         btn.setOnClickListener(new View.OnClickListener() {

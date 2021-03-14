@@ -35,8 +35,6 @@ public class EditPet extends Fragment {
     private String mParam1;
     private String mParam2;
     ImageView imageView;
-     View root;
-
 
     public EditPet() {
         // Required empty public constructor

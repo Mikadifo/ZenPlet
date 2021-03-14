@@ -1,9 +1,13 @@
 package com.mikadifo.zenplet.ui.pets;
 
 import android.graphics.Bitmap;
+import android.graphics.DrawFilter;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -19,6 +23,8 @@ import android.widget.ImageView;
 
 
 import com.mikadifo.zenplet.R;
+
+import java.util.NoSuchElementException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,7 +78,6 @@ public class NewPet extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_new_pet, container, false);
         imageView = (ImageView)root.findViewById(R.id.imgFoto);
         Button openCameraBtn = root.findViewById(R.id.btnCamara);
@@ -88,7 +93,6 @@ public class NewPet extends Fragment {
                 fragmentTransaction.commit();
             }
         });
-
         openCameraBtn.setOnClickListener(this::cameraAccess);
         openGalleryBtn.setOnClickListener(this::loadImage);
 
@@ -100,30 +104,31 @@ public class NewPet extends Fragment {
         if(intent.resolveActivity(getActivity().getPackageManager())!=null){
             startActivityForResult(intent,1);
         }
-
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == -1){
-            //Bundle bundle = data.getExtras();
-            Bitmap image = (Bitmap)data.getExtras().get("data");
-            imageView.setImageBitmap(image);
+        if (requestCode == 1 && resultCode == -1) {
+            Bitmap image = (Bitmap) data.getExtras().get("data");
+            int currentBitMapWidth = image.getWidth();
+            int currentBitMapHeight = image.getHeight();
+            int newWidth = imageView.getWidth();
+            int newHeight = (int)
+                    Math.floor((double) currentBitMapHeight * (double) newWidth / (double) currentBitMapWidth);
+            Bitmap bitmap = Bitmap.createScaledBitmap(image, newWidth, newHeight, true);
+            imageView.setImageBitmap(bitmap);
         }
-        if(resultCode==-1){
-         Uri path=data.getData();
-         imageView.setImageURI(path);
+        if(resultCode == -1) {
+            Uri path = data.getData();
+            imageView.setImageURI(path);
         }
-
-
     }
     public void loadImage(View view){
-        Intent intent= new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent intent
+                = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/");
         startActivityForResult(Intent.createChooser(intent,"Seleccione la aplicacion"), 10);
     }
-
-
 
 }
