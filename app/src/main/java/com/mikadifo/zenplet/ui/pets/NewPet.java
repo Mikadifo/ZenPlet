@@ -32,6 +32,7 @@ public class NewPet extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     ImageView imageView;
+    View root;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -65,6 +66,7 @@ public class NewPet extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            imageView=(ImageView)root.findViewById(R.id.imgFoto);
         }
     }
 
