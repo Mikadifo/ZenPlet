@@ -54,13 +54,13 @@
 
                 <ImageView
                     android:id="@+id/foto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="118dp"
+                    android:layout_height="match_parent"
                     app:layout_constraintBottom_toTopOf="@+id/textView14"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.272"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:src="@tools:sample/avatars" />
+                    tools:src="@android:drawable/ic_menu_crop" />
 
                 <LinearLayout
                     android:layout_width="169dp"
@@ -68,6 +68,7 @@
                     android:gravity="center"
                     android:orientation="vertical"
                     >
+
                     <Button
                         android:id="@+id/btnAbrirGaleria"
                         style="@style/Widget.AppCompat.Button.Borderless"
@@ -76,7 +77,6 @@
                         android:background="@drawable/ic_button"
                         android:backgroundTint="@color/colorPrimaryDark"
                         android:fontFamily="@font/ptsans"
-                        android:onClick="onclick"
                         android:text="@string/abrir_galeria"
                         android:textAllCaps="false"
                         android:textColor="@color/colorLightBackground"
@@ -100,7 +100,6 @@
                         android:background="@drawable/ic_button"
                         android:backgroundTint="@color/colorPrimaryDark"
                         android:fontFamily="@font/ptsans"
-                        android:onClick="AbrirCamara"
                         android:text="@string/abrir_camara"
                         android:textAllCaps="false"
                         android:textColor="@color/colorLightBackground"

@@ -89,7 +89,7 @@ public class NewPet extends Fragment {
             public void onClick(View view) {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager
-                        .beginTransaction().replace(R.id.nav_host_fragment, new FragmentPets());
+                        .beginTransaction().replace(R.id.nav_host_fragment, new EditPet());
                 fragmentTransaction.commit();
             }
         });

@@ -76,7 +76,8 @@ public class EditPet extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_edit_pet, container, false);
         imageView=(ImageView)root.findViewById(R.id.foto);
-
+        Button openCameraBtn = root.findViewById(R.id.btnAbrirCamara);
+        Button openGalleryBtn = root.findViewById(R.id.btnAbrirGaleria);
         Button btn = root.findViewById(R.id.btnDelete);
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +104,9 @@ public class EditPet extends Fragment {
                     fragmentTransaction.commit();
                 }
             });
+        openGalleryBtn.setOnClickListener(this::cargarImagen);
+
+        openCameraBtn.setOnClickListener(this::AbrirCamara);
         return root;
 
     }
@@ -122,8 +126,13 @@ public class EditPet extends Fragment {
         //comprobar si hay respuesta y resultado
         if (requestCode==1&& resultCode==-1){
             //Recibir imagen
-           // Bundle bundle=data.getExtras();
-            Bitmap image= (Bitmap)data.getExtras().get("data");
+            Bitmap image = (Bitmap) data.getExtras().get("data");
+            int currentBitMapWidth = image.getWidth();
+            int currentBitMapHeight = image.getHeight();
+            int newWidth = imageView.getWidth();
+            int newHeight = (int)
+                    Math.floor((double) currentBitMapHeight * (double) newWidth / (double) currentBitMapWidth);
+            Bitmap bitmap = Bitmap.createScaledBitmap(image, newWidth, newHeight, true);
             //mostrar imagen en la pantalla
             imageView.setImageBitmap(image);
         }
@@ -133,10 +142,8 @@ public class EditPet extends Fragment {
         }
 
     }
-    public void onclick(View view) {
-        cargarImagen();
-    }
-    public void cargarImagen(){
+
+    public void cargarImagen(View view){
         //Acceder al contenido de la galeria
         Intent intent= new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/");
