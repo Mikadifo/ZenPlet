@@ -63,6 +63,7 @@
         android:background="@drawable/ic_button"
         android:backgroundTint="@color/colorPrimaryDark"
         android:fontFamily="@font/ptsans"
+        android:onClick="getLogin"
         android:text="@string/log_in_button"
         android:textAllCaps="false"
         android:textColor="@color/colorLightBackground"
