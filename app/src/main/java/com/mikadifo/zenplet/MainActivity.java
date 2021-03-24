@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         startActivity(
-                new Intent(this, BottomNavActivity.class)
+                new Intent(this, LogInActivity.class)
         );
     }
 
