@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.mikadifo.zenplet.API.CallWithToken;
 import com.mikadifo.zenplet.API.model.Owner;
@@ -89,45 +90,46 @@ public class Account1 extends Fragment {
         username.setText( SignUpActivity.ownerNew.getOwnerName());
         email.setText(SignUpActivity.ownerNew.getOwnerEmail());
         phone.setText(SignUpActivity.ownerNew.getOwnerPhoneNumber());
-
-        /**Button btn = root.findViewById(R.id.btnSave);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager
-                        .beginTransaction()
-                        .replace(R.id.nav_host_fragment, new ChangePassword());
-                fragmentTransaction.commit();
-            }
-        });
         Button btns = root.findViewById(R.id.btnSave);
         btns.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl("http://192.168.1.100:8080/")
-                            .addConverterFactory(GsonConverterFactory.create()).build();
-
-                EditText username = root.findViewById(R.id.edit_username);
-                EditText email = root.findViewById(R.id.edit_email);
-                EditText phone = root.findViewById(R.id.edit_phone);
-                SignUpActivity.ownerNew.setOwnerName(username.getText().toString());
-                SignUpActivity.ownerNew.setOwnerEmail(email.getText().toString());
-                SignUpActivity.ownerNew.setOwnerPhoneNumber(phone.getText().toString());
-
+                CallWithToken callWithToken= new CallWithToken();
+                Retrofit retrofit = callWithToken.getCallToken();
                 OwnerService ownerService = retrofit.create(OwnerService.class);
-                Call<Owner> call = ownerService.updateOwner();
+                Call<Owner> call = ownerService.getOwnerById(SignUpActivity.ownerNew.getOwnerId());
                 call.enqueue(new Callback<Owner>() {
                     @Override
                     public void onResponse(Call<Owner> call, Response<Owner> response) {
-                        CallWithToken.token = response.body().getToken();
                         SignUpActivity.ownerNew = response.body();
-                        System.out.println(CallWithToken.token);
-                        startActivity(
-                                new Intent(LogInActivity.this, BottomNavActivity.class)
-                        );
 
+                        if(SignUpActivity.ownerNew.getOwnerName().equals(username.getText().toString())&&
+                                SignUpActivity.ownerNew.getOwnerEmail().equals(email.getText().toString())&&
+                                SignUpActivity.ownerNew.getOwnerPhoneNumber().equals(phone.getText().toString())
+                        ){
+                            Toast.makeText(view.getContext(), "The data is the same and cannot be changed", Toast.LENGTH_LONG).show();
+
+                           }else {
+                            SignUpActivity.ownerNew.setOwnerName(username.getText().toString());
+                            SignUpActivity.ownerNew.setOwnerEmail(email.getText().toString());
+                            SignUpActivity.ownerNew.setOwnerPhoneNumber(phone.getText().toString());
+                            Call<Owner> callupdate = ownerService.updateOwner(SignUpActivity.ownerNew.getOwnerId(),SignUpActivity.ownerNew);
+                            callupdate.enqueue(new Callback<Owner>() {
+                                @Override
+                                public void onResponse(Call<Owner> call, Response<Owner> response) {
+                                    Toast.makeText(view.getContext(), "Successfully saved changes", Toast.LENGTH_LONG).show();
+                                }
+
+                                @Override
+                                public void onFailure(Call<Owner> call, Throwable t) {
+                                    try {
+                                        throw t;
+                                    } catch (Throwable throwable) {
+                                        throwable.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
                     }
 
                     @Override
@@ -140,8 +142,8 @@ public class Account1 extends Fragment {
                     }
                 });
             }
+
         });
-**/
         return root;
     }
 
