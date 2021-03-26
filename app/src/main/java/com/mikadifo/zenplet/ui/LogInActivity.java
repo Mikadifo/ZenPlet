@@ -41,7 +41,7 @@ public class LogInActivity extends AppCompatActivity {
 
     public void getLogin(View view){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.100:8080/")
+                .baseUrl(CallWithToken.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
 
         EditText login = this.findViewById(R.id.edit_name_from_login);

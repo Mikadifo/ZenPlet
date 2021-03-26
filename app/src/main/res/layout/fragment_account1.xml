@@ -26,35 +26,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
+    <Button
+        android:id="@+id/btnChangePassword3"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="251dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/ic_button"
+        android:backgroundTint="@color/colorPrimaryDark"
         android:fontFamily="@font/ptsans"
-        android:text="@string/email"
-        android:textColor="@color/colorPrimaryDark"
+        android:text="@string/change_password"
+        android:textAllCaps="false"
+        android:textColor="@color/colorLightBackground"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/edit_email"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.217"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/edit_phone"
-        android:layout_width="251dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="116dp"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:ems="10"
-        android:fontFamily="@font/ptsans"
-        android:hint="@string/phone_number"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        android:textColor="@color/colorPrimaryDark"
-        android:textColorHint="#99363537"
-        app:layout_constraintBottom_toTopOf="@+id/btnChangePassword"
+        app:layout_constraintBottom_toTopOf="@+id/btnDeleteAccount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -68,21 +54,6 @@
         app:layout_constraintBottom_toTopOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:fontFamily="@font/ptsans"
-        android:text="@string/username"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/edit_username"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.239"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
@@ -101,7 +72,7 @@
         android:id="@+id/edit_username"
         android:layout_width="251dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="@color/colorPrimaryDark"
         android:ems="10"
         android:fontFamily="@font/ptsans"
@@ -114,11 +85,73 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:fontFamily="@font/ptsans"
+        android:text="@string/email"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/edit_email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.217"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewRepeat2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:fontFamily="@font/ptsans"
+        android:text="@string/phone_number"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/edit_phone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.269"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/ptsans"
+        android:text="@string/username"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/edit_username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.239"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/edit_phone"
+        android:layout_width="251dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:ems="10"
+        android:fontFamily="@font/ptsans"
+        android:hint="@string/phone_number"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorHint="#99363537"
+        app:layout_constraintBottom_toTopOf="@+id/btnSave"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <EditText
         android:id="@+id/edit_email"
         android:layout_width="251dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="12dp"
         android:backgroundTint="@color/colorPrimaryDark"
         android:ems="10"
         android:fontFamily="@font/ptsans"
@@ -132,15 +165,15 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btnChangePassword"
+        android:id="@+id/btnSave"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="251dp"
         android:layout_height="45dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="80dp"
         android:background="@drawable/ic_button"
         android:backgroundTint="@color/colorPrimaryDark"
         android:fontFamily="@font/ptsans"
-        android:text="@string/change_password"
+        android:text="@string/save"
         android:textAllCaps="false"
         android:textColor="@color/colorLightBackground"
         android:textSize="18sp"
@@ -149,18 +182,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/textViewRepeat2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:fontFamily="@font/ptsans"
-        android:text="@string/phone_number"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/edit_phone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.269"
-        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.mikadifo.zenplet.ui.account;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,8 +11,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
+import com.mikadifo.zenplet.API.CallWithToken;
+import com.mikadifo.zenplet.API.model.Owner;
+import com.mikadifo.zenplet.API.service.OwnerService;
 import com.mikadifo.zenplet.R;
+import com.mikadifo.zenplet.nav.BottomNavActivity;
+import com.mikadifo.zenplet.ui.LogInActivity;
+import com.mikadifo.zenplet.ui.SignUpActivity;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,8 +43,10 @@ public class Account1 extends Fragment {
     private String mParam1;
     private String mParam2;
 
+
     public Account1() {
-        // Required empty public constructor
+
+
     }
 
     /**
@@ -63,9 +79,18 @@ public class Account1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_account1, container, false);
-        Button btn = root.findViewById(R.id.btnChangePassword);
+        EditText username = root.findViewById(R.id.edit_username);
+        EditText email = root.findViewById(R.id.edit_email);
+        EditText phone = root.findViewById(R.id.edit_phone);
+       //
+        username.setText( SignUpActivity.ownerNew.getOwnerName());
+        email.setText(SignUpActivity.ownerNew.getOwnerEmail());
+        phone.setText(SignUpActivity.ownerNew.getOwnerPhoneNumber());
+
+        /**Button btn = root.findViewById(R.id.btnSave);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,7 +101,48 @@ public class Account1 extends Fragment {
                 fragmentTransaction.commit();
             }
         });
+        Button btns = root.findViewById(R.id.btnSave);
+        btns.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl("http://192.168.1.100:8080/")
+                            .addConverterFactory(GsonConverterFactory.create()).build();
 
+                EditText username = root.findViewById(R.id.edit_username);
+                EditText email = root.findViewById(R.id.edit_email);
+                EditText phone = root.findViewById(R.id.edit_phone);
+                SignUpActivity.ownerNew.setOwnerName(username.getText().toString());
+                SignUpActivity.ownerNew.setOwnerEmail(email.getText().toString());
+                SignUpActivity.ownerNew.setOwnerPhoneNumber(phone.getText().toString());
+
+                OwnerService ownerService = retrofit.create(OwnerService.class);
+                Call<Owner> call = ownerService.updateOwner();
+                call.enqueue(new Callback<Owner>() {
+                    @Override
+                    public void onResponse(Call<Owner> call, Response<Owner> response) {
+                        CallWithToken.token = response.body().getToken();
+                        SignUpActivity.ownerNew = response.body();
+                        System.out.println(CallWithToken.token);
+                        startActivity(
+                                new Intent(LogInActivity.this, BottomNavActivity.class)
+                        );
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<Owner> call, Throwable t) {
+                        try {
+                            throw t;
+                        } catch (Throwable throwable) {
+                            throwable.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+**/
         return root;
     }
+
 }

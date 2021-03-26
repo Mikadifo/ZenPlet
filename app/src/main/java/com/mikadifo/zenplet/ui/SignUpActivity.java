@@ -2,6 +2,7 @@ package com.mikadifo.zenplet.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.mikadifo.zenplet.API.CallWithToken;
 import com.mikadifo.zenplet.API.model.Owner;
 import com.mikadifo.zenplet.API.service.OwnerService;
 import com.mikadifo.zenplet.R;
@@ -27,7 +28,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void registerOwner(View view){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.100:8080/")
+                .baseUrl(CallWithToken.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
 
         EditText ownerName = this.findViewById(R.id.edit_name_from_signup);
