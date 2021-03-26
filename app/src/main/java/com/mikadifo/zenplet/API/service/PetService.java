@@ -10,6 +10,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface PetService {
@@ -19,15 +20,15 @@ public interface PetService {
     @POST("/api/save-pet")
     Call<Pet> savePet(@Body Pet pet);
 
-    @GET("/api/pet/id")
-    Call<Pet> getPetById(@Query("id") long id);
+    @GET("/api/pet/id/{id}")
+    Call<Pet> getPetById(@Path("id") long id);
 
-    @GET("/api/pet/name")
-    Call<List<Pet>> getPetByName(@Query("name") String name);
+    @GET("/api/pet/name/{name}")
+    Call<List<Pet>> getPetByName(@Path("name") String name);
 
-    @PUT("/api/edit-pet")
-    Call<Pet> updatePet(@Query("id") long id, @Body Pet pet);
+    @PUT("/api/edit-pet/{id}")
+    Call<Pet> updatePet(@Path("id") long id, @Body Pet pet);
 
-    @DELETE("/api/delete-pet")
-    Call deletePet(@Query("id") long id);
+    @DELETE("/api/delete-pet/{id}")
+    Call deletePet(@Path("id") long id);
 }

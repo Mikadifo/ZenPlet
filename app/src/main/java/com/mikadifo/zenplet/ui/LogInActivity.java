@@ -52,7 +52,11 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Owner> call, Response<Owner> response) {
                 CallWithToken.token = response.body().getToken();
-                //System.out.println(response.body().getToken());
+                SignUpActivity.ownerNew = response.body();
+                System.out.println(CallWithToken.token);
+                startActivity(
+                        new Intent(LogInActivity.this, BottomNavActivity.class)
+                );
 
             }
 

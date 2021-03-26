@@ -64,4 +64,5 @@
     <string name="birthdate">Birthdate:</string>
     <string name="hint_birthdate">Birthdate</string>
     <string name="create_pet">Create Pet</string>
+    <string name="StrgNumberTelephone">Phone Number</string>
 </resources>

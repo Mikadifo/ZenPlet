@@ -68,4 +68,15 @@ public class Owner {
         this.token = token;
     }
 
+    @Override
+    public String toString() {
+        return "Owner{" +
+                "ownerId=" + ownerId +
+                ", ownerName='" + ownerName + '\'' +
+                ", ownerEmail='" + ownerEmail + '\'' +
+                ", ownerPassword='" + ownerPassword + '\'' +
+                ", ownerPhoneNumber='" + ownerPhoneNumber + '\'' +
+                ", token='" + token + '\'' +
+                '}';
+    }
 }

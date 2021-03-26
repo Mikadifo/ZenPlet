@@ -10,6 +10,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface VaccineService {
@@ -19,15 +20,15 @@ public interface VaccineService {
     @POST("/api/save-vaccine")
     Call<Vaccine> saveVaccines(@Body Vaccine vaccine);
 
-    @GET("/api/vaccine/id")
-    Call<Vaccine> getVaccineById(@Query("id") long id);
+    @GET("/api/vaccine/id/{id}")
+    Call<Vaccine> getVaccineById(@Path("id") long id);
 
-//    @GET("/api/vaccine/name")
-//    Call<Vaccine> getVaccineById(@Query("name") String name);
+//    @GET("/api/vaccine/name/{name}")
+//    Call<Vaccine> getVaccineById(@Path("name") String name);
 
-    @PUT("/api/edit-vaccine")
-    Call<Vaccine> updateVaccine(@Query("id") long id, @Body Vaccine vaccine);
+    @PUT("/api/edit-vaccine/{id}")
+    Call<Vaccine> updateVaccine(@Path("id") long id, @Body Vaccine vaccine);
 
-    @DELETE("/api/delete-vaccine")
-    Call deleteVaccine(@Query("id") long id);
+    @DELETE("/api/delete-vaccine/{id}")
+    Call deleteVaccine(@Path("id") long id);
 }

@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/editText_number_phone_for_signUp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorLightBackground"
@@ -31,11 +32,11 @@
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="80dp"
         android:background="@drawable/ic_button"
         android:backgroundTint="@color/colorPrimaryDark"
         android:fontFamily="@font/ptsans"
+        android:onClick="registerOwner"
         android:text="@string/sign_up_button"
         android:textAllCaps="false"
         android:textColor="@color/colorLightBackground"
@@ -43,9 +44,9 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/text_login"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_password_from_signup" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPhone" />
 
     <ImageView
         android:id="@+id/img_logo_signup"
@@ -82,7 +83,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="80dp"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/colorPrimaryDark"
@@ -124,7 +124,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
         android:layout_marginEnd="80dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="@color/colorPrimaryDark"
         android:ems="10"
         android:fontFamily="@font/ptsans"
@@ -133,9 +133,24 @@
         android:inputType="textPassword"
         android:textColor="@color/colorPrimaryDark"
         android:textColorHint="#99363537"
-        app:layout_constraintBottom_toTopOf="@+id/button_signup"
+        app:layout_constraintBottom_toTopOf="@+id/editTextPhone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_email_from_signup" />
+
+    <EditText
+        android:id="@+id/editTextPhone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="16dp"
+        android:ems="10"
+        android:hint="@string/StrgNumberTelephone"
+        android:inputType="phone"
+        app:layout_constraintBottom_toTopOf="@+id/button_signup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_password_from_signup" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

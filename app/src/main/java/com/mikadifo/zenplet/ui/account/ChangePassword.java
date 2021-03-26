@@ -1,5 +1,6 @@
 package com.mikadifo.zenplet.ui.account;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,8 +8,26 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.gson.internal.bind.util.ISO8601Utils;
+import com.mikadifo.zenplet.API.CallWithToken;
+import com.mikadifo.zenplet.API.model.Owner;
+import com.mikadifo.zenplet.API.service.OwnerService;
 import com.mikadifo.zenplet.R;
+import com.mikadifo.zenplet.nav.BottomNavActivity;
+import com.mikadifo.zenplet.ui.ForgotPasswordActivity;
+import com.mikadifo.zenplet.ui.SignUpActivity;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,6 +80,69 @@ public class ChangePassword extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_change_password, container, false);
+        View root = inflater.inflate(R.layout.fragment_change_password, container, false);
+        Button btn = root.findViewById(R.id.btnSaveNewPassword);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                EditText ownerOldPassword = root.findViewById(R.id.edit_old_pwd);
+                EditText newPassword = root.findViewById(R.id.edit_new_passwords);
+                EditText confirmNewPassword = root.findViewById(R.id.edit_repeat_passwords);
+
+                CallWithToken callWithTokentoken = new CallWithToken();
+                Retrofit retrofit = callWithTokentoken.getCallToken();
+
+                OwnerService ownerService = retrofit.create(OwnerService.class);
+                Call<Owner> call = ownerService.getOwnerById(SignUpActivity.ownerNew.getOwnerId());
+                System.out.println(call.request().toString());
+                call.enqueue(new Callback<Owner>() {
+                    @Override
+                    public void onResponse(Call<Owner> call, Response<Owner> response) {
+                        System.out.println(response.body());
+                        System.out.println(SignUpActivity.ownerNew);
+                        if (ownerOldPassword.getText().toString().equals(SignUpActivity.ownerNew.getOwnerPassword())){
+                            if (newPassword.getText().toString().equals(confirmNewPassword.getText().toString())){
+                                SignUpActivity.ownerNew.setOwnerPassword(newPassword.getText().toString());
+                                Call<Owner> callUpdate = ownerService.updateOwner(SignUpActivity
+                                        .ownerNew.getOwnerId(), SignUpActivity.ownerNew);
+                                callUpdate.enqueue(new Callback<Owner>() {
+                                    @Override
+                                    public void onResponse(Call<Owner> call, Response<Owner> response) {
+
+                                        Toast.makeText(v.getContext(), "Se ha cambiado la contraseña con exito", Toast.LENGTH_LONG).show();
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Owner> call, Throwable t) {
+                                        try {
+                                            throw t;
+                                        } catch (Throwable throwable) {
+                                            throwable.printStackTrace();
+                                        }
+                                    }
+                                });
+                            }else{
+                                Toast.makeText(v.getContext(), "Las nuevas contraseñas no coinciden", Toast.LENGTH_LONG).show();
+                            }
+                        }else{
+                            Toast.makeText(v.getContext(), "La contraseña no es correcta", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Owner> call, Throwable t) {
+                        try {
+                            throw t;
+                        } catch (Throwable throwable) {
+                            throwable.printStackTrace();
+                        }
+                    }
+                });
+
+                }
+        });
+        return root;
     }
+
 }
