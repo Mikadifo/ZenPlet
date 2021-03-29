@@ -30,6 +30,9 @@ public interface OwnerService {
     @GET("/api/owner/name/{name}")
     Call<List<Owner>> getOwnerByName(@Path("name") String name);
 
+    @GET("/api/owner/email/{email}")
+    Call <Owner> getOwnerByEmail(@Path("email") String email);
+
     @PUT("/api/edit-owner/{id}")
     Call<Owner> updateOwner(@Path("id") long id, @Body Owner owner);
 

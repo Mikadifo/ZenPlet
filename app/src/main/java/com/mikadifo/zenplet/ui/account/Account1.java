@@ -144,6 +144,7 @@ public class Account1 extends Fragment {
             }
 
         });
+
         return root;
     }
 
