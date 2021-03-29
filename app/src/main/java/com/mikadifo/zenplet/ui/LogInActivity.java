@@ -53,7 +53,6 @@ public class LogInActivity extends AppCompatActivity {
             public void onResponse(Call<Owner> call, Response<Owner> response) {
                 CallWithToken.token = response.body().getToken();
                 SignUpActivity.ownerNew = response.body();
-                System.out.println(CallWithToken.token);
                 startActivity(
                         new Intent(LogInActivity.this, BottomNavActivity.class)
                 );

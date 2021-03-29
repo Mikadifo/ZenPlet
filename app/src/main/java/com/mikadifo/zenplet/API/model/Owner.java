@@ -1,5 +1,7 @@
 package com.mikadifo.zenplet.API.model;
 
+import java.util.Set;
+
 public class Owner {
     private long ownerId;
     private String ownerName;
@@ -7,6 +9,7 @@ public class Owner {
     private String ownerPassword;
     private String ownerPhoneNumber;
     private String token;
+    private Set<Pet> ownerPets;
 
     public Owner() {
     }
@@ -68,6 +71,14 @@ public class Owner {
         this.token = token;
     }
 
+    public Set<Pet> getOwnerPets() {
+        return ownerPets;
+    }
+
+    public void setOwnerPets(Set<Pet> ownerPets) {
+        this.ownerPets = ownerPets;
+    }
+
     @Override
     public String toString() {
         return "Owner{" +
@@ -77,6 +88,7 @@ public class Owner {
                 ", ownerPassword='" + ownerPassword + '\'' +
                 ", ownerPhoneNumber='" + ownerPhoneNumber + '\'' +
                 ", token='" + token + '\'' +
+                ", ownerPets=" + ownerPets +
                 '}';
     }
 }
