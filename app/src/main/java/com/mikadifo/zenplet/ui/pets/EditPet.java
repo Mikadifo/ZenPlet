@@ -15,9 +15,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.mikadifo.zenplet.API.CallWithToken;
+import com.mikadifo.zenplet.API.model.Owner;
+import com.mikadifo.zenplet.API.model.Pet;
+import com.mikadifo.zenplet.API.service.OwnerService;
+import com.mikadifo.zenplet.API.service.PetService;
 import com.mikadifo.zenplet.R;
+import com.mikadifo.zenplet.ui.SignUpActivity;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -79,7 +91,7 @@ public class EditPet extends Fragment {
         Button openCameraBtn = root.findViewById(R.id.btnAbrirCamara);
         Button openGalleryBtn = root.findViewById(R.id.btnAbrirGaleria);
         Button btn = root.findViewById(R.id.btnDelete);
-
+    //Abrir la el fragmentPets
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,7 +103,7 @@ public class EditPet extends Fragment {
             }
         });
 
-
+        //abrir el fragment post lost
         Button btno = root.findViewById(R.id.btnLost);
 
             btn.setOnClickListener(new View.OnClickListener() {
@@ -104,9 +116,36 @@ public class EditPet extends Fragment {
                     fragmentTransaction.commit();
                 }
             });
+            //asignar los metodos a los botones
         openGalleryBtn.setOnClickListener(this::cargarImagen);
-
         openCameraBtn.setOnClickListener(this::AbrirCamara);
+        //mostrar los datos en los campos de texto
+        EditText name = root.findViewById(R.id.edit_name);
+        EditText size = root.findViewById(R.id.edit_size);
+        EditText genre = root.findViewById(R.id.edit_genre);
+        EditText breed = root.findViewById(R.id.edit_breed);
+        EditText birthdate = root.findViewById(R.id.edit_birthdate);
+        name.setText(SignUpActivity.ownerNew.getOwnerName());
+        CallWithToken callWithToken= new CallWithToken();
+        Retrofit retrofit = callWithToken.getCallToken();
+        PetService petService = retrofit.create(PetService.class);
+        Call<Pet> callupdate = petService.deletePet(getId());
+        callupdate.enqueue(new Callback<Pet>() {
+                               @Override
+                               public void onResponse(Call<Pet> call, Response<Pet> response) {
+
+                               }
+
+                               @Override
+                               public void onFailure(Call<Pet> call, Throwable t) {
+                                   try {
+                                       throw t;
+                                   } catch (Throwable throwable) {
+                                       throwable.printStackTrace();
+                                   }
+                               }
+         });
+
         return root;
 
     }
@@ -119,7 +158,6 @@ public class EditPet extends Fragment {
         }
 
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -142,7 +180,6 @@ public class EditPet extends Fragment {
         }
 
     }
-
     public void cargarImagen(View view){
         //Acceder al contenido de la galeria
         Intent intent= new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
