@@ -1,13 +1,10 @@
 package com.mikadifo.zenplet.ui.pets;
 
+import android.app.Dialog;
 import android.graphics.Bitmap;
-import android.graphics.DrawFilter;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -19,12 +16,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.content.Intent;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 
+import com.mikadifo.zenplet.API.CallWithToken;
+import com.mikadifo.zenplet.API.model.Owner;
+import com.mikadifo.zenplet.API.model.Pet;
+import com.mikadifo.zenplet.API.service.OwnerService;
+import com.mikadifo.zenplet.API.service.PetService;
 import com.mikadifo.zenplet.R;
+import com.mikadifo.zenplet.ui.SignUpActivity;
 
-import java.util.NoSuchElementException;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +39,10 @@ import java.util.NoSuchElementException;
  * create an instance of this fragment.
  */
 public class NewPet extends Fragment {
+    private Pet pet = new Pet();
+    private Owner owner;
+    private boolean settedMoreOwners;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -45,6 +56,9 @@ public class NewPet extends Fragment {
     private ImageView imageView;
 
     public NewPet() {
+        settedMoreOwners=false;
+        pet = new Pet();
+        owner = null;
         // Required empty public constructor
     }
 
@@ -58,6 +72,7 @@ public class NewPet extends Fragment {
      */
     // TODO: Rename and change types and number of parameters
     public static NewPet newInstance(String param1, String param2) {
+
         NewPet fragment = new NewPet();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -68,6 +83,7 @@ public class NewPet extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -78,24 +94,145 @@ public class NewPet extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View root = inflater.inflate(R.layout.fragment_new_pet, container, false);
         imageView = (ImageView)root.findViewById(R.id.imgFoto);
         Button openCameraBtn = root.findViewById(R.id.btnCamara);
         Button openGalleryBtn = root.findViewById(R.id.btnGaleria);
+        Button addPet = root.findViewById(R.id.btnViewPetOwners);
         Button btn = root.findViewById(R.id.btnCreatPet);
+        EditText name = root.findViewById(R.id.edit_new_name);
+        EditText size = root.findViewById(R.id.edit_new_sizze);
+        EditText genre = root.findViewById(R.id.edit_new_genre);
+        EditText breed = root.findViewById(R.id.edit_new_breed);
+        EditText birthdate = root.findViewById(R.id.edit_new_birthdate);
+
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager fragmentManager = getFragmentManager();
+                CallWithToken callWithToken = new CallWithToken();
+                Retrofit retrofit = callWithToken.getCallToken();
+
+                pet.setPetName(name.getText().toString());
+                pet.setPetSize(size.getText().toString());
+                pet.setPetGenre(genre.getText().toString());
+                pet.setPetGenre(breed.getText().toString());
+                // falta el cumpleaños pet.se
+
+                PetService petService = retrofit.create(PetService.class);
+                Call<Pet> call = petService.savePet(pet);
+                call.enqueue(new Callback<Pet>() {
+                    @Override
+                    public void onResponse(Call<Pet> call, Response<Pet> response) {
+                        pet=response.body();
+                        System.out.println(response.body());
+                        System.out.println(pet);
+                        SignUpActivity.ownerNew.getOwnerPets().add(pet);
+                        OwnerService ownerService = retrofit.create(OwnerService.class);
+                        Call<Owner> callUpdateFirstOwner = ownerService.updateOwner(SignUpActivity.ownerNew.getOwnerId(), SignUpActivity.ownerNew);
+                        callUpdateFirstOwner.enqueue(new Callback<Owner>() {
+                            @Override
+                            public void onResponse(Call<Owner> call, Response<Owner> response) {
+                                System.out.println("Este es el response"+response.body());
+                                System.out.println("Se creo el primero ");
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<Owner> call, Throwable t) {
+                                try {
+                                    throw t;
+                                } catch (Throwable throwable) {
+                                    throwable.printStackTrace();
+                                }
+                            }
+                        });
+                        if (settedMoreOwners){
+                            System.out.println("antes del owner normal"+owner);
+                            owner.getOwnerPets().add(pet);
+                            System.out.println("despues del owner normal"+owner);
+                            Call<Owner> callUpdate = ownerService.updateOwner(owner.getOwnerId(), owner);
+                            callUpdate.enqueue(new Callback<Owner>() {
+                                @Override
+                                public void onResponse(Call<Owner> call, Response<Owner> response) {
+                                    System.out.println("Vale vale vale ");
+                                    System.out.println(response.body());
+                                }
+
+                                @Override
+                                public void onFailure(Call<Owner> call, Throwable t) {
+
+                                }
+                            });
+                        }
+                        getFragmentManager().popBackStackImmediate();
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<Pet> call, Throwable t) {
+                        try {
+                            throw t;
+                        } catch (Throwable throwable) {
+                            throwable.printStackTrace();
+                        }
+                    }
+                });
+
+
+
+                /*FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager
                         .beginTransaction().replace(R.id.nav_host_fragment, new EditPet());
-                fragmentTransaction.commit();
+                fragmentTransaction.commit();*/
             }
         });
         openCameraBtn.setOnClickListener(this::cameraAccess);
         openGalleryBtn.setOnClickListener(this::loadImage);
+        addPet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                final Dialog dialogPersonalizado = new Dialog(getContext());
+                dialogPersonalizado.setContentView(R.layout.dialog_email_pets_owner);
+                Button btnAlertaEmailOk = dialogPersonalizado.findViewById(R.id.btnAceptarDialog);
+                Button btnAlertaEmailCancel = dialogPersonalizado.findViewById(R.id.BtnCancelarDialogo);
+
+                btnAlertaEmailOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EditText onwerEmail = dialogPersonalizado.getCurrentFocus().findViewById(R.id.OwnerEmail);
+                        CallWithToken callWithToken = new CallWithToken();
+                        Retrofit retrofit = callWithToken.getCallToken();
+                        System.out.println(onwerEmail.getText().toString());
+                        OwnerService ownerService = retrofit.create(OwnerService.class);
+                        Call<Owner> call = ownerService.getOwnerByEmail(onwerEmail.getText().toString());
+                        call.enqueue(new Callback<Owner>() {
+                            @Override
+                            public void onResponse(Call<Owner> call, Response<Owner> response) {
+                                owner = response.body();
+
+                                settedMoreOwners = true;
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<Owner> call, Throwable t) {
+                                try {
+                                    throw t;
+                                } catch (Throwable throwable) {
+                                    throwable.printStackTrace();
+                                }
+                            }
+                        });
+
+
+                    }
+                });
+                dialogPersonalizado.show();
+            }
+        });
         return root;
     }
 
