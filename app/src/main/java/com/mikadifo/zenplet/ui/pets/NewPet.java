@@ -56,6 +56,9 @@ public class NewPet extends Fragment {
     private ImageView imageView;
 
     public NewPet() {
+        settedMoreOwners=false;
+        pet = new Pet();
+        owner = null;
         // Required empty public constructor
     }
 
@@ -69,6 +72,7 @@ public class NewPet extends Fragment {
      */
     // TODO: Rename and change types and number of parameters
     public static NewPet newInstance(String param1, String param2) {
+
         NewPet fragment = new NewPet();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -79,6 +83,7 @@ public class NewPet extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -89,6 +94,7 @@ public class NewPet extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View root = inflater.inflate(R.layout.fragment_new_pet, container, false);
         imageView = (ImageView)root.findViewById(R.id.imgFoto);
         Button openCameraBtn = root.findViewById(R.id.btnCamara);
@@ -112,15 +118,56 @@ public class NewPet extends Fragment {
                 pet.setPetSize(size.getText().toString());
                 pet.setPetGenre(genre.getText().toString());
                 pet.setPetGenre(breed.getText().toString());
-                // falta el cumpleaños pet.set
-                SignUpActivity.ownerNew.getOwnerPets().add(pet);
+                // falta el cumpleaños pet.se
 
-                /*PetService petService = retrofit.create(PetService.class);
+                PetService petService = retrofit.create(PetService.class);
                 Call<Pet> call = petService.savePet(pet);
                 call.enqueue(new Callback<Pet>() {
                     @Override
                     public void onResponse(Call<Pet> call, Response<Pet> response) {
-                        System.out.println("Se creo la mascota maeee");
+                        pet=response.body();
+                        System.out.println(response.body());
+                        System.out.println(pet);
+                        SignUpActivity.ownerNew.getOwnerPets().add(pet);
+                        OwnerService ownerService = retrofit.create(OwnerService.class);
+                        Call<Owner> callUpdateFirstOwner = ownerService.updateOwner(SignUpActivity.ownerNew.getOwnerId(), SignUpActivity.ownerNew);
+                        callUpdateFirstOwner.enqueue(new Callback<Owner>() {
+                            @Override
+                            public void onResponse(Call<Owner> call, Response<Owner> response) {
+                                System.out.println("Este es el response"+response.body());
+                                System.out.println("Se creo el primero ");
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<Owner> call, Throwable t) {
+                                try {
+                                    throw t;
+                                } catch (Throwable throwable) {
+                                    throwable.printStackTrace();
+                                }
+                            }
+                        });
+                        if (settedMoreOwners){
+                            System.out.println("antes del owner normal"+owner);
+                            owner.getOwnerPets().add(pet);
+                            System.out.println("despues del owner normal"+owner);
+                            Call<Owner> callUpdate = ownerService.updateOwner(owner.getOwnerId(), owner);
+                            callUpdate.enqueue(new Callback<Owner>() {
+                                @Override
+                                public void onResponse(Call<Owner> call, Response<Owner> response) {
+                                    System.out.println("Vale vale vale ");
+                                    System.out.println(response.body());
+                                }
+
+                                @Override
+                                public void onFailure(Call<Owner> call, Throwable t) {
+
+                                }
+                            });
+                        }
+                        getFragmentManager().popBackStackImmediate();
+
                     }
 
                     @Override
@@ -131,41 +178,8 @@ public class NewPet extends Fragment {
                             throwable.printStackTrace();
                         }
                     }
-                });*/
-                OwnerService ownerService = retrofit.create(OwnerService.class);
-                Call<Owner> callUpdateFirstOwner = ownerService.updateOwner(SignUpActivity.ownerNew.getOwnerId(), SignUpActivity.ownerNew);
-                callUpdateFirstOwner.enqueue(new Callback<Owner>() {
-                    @Override
-                    public void onResponse(Call<Owner> call, Response<Owner> response) {
-
-                        System.out.println("Se creo maeee el primero ");
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<Owner> call, Throwable t) {
-                        try {
-                            throw t;
-                        } catch (Throwable throwable) {
-                            throwable.printStackTrace();
-                        }
-                    }
                 });
-                if (settedMoreOwners){
-                    owner.getOwnerPets().add(pet);
-                    Call<Owner> callUpdate = ownerService.updateOwner(owner.getOwnerId(), owner);
-                    callUpdate.enqueue(new Callback<Owner>() {
-                        @Override
-                        public void onResponse(Call<Owner> call, Response<Owner> response) {
-                            System.out.println("Vale vale vale mae mae mae mae xd arigato");
-                        }
 
-                        @Override
-                        public void onFailure(Call<Owner> call, Throwable t) {
-
-                        }
-                    });
-                }
 
 
                 /*FragmentManager fragmentManager = getFragmentManager();
@@ -198,7 +212,7 @@ public class NewPet extends Fragment {
                             @Override
                             public void onResponse(Call<Owner> call, Response<Owner> response) {
                                 owner = response.body();
-                                owner.getOwnerPets().add(pet);
+
                                 settedMoreOwners = true;
 
                             }
