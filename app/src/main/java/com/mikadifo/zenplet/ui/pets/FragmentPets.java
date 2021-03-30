@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
@@ -50,10 +51,12 @@ public class FragmentPets extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    public static Pet selectedPet;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
 
     public FragmentPets() {
     }
@@ -105,8 +108,20 @@ public class FragmentPets extends Fragment {
         }
         List<Pet> petList = new ArrayList<Pet>(SignUpActivity.ownerNew.getOwnerPets());
         listView.setAdapter(new PetAdapter(getContext(), R.layout.pets_list, petList));
-
+        //llamar desde la lista de pets al fragment EditPet
+        listView.setOnItemClickListener(petListener);
         return root;
 
     }
+
+    private AdapterView.OnItemClickListener petListener= (adapterView, view, position, id)->{
+        //retornar objeto seleecionado
+        selectedPet = (Pet)adapterView.getItemAtPosition(position);
+        System.out.println(selectedPet);
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager
+                .beginTransaction()
+                .replace(R.id.nav_host_fragment, new EditPet());
+        fragmentTransaction.commit();
+    };
 }

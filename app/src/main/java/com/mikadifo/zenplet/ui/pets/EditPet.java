@@ -1,5 +1,7 @@
 package com.mikadifo.zenplet.ui.pets;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -14,14 +16,18 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.mikadifo.zenplet.API.CallWithToken;
 import com.mikadifo.zenplet.API.model.Owner;
 import com.mikadifo.zenplet.API.model.Pet;
 import com.mikadifo.zenplet.API.service.OwnerService;
+import com.mikadifo.zenplet.API.service.PetAdapter;
 import com.mikadifo.zenplet.API.service.PetService;
 import com.mikadifo.zenplet.R;
 import com.mikadifo.zenplet.ui.SignUpActivity;
@@ -87,10 +93,55 @@ public class EditPet extends Fragment {
 
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_edit_pet, container, false);
+        //Mostrar los datos para editar en los campos de texto
         imageView=(ImageView)root.findViewById(R.id.foto);
+        EditText name = root.findViewById(R.id.edit_name);
+        EditText size = root.findViewById(R.id.edit_size);
+        EditText genre = root.findViewById(R.id.edit_genre);
+        EditText breed = root.findViewById(R.id.edit_breed);
+        EditText birthdate = root.findViewById(R.id.edit_birthdate);
+        name.setText(FragmentPets.selectedPet.getPetName());
+        size.setText(FragmentPets.selectedPet.getPetSize());
+        breed.setText(FragmentPets.selectedPet.getPetBreed());
+        genre.setText(FragmentPets.selectedPet.getPetGenre());
+        //llamada a token, retrofit y pestService
+        CallWithToken callWithToken= new CallWithToken();
+        Retrofit retrofit = callWithToken.getCallToken();
+        PetService petService = retrofit.create(PetService.class);
+        //Guardar datos editados
+        Button btnSave = root.findViewById(R.id.btnSaveEditPet);
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentPets.selectedPet.setPetName(name.getText().toString());
+                FragmentPets.selectedPet.setPetSize(size.getText().toString());
+                FragmentPets.selectedPet.setPetBreed(breed.getText().toString());
+                FragmentPets.selectedPet.setPetGenre(genre.getText().toString());
+                //llamada al metodo del servicio
+                Call<Pet> callupdate = petService.updatePet(FragmentPets.selectedPet.getPetId(), FragmentPets.selectedPet);
+                callupdate.enqueue(new Callback<Pet>() {
+                    @Override
+                    public void onResponse(Call<Pet> call, Response<Pet> response) {
+                        System.out.println(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<Pet> call, Throwable t) {
+                        try {
+                            throw t;
+                        } catch (Throwable throwable) {
+                            throwable.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+
+
+        //Asignarmetodos a los botones
         Button openCameraBtn = root.findViewById(R.id.btnAbrirCamara);
         Button openGalleryBtn = root.findViewById(R.id.btnAbrirGaleria);
-        Button btn = root.findViewById(R.id.btnDelete);
+        Button btn = root.findViewById(R.id.btnViewPetOwners);
     //Abrir la el fragmentPets
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,9 +155,9 @@ public class EditPet extends Fragment {
         });
 
         //abrir el fragment post lost
-        Button btno = root.findViewById(R.id.btnLost);
+        Button btnlo = root.findViewById(R.id.btnLost);
 
-            btn.setOnClickListener(new View.OnClickListener() {
+            btnlo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     FragmentManager fragmentManager = getFragmentManager();
@@ -119,34 +170,49 @@ public class EditPet extends Fragment {
             //asignar los metodos a los botones
         openGalleryBtn.setOnClickListener(this::cargarImagen);
         openCameraBtn.setOnClickListener(this::AbrirCamara);
-        //mostrar los datos en los campos de texto
-        EditText name = root.findViewById(R.id.edit_name);
-        EditText size = root.findViewById(R.id.edit_size);
-        EditText genre = root.findViewById(R.id.edit_genre);
-        EditText breed = root.findViewById(R.id.edit_breed);
-        EditText birthdate = root.findViewById(R.id.edit_birthdate);
-        name.setText(SignUpActivity.ownerNew.getOwnerName());
-        CallWithToken callWithToken= new CallWithToken();
-        Retrofit retrofit = callWithToken.getCallToken();
-        PetService petService = retrofit.create(PetService.class);
-        Call<Pet> callupdate = petService.deletePet(getId());
-        callupdate.enqueue(new Callback<Pet>() {
-                               @Override
-                               public void onResponse(Call<Pet> call, Response<Pet> response) {
 
-                               }
+        //eliminar Pet
+        Button btnd = root.findViewById(R.id.btnDelete);
+        btnd.setOnClickListener(new View.OnClickListener() {
 
-                               @Override
-                               public void onFailure(Call<Pet> call, Throwable t) {
-                                   try {
-                                       throw t;
-                                   } catch (Throwable throwable) {
-                                       throwable.printStackTrace();
-                                   }
-                               }
-         });
+            @Override
+            public void onClick(View view) {
 
+                AlertDialog.Builder dialogo1 = new AlertDialog.Builder(getContext());
+                dialogo1.setTitle("Important");
+                dialogo1.setMessage("Are you sure to remove this pet?");
+                dialogo1.setCancelable(false);
+                dialogo1.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
+
+                        Call<Pet> call = petService.deletePet(FragmentPets.selectedPet.getPetId());
+                        call.enqueue(new Callback<Pet>() {
+                            @Override
+                            public void onResponse(Call<Pet> call, Response<Pet> response) {
+                                ListView listView = root.findViewById(R.id.list_pets);
+                                PetAdapter petAdapter = (PetAdapter) listView.getAdapter();
+                                petAdapter.remove(FragmentPets.selectedPet);
+                                dialogo1.dismiss();
+                                petAdapter.notifyDataSetChanged();
+                                                            }
+
+                            @Override
+                            public void onFailure(Call<Pet> call, Throwable t) {
+                                try {
+                                    throw t;
+                                } catch (Throwable throwable) {
+                                    throwable.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+
+                })
+                 .setNegativeButton("No",null).show();
+            }
+        });
         return root;
+
 
     }
     public void AbrirCamara(View view){
