@@ -117,7 +117,7 @@ public class FragmentPets extends Fragment {
     private AdapterView.OnItemClickListener petListener= (adapterView, view, position, id)->{
         //retornar objeto seleecionado
         selectedPet = (Pet)adapterView.getItemAtPosition(position);
-        System.out.println(selectedPet);
+        System.out.println("Este es cuadno selecciona"+selectedPet);
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager
                 .beginTransaction()

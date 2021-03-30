@@ -141,7 +141,7 @@ public class EditPet extends Fragment {
         //Asignarmetodos a los botones
         Button openCameraBtn = root.findViewById(R.id.btnAbrirCamara);
         Button openGalleryBtn = root.findViewById(R.id.btnAbrirGaleria);
-        Button btn = root.findViewById(R.id.btnViewPetOwners);
+        Button btn = root.findViewById(R.id.viewPetOwners);
     //Abrir la el fragmentPets
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
