@@ -26,6 +26,7 @@ import com.mikadifo.zenplet.API.service.PetService;
 import com.mikadifo.zenplet.MainActivity;
 import com.mikadifo.zenplet.R;
 import com.mikadifo.zenplet.ui.SignUpActivity;
+import com.mikadifo.zenplet.ui.vaccines.NewVaccines;
 import com.mikadifo.zenplet.ui.vaccines.Vaccines;
 
 import java.util.ArrayList;
@@ -88,6 +89,17 @@ public class FragmentPets extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_pets, container, false);
         ListView listView =root.findViewById(R.id.list_pets);
+        Button btn = root.findViewById(R.id.butAddPet);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment, new NewPet());
+                fragmentTransaction.commit();
+            }
+        });
         for (Pet pet: SignUpActivity.ownerNew.getOwnerPets()){
             System.out.println(pet.getPetName());
         }

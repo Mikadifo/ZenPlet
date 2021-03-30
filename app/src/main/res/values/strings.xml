@@ -66,4 +66,7 @@
     <string name="create_pet">Create Pet</string>
     <string name="StrgNumberTelephone">Phone Number</string>
     <string name="save">Save</string>
+    <string name="StringTituloPetOwner">Add the owner\'s email</string>
+    <string name="btnOk">Accept</string>
+    <string name="btnCancelar">Cancel</string>
 </resources>
