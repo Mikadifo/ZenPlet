@@ -28,6 +28,8 @@ import com.mikadifo.zenplet.API.service.PetService;
 import com.mikadifo.zenplet.R;
 import com.mikadifo.zenplet.ui.SignUpActivity;
 
+import java.io.ByteArrayOutputStream;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -112,7 +114,7 @@ public class NewPet extends Fragment {
                 pet.setPetName(name.getText().toString());
                 pet.setPetSize(size.getText().toString());
                 pet.setPetGenre(genre.getText().toString());
-                pet.setPetGenre(breed.getText().toString());
+                pet.setPetBreed(breed.getText().toString());
                 // falta el cumpleaños pet.se
                 pet.setPetOwner(SignUpActivity.ownerNew);
                 PetService petService = retrofit.create(PetService.class);
@@ -121,13 +123,16 @@ public class NewPet extends Fragment {
                     @Override
                     public void onResponse(Call<Pet> call, Response<Pet> response) {
                         pet=response.body();
+                        SignUpActivity.ownerNew.getOwnerPets().add(pet);
+
                         System.out.println(response.body());
                         System.out.println(pet);
                         OwnerService ownerService = retrofit.create(OwnerService.class);
-                        Call<Owner> callUpdateFirstOwner = ownerService.getOwnerById(SignUpActivity.ownerNew.getOwnerId());
+                        Call<Owner> callUpdateFirstOwner = ownerService.updateOwner(SignUpActivity.ownerNew.getOwnerId(), SignUpActivity.ownerNew);
                         callUpdateFirstOwner.enqueue(new Callback<Owner>() {
                             @Override
                             public void onResponse(Call<Owner> call, Response<Owner> response) {
+
                                 System.out.println("Este es el response"+response.body());
                                 System.out.println("Se creo el primero ");
 
@@ -142,7 +147,11 @@ public class NewPet extends Fragment {
                                 }
                             }
                         });
-                        getFragmentManager().popBackStackImmediate();
+                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager
+                                .beginTransaction()
+                                .replace(R.id.nav_host_fragment, new FragmentPets());
+                        fragmentTransaction.commit();
 
                     }
 
@@ -193,5 +202,6 @@ public class NewPet extends Fragment {
         intent.setType("image/");
         startActivityForResult(Intent.createChooser(intent,"Seleccione la aplicacion"), 10);
     }
+
 
 }
