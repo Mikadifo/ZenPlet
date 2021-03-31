@@ -52,6 +52,7 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Owner> call, Response<Owner> response) {
                 CallWithToken.token = response.body().getToken();
+                System.out.println("este dice nulo?"+SignUpActivity.ownerNew.getOwnerPets());
                 SignUpActivity.ownerNew = response.body();
                 startActivity(
                         new Intent(LogInActivity.this, BottomNavActivity.class)

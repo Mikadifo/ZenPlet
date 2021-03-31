@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 import com.mikadifo.zenplet.API.CallWithToken;
 import com.mikadifo.zenplet.API.model.Owner;
@@ -52,6 +53,7 @@ public class FragmentPets extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     public static Pet selectedPet;
+    private View root;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -59,6 +61,7 @@ public class FragmentPets extends Fragment {
 
 
     public FragmentPets() {
+
     }
 
     /**
@@ -90,7 +93,7 @@ public class FragmentPets extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_pets, container, false);
+        root = inflater.inflate(R.layout.fragment_pets, container, false);
         ListView listView =root.findViewById(R.id.list_pets);
         Button btn = root.findViewById(R.id.butAddPet);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -103,13 +106,15 @@ public class FragmentPets extends Fragment {
                 fragmentTransaction.commit();
             }
         });
-        for (Pet pet: SignUpActivity.ownerNew.getOwnerPets()){
-            System.out.println(pet.getPetName());
+        if (SignUpActivity.ownerNew.getOwnerPets() != null){
+            for (Pet pet: SignUpActivity.ownerNew.getOwnerPets()){
+                System.out.println(pet.getPetName());
+                List<Pet> petList = new ArrayList<Pet>(SignUpActivity.ownerNew.getOwnerPets());
+                listView.setAdapter(new PetAdapter(getContext(), R.layout.pets_list, petList));
+                //llamar desde la lista de pets al fragment EditPet
+                listView.setOnItemClickListener(petListener);
+            }
         }
-        List<Pet> petList = new ArrayList<Pet>(SignUpActivity.ownerNew.getOwnerPets());
-        listView.setAdapter(new PetAdapter(getContext(), R.layout.pets_list, petList));
-        //llamar desde la lista de pets al fragment EditPet
-        listView.setOnItemClickListener(petListener);
         return root;
 
     }
@@ -121,7 +126,7 @@ public class FragmentPets extends Fragment {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager
                 .beginTransaction()
-                .replace(R.id.nav_host_fragment, new EditPet());
+                .replace(R.id.nav_host_fragment, new EditPet(root));
         fragmentTransaction.commit();
     };
 }

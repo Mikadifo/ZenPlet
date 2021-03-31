@@ -12,18 +12,21 @@ public class Pet {
     private String petBreed;
     private String petSize;
     private String petGenre;
+    private Owner petOwner;
 
     public Pet() {
     }
 
-    public Pet(long petId, String petName, byte[] petImage, String petBreed, String petSize, String petGenre) {
+    public Pet(long petId, String petName, byte[] petImage, String petBreed, String petSize, String petGenre, Owner petOwner) {
         this.petId = petId;
         this.petName = petName;
         this.petImage = petImage;
         this.petBreed = petBreed;
         this.petSize = petSize;
         this.petGenre = petGenre;
+        this.petOwner = petOwner;
     }
+
 
     public long getPetId() {
         return petId;
@@ -73,6 +76,14 @@ public class Pet {
         this.petGenre = petGenre;
     }
 
+    public Owner getPetOwner() {
+        return petOwner;
+    }
+
+    public void setPetOwner(Owner petOwner) {
+        this.petOwner = petOwner;
+    }
+
     @Override
     public String toString() {
         return "Pet{" +
@@ -82,6 +93,7 @@ public class Pet {
                 ", petBreed='" + petBreed + '\'' +
                 ", petSize='" + petSize + '\'' +
                 ", petGenre='" + petGenre + '\'' +
+                ", petOwner=" + petOwner +
                 '}';
     }
 }

@@ -43,6 +43,7 @@ import retrofit2.Retrofit;
  * create an instance of this fragment.
  */
 public class EditPet extends Fragment {
+    private View beforeRoot;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,7 +56,12 @@ public class EditPet extends Fragment {
     ImageView imageView;
 
     public EditPet() {
+
         // Required empty public constructor
+    }
+
+    public EditPet(View root){
+         beforeRoot = root;
     }
 
     /**
@@ -141,18 +147,6 @@ public class EditPet extends Fragment {
         //Asignarmetodos a los botones
         Button openCameraBtn = root.findViewById(R.id.btnAbrirCamara);
         Button openGalleryBtn = root.findViewById(R.id.btnAbrirGaleria);
-        Button btn = root.findViewById(R.id.viewPetOwners);
-    //Abrir la el fragmentPets
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager
-                        .beginTransaction()
-                        .replace(R.id.nav_host_fragment, new FragmentPets());
-                fragmentTransaction.commit();
-            }
-        });
 
         //abrir el fragment post lost
         Button btnlo = root.findViewById(R.id.btnLost);
@@ -177,27 +171,31 @@ public class EditPet extends Fragment {
 
             @Override
             public void onClick(View view) {
-
+                CallWithToken callWithToken= new CallWithToken();
+                Retrofit retrofit = callWithToken.getCallToken();
+                PetService petService = retrofit.create(PetService.class);
                 AlertDialog.Builder dialogo1 = new AlertDialog.Builder(getContext());
                 dialogo1.setTitle("Important");
                 dialogo1.setMessage("Are you sure to remove this pet?");
                 dialogo1.setCancelable(false);
                 dialogo1.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogo1, int id) {
-
-                        Call<Pet> call = petService.deletePet(FragmentPets.selectedPet.getPetId());
-                        call.enqueue(new Callback<Pet>() {
+                        System.out.println(FragmentPets.selectedPet.getPetId());
+                        Call<Void> call = petService.deletePet(FragmentPets.selectedPet.getPetId());
+                        call.enqueue(new Callback<Void>() {
                             @Override
-                            public void onResponse(Call<Pet> call, Response<Pet> response) {
-                                ListView listView = root.findViewById(R.id.list_pets);
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                ListView listView = beforeRoot.findViewById(R.id.list_pets);
                                 PetAdapter petAdapter = (PetAdapter) listView.getAdapter();
+                                getFragmentManager().popBackStackImmediate();
                                 petAdapter.remove(FragmentPets.selectedPet);
                                 dialogo1.dismiss();
                                 petAdapter.notifyDataSetChanged();
-                                                            }
+
+                            }
 
                             @Override
-                            public void onFailure(Call<Pet> call, Throwable t) {
+                            public void onFailure(Call<Void> call, Throwable t) {
                                 try {
                                     throw t;
                                 } catch (Throwable throwable) {

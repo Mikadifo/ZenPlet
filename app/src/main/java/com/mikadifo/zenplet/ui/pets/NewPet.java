@@ -40,8 +40,6 @@ import retrofit2.Retrofit;
  */
 public class NewPet extends Fragment {
     private Pet pet = new Pet();
-    private Owner owner;
-    private boolean settedMoreOwners;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -56,9 +54,7 @@ public class NewPet extends Fragment {
     private ImageView imageView;
 
     public NewPet() {
-        settedMoreOwners=false;
         pet = new Pet();
-        owner = null;
         // Required empty public constructor
     }
 
@@ -99,7 +95,6 @@ public class NewPet extends Fragment {
         imageView = (ImageView)root.findViewById(R.id.imgFoto);
         Button openCameraBtn = root.findViewById(R.id.btnCamara);
         Button openGalleryBtn = root.findViewById(R.id.btnGaleria);
-        Button addPet = root.findViewById(R.id.btnViewPetOwners);
         Button btn = root.findViewById(R.id.btnCreatPet);
         EditText name = root.findViewById(R.id.edit_new_name);
         EditText size = root.findViewById(R.id.edit_new_sizze);
@@ -119,7 +114,7 @@ public class NewPet extends Fragment {
                 pet.setPetGenre(genre.getText().toString());
                 pet.setPetGenre(breed.getText().toString());
                 // falta el cumpleaños pet.se
-
+                pet.setPetOwner(SignUpActivity.ownerNew);
                 PetService petService = retrofit.create(PetService.class);
                 Call<Pet> call = petService.savePet(pet);
                 call.enqueue(new Callback<Pet>() {
@@ -128,9 +123,8 @@ public class NewPet extends Fragment {
                         pet=response.body();
                         System.out.println(response.body());
                         System.out.println(pet);
-                        SignUpActivity.ownerNew.getOwnerPets().add(pet);
                         OwnerService ownerService = retrofit.create(OwnerService.class);
-                        Call<Owner> callUpdateFirstOwner = ownerService.updateOwner(SignUpActivity.ownerNew.getOwnerId(), SignUpActivity.ownerNew);
+                        Call<Owner> callUpdateFirstOwner = ownerService.getOwnerById(SignUpActivity.ownerNew.getOwnerId());
                         callUpdateFirstOwner.enqueue(new Callback<Owner>() {
                             @Override
                             public void onResponse(Call<Owner> call, Response<Owner> response) {
@@ -148,24 +142,6 @@ public class NewPet extends Fragment {
                                 }
                             }
                         });
-                        if (settedMoreOwners){
-                            System.out.println("antes del owner normal"+owner);
-                            owner.getOwnerPets().add(pet);
-                            System.out.println("despues del owner normal"+owner);
-                            Call<Owner> callUpdate = ownerService.updateOwner(owner.getOwnerId(), owner);
-                            callUpdate.enqueue(new Callback<Owner>() {
-                                @Override
-                                public void onResponse(Call<Owner> call, Response<Owner> response) {
-                                    System.out.println("Vale vale vale ");
-                                    System.out.println(response.body());
-                                }
-
-                                @Override
-                                public void onFailure(Call<Owner> call, Throwable t) {
-
-                                }
-                            });
-                        }
                         getFragmentManager().popBackStackImmediate();
 
                     }
@@ -179,60 +155,10 @@ public class NewPet extends Fragment {
                         }
                     }
                 });
-
-
-
-                /*FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager
-                        .beginTransaction().replace(R.id.nav_host_fragment, new EditPet());
-                fragmentTransaction.commit();*/
             }
         });
         openCameraBtn.setOnClickListener(this::cameraAccess);
         openGalleryBtn.setOnClickListener(this::loadImage);
-        addPet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                final Dialog dialogPersonalizado = new Dialog(getContext());
-                dialogPersonalizado.setContentView(R.layout.dialog_email_pets_owner);
-                Button btnAlertaEmailOk = dialogPersonalizado.findViewById(R.id.btnAceptarDialog);
-                Button btnAlertaEmailCancel = dialogPersonalizado.findViewById(R.id.BtnCancelarDialogo);
-
-                btnAlertaEmailOk.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        EditText onwerEmail = dialogPersonalizado.getCurrentFocus().findViewById(R.id.OwnerEmail);
-                        CallWithToken callWithToken = new CallWithToken();
-                        Retrofit retrofit = callWithToken.getCallToken();
-                        System.out.println(onwerEmail.getText().toString());
-                        OwnerService ownerService = retrofit.create(OwnerService.class);
-                        Call<Owner> call = ownerService.getOwnerByEmail(onwerEmail.getText().toString());
-                        call.enqueue(new Callback<Owner>() {
-                            @Override
-                            public void onResponse(Call<Owner> call, Response<Owner> response) {
-                                owner = response.body();
-
-                                settedMoreOwners = true;
-
-                            }
-
-                            @Override
-                            public void onFailure(Call<Owner> call, Throwable t) {
-                                try {
-                                    throw t;
-                                } catch (Throwable throwable) {
-                                    throwable.printStackTrace();
-                                }
-                            }
-                        });
-
-
-                    }
-                });
-                dialogPersonalizado.show();
-            }
-        });
         return root;
     }
 

@@ -30,5 +30,5 @@ public interface PetService {
     Call<Pet> updatePet(@Path("id") long id, @Body Pet pet);
 
     @DELETE("/api/delete-pet/{id}")
-    Call deletePet(@Path("id") long id);
+    Call<Void> deletePet(@Path("id") long id);
 }
