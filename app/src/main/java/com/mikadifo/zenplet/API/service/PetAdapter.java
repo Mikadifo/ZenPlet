@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.LayoutRes;
@@ -42,28 +46,18 @@ public class PetAdapter extends ArrayAdapter<Pet> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View rowView = inflater.inflate(R.layout.pets_list, parent, false);
-        //
+
         TextView txtPetName = (TextView) rowView.findViewById(R.id.textViewNamePetsNew);
         TextView txtPetType = (TextView) rowView.findViewById(R.id.textViewTypePetsNew);
         TextView txtPetGenre = (TextView) rowView.findViewById(R.id.textViewGenrePetsNew);
+        ImageView imageView = (ImageView) rowView.findViewById(R.id.imgPet);
+
         txtPetName.setText(pets.get(pos).getPetName());
         txtPetType.setText(pets.get(pos).getPetBreed());
         txtPetGenre.setText(pets.get(pos).getPetGenre());
-
-
-        /**rowView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //start Activity User Form
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager
-                        .beginTransaction()
-                        .replace(R.id.nav_host_fragment, new FragmentPets());
-                fragmentTransaction.commit();
-
-            }
-
-            });*/
+        byte[] decodedString = Base64.decode(pets.get(pos).getPetImage(), Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        imageView.setImageBitmap(decodedByte);
 
 
     return rowView;

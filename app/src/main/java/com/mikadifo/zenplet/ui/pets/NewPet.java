@@ -2,6 +2,7 @@ package com.mikadifo.zenplet.ui.pets;
 
 import android.app.Dialog;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -11,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +32,9 @@ import com.mikadifo.zenplet.ui.SignUpActivity;
 
 import java.io.ByteArrayOutputStream;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -111,13 +116,21 @@ public class NewPet extends Fragment {
                 CallWithToken callWithToken = new CallWithToken();
                 Retrofit retrofit = callWithToken.getCallToken();
 
+                Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] imageInByte = baos.toByteArray();
+                String fotoEnBase64 = Base64.encodeToString(imageInByte, Base64.DEFAULT);
+
                 pet.setPetName(name.getText().toString());
                 pet.setPetSize(size.getText().toString());
                 pet.setPetGenre(genre.getText().toString());
                 pet.setPetBreed(breed.getText().toString());
+                pet.setPetImage(fotoEnBase64);
                 // falta el cumpleaños pet.se
                 pet.setPetOwner(SignUpActivity.ownerNew);
                 PetService petService = retrofit.create(PetService.class);
+                RequestBody nombre = RequestBody.create(MediaType.parse("text/plain"),"petImage");
                 Call<Pet> call = petService.savePet(pet);
                 call.enqueue(new Callback<Pet>() {
                     @Override
@@ -140,6 +153,7 @@ public class NewPet extends Fragment {
 
                             @Override
                             public void onFailure(Call<Owner> call, Throwable t) {
+                                System.out.println("holaaaaaaaa este es el error 2");
                                 try {
                                     throw t;
                                 } catch (Throwable throwable) {
@@ -157,6 +171,7 @@ public class NewPet extends Fragment {
 
                     @Override
                     public void onFailure(Call<Pet> call, Throwable t) {
+                        System.out.println("holaaaaaaaa este es el error 1");
                         try {
                             throw t;
                         } catch (Throwable throwable) {
@@ -168,8 +183,10 @@ public class NewPet extends Fragment {
         });
         openCameraBtn.setOnClickListener(this::cameraAccess);
         openGalleryBtn.setOnClickListener(this::loadImage);
+
         return root;
     }
+
 
     public void cameraAccess(View view){
         Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -202,6 +219,8 @@ public class NewPet extends Fragment {
         intent.setType("image/");
         startActivityForResult(Intent.createChooser(intent,"Seleccione la aplicacion"), 10);
     }
+
+
 
 
 }

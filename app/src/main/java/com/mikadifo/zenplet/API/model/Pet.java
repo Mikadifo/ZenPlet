@@ -8,7 +8,7 @@ public class Pet {
 
     private long petId;
     private String petName;
-    private byte[] petImage;
+    private String petImage;
     private String petBreed;
     private String petSize;
     private String petGenre;
@@ -17,7 +17,7 @@ public class Pet {
     public Pet() {
     }
 
-    public Pet(long petId, String petName, byte[] petImage, String petBreed, String petSize, String petGenre, Owner petOwner) {
+    public Pet(long petId, String petName, String petImage, String petBreed, String petSize, String petGenre, Owner petOwner) {
         this.petId = petId;
         this.petName = petName;
         this.petImage = petImage;
@@ -44,11 +44,11 @@ public class Pet {
         this.petName = petName;
     }
 
-    public byte[] getPetImage() {
+    public String getPetImage() {
         return petImage;
     }
 
-    public void setPetImage(byte[] petImage) {
+    public void setPetImage(String petImage) {
         this.petImage = petImage;
     }
 
@@ -89,7 +89,6 @@ public class Pet {
         return "Pet{" +
                 "petId=" + petId +
                 ", petName='" + petName + '\'' +
-                ", petImage=" + Arrays.toString(petImage) +
                 ", petBreed='" + petBreed + '\'' +
                 ", petSize='" + petSize + '\'' +
                 ", petGenre='" + petGenre + '\'' +
