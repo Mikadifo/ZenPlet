@@ -153,7 +153,6 @@ public class NewPet extends Fragment {
 
                             @Override
                             public void onFailure(Call<Owner> call, Throwable t) {
-                                System.out.println("holaaaaaaaa este es el error 2");
                                 try {
                                     throw t;
                                 } catch (Throwable throwable) {
@@ -171,7 +170,6 @@ public class NewPet extends Fragment {
 
                     @Override
                     public void onFailure(Call<Pet> call, Throwable t) {
-                        System.out.println("holaaaaaaaa este es el error 1");
                         try {
                             throw t;
                         } catch (Throwable throwable) {
