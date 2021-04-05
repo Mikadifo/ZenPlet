@@ -11,6 +11,7 @@ public class Owner {
     private String token;
     private Set<Pet> ownerPets;
 
+
     public Owner() {
     }
 
@@ -20,6 +21,7 @@ public class Owner {
         this.ownerEmail = ownerEmail;
         this.ownerPassword = ownerPassword;
         this.ownerPhoneNumber = ownerPhoneNumber;
+
         this.token = token;
     }
 
@@ -74,6 +76,7 @@ public class Owner {
     public Set<Pet> getOwnerPets() {
         return ownerPets;
     }
+
 
     public void setOwnerPets(Set<Pet> ownerPets) {
         this.ownerPets = ownerPets;

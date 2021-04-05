@@ -37,5 +37,5 @@ public interface OwnerService {
     Call<Owner> updateOwner(@Path("id") long id, @Body Owner owner);
 
     @DELETE("/api/delete-owner/{id}")
-    Call deleteOwner(@Path("id") long id);
+    Call<Void> deleteOwner(@Path("id") long id);
 }
