@@ -21,6 +21,7 @@ import com.mikadifo.zenplet.R;
 import com.mikadifo.zenplet.nav.BottomNavActivity;
 import com.mikadifo.zenplet.ui.LogInActivity;
 import com.mikadifo.zenplet.ui.SignUpActivity;
+import com.mikadifo.zenplet.ui.pets.FragmentPets;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -91,6 +92,17 @@ public class Account1 extends Fragment {
         email.setText(SignUpActivity.ownerNew.getOwnerEmail());
         phone.setText(SignUpActivity.ownerNew.getOwnerPhoneNumber());
         Button btns = root.findViewById(R.id.btnSave);
+        Button btnChangePassword = root.findViewById(R.id.btnChangePassword3);
+        btnChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment, new ChangePassword());
+                fragmentTransaction.commit();
+            }
+        });
         btns.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,5 +159,6 @@ public class Account1 extends Fragment {
 
         return root;
     }
+
 
 }

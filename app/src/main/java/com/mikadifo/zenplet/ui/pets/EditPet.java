@@ -5,6 +5,8 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -14,6 +16,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +37,7 @@ import com.mikadifo.zenplet.API.service.PetService;
 import com.mikadifo.zenplet.R;
 import com.mikadifo.zenplet.ui.SignUpActivity;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 
 import retrofit2.Call;
@@ -128,6 +132,9 @@ public class EditPet extends Fragment {
                 datePickerDialog.show();
             }
         });
+        byte[] decodedString = Base64.decode(FragmentPets.selectedPet.getPetImage(), Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        imageView.setImageBitmap(decodedByte);
         name.setText(FragmentPets.selectedPet.getPetName());
         size.setText(FragmentPets.selectedPet.getPetSize());
         breed.setText(FragmentPets.selectedPet.getPetBreed());
@@ -141,11 +148,18 @@ public class EditPet extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] imageInByte = baos.toByteArray();
+                String fotoEnBase64 = Base64.encodeToString(imageInByte, Base64.DEFAULT);
+
                 FragmentPets.selectedPet.setPetName(name.getText().toString());
                 FragmentPets.selectedPet.setPetSize(size.getText().toString());
                 FragmentPets.selectedPet.setPetBreed(breed.getText().toString());
                 FragmentPets.selectedPet.setPetGenre(genre.getText().toString());
                 FragmentPets.selectedPet.setPetBirthdate(birthdate.getText().toString());
+                FragmentPets.selectedPet.setPetImage(fotoEnBase64);
                 //llamada al metodo del servicio
                 Call<Pet> callupdate = petService.updatePet(FragmentPets.selectedPet.getPetId(), FragmentPets.selectedPet);
                 callupdate.enqueue(new Callback<Pet>() {
