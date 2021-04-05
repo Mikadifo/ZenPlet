@@ -165,6 +165,7 @@ public class EditPet extends Fragment {
                 callupdate.enqueue(new Callback<Pet>() {
                     @Override
                     public void onResponse(Call<Pet> call, Response<Pet> response) {
+                        Toast.makeText(view.getContext(), "Se ha cambiado la contraseña con exito", Toast.LENGTH_LONG).show();
                         System.out.println(response.body());
                         FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager
