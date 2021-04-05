@@ -1,6 +1,7 @@
 package com.mikadifo.zenplet.ui.pets;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -31,6 +33,8 @@ import com.mikadifo.zenplet.API.service.PetAdapter;
 import com.mikadifo.zenplet.API.service.PetService;
 import com.mikadifo.zenplet.R;
 import com.mikadifo.zenplet.ui.SignUpActivity;
+
+import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -106,6 +110,24 @@ public class EditPet extends Fragment {
         EditText genre = root.findViewById(R.id.edit_genre);
         EditText breed = root.findViewById(R.id.edit_breed);
         EditText birthdate = root.findViewById(R.id.edit_birthdate);
+        birthdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int day,month,year;
+                Calendar calendar = Calendar.getInstance();
+                day=calendar.get(Calendar.DAY_OF_MONTH);
+                month=calendar.get(Calendar.MONTH);
+                year=calendar.get(Calendar.YEAR);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        birthdate.setText(dayOfMonth+"/"+(month+1)+"/"+year);
+                    }
+                },day,month,year);
+                datePickerDialog.show();
+            }
+        });
         name.setText(FragmentPets.selectedPet.getPetName());
         size.setText(FragmentPets.selectedPet.getPetSize());
         breed.setText(FragmentPets.selectedPet.getPetBreed());
@@ -123,6 +145,7 @@ public class EditPet extends Fragment {
                 FragmentPets.selectedPet.setPetSize(size.getText().toString());
                 FragmentPets.selectedPet.setPetBreed(breed.getText().toString());
                 FragmentPets.selectedPet.setPetGenre(genre.getText().toString());
+                FragmentPets.selectedPet.setPetBirthdate(birthdate.getText().toString());
                 //llamada al metodo del servicio
                 Call<Pet> callupdate = petService.updatePet(FragmentPets.selectedPet.getPetId(), FragmentPets.selectedPet);
                 callupdate.enqueue(new Callback<Pet>() {
