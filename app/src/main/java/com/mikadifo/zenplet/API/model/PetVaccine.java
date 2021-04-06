@@ -2,18 +2,21 @@ package com.mikadifo.zenplet.API.model;
 
 public class PetVaccine {
 
-    private Long PetVaccinesId ;
+
 
     private String petVaccineDate;
 
     private String petVaccineNext;
 
-    public Long getPetVaccinesId() {
-        return PetVaccinesId;
-    }
+    private PetVaccinesId id;
+
+    private Vaccine vaccine;
+
+    private Pet pet;
+
 
     public void setPetVaccinesId(Long petVaccinesId) {
-        PetVaccinesId = petVaccinesId;
+        id = id;
     }
 
     public String getPetVaccineDate() {
@@ -36,17 +39,46 @@ public class PetVaccine {
         this.petVaccineDate = petVaccineDate;
     }
 
-    public PetVaccine(Long petVaccinesId, String petVaccineDate, String petVaccineNext) {
-        PetVaccinesId = petVaccinesId;
+    public void setPetVaccinesId(com.mikadifo.zenplet.API.model.PetVaccinesId Id) {
+        this.id = id;
+    }
+
+    public PetVaccine(String petVaccineDate, String petVaccineNext, PetVaccinesId id, Vaccine vaccine, Pet pet) {
         this.petVaccineDate = petVaccineDate;
         this.petVaccineNext = petVaccineNext;
+        this.id = id;
+        this.vaccine = vaccine;
+        this.pet = pet;
+    }
 
+    public PetVaccinesId getId() {
+        return id;
+    }
+
+    public void setId(PetVaccinesId id) {
+        this.id = id;
+    }
+
+    public Vaccine getVaccine() {
+        return vaccine;
+    }
+
+    public void setVaccine(Vaccine vaccine) {
+        this.vaccine = vaccine;
+    }
+
+    public Pet getPet() {
+        return pet;
+    }
+
+    public void setPet(Pet pet) {
+        this.pet = pet;
     }
 
     @Override
     public String toString() {
         return "PetVaccine{" +
-                "PetVaccinesId=" + PetVaccinesId +
+                "PetVaccinesId=" + id +
                 ", petVaccineDate='" + petVaccineDate + '\'' +
                 ", petVaccineNext='" + petVaccineNext + '\'' +
                 '}';

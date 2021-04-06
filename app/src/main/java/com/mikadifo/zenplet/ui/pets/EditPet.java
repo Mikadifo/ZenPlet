@@ -189,7 +189,7 @@ public class EditPet extends Fragment {
         });
 
 
-        //Asignarmetodos a los botones
+        //Asignar metodos a los botones
         Button openCameraBtn = root.findViewById(R.id.btnAbrirCamara);
         Button openGalleryBtn = root.findViewById(R.id.btnAbrirGaleria);
 
@@ -230,16 +230,6 @@ public class EditPet extends Fragment {
                         call.enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
-<<<<<<< HEAD
-                                SignUpActivity.ownerNew.getOwnerPets().remove(FragmentPets.selectedPet);
-                                dialogo1.dismiss();
-                                FragmentManager fragmentManager = getFragmentManager();
-                                FragmentTransaction fragmentTransaction = fragmentManager
-                                        .beginTransaction()
-                                        .replace(R.id.nav_host_fragment, new FragmentPets());
-                                fragmentTransaction.commit();
-=======
->>>>>>> fer
 
                                 SignUpActivity.ownerNew.getOwnerPets().remove(FragmentPets.selectedPet);
                                 dialogo1.dismiss();

@@ -3,6 +3,7 @@ package com.mikadifo.zenplet.API.model;
 import android.widget.TextView;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class Pet {
 
@@ -14,12 +15,12 @@ public class Pet {
     private String petGenre;
     private String petBirthdate;
     private Owner petOwner;
-
+    private List<PetVaccine> petVaccines;
 
     public Pet() {
     }
 
-    public Pet(long petId, String petName, String petImage, String petBreed, String petSize, String petGenre, String petBirthdate, Owner petOwner) {
+    public Pet(long petId, String petName, String petImage, String petBreed, String petSize, String petGenre, String petBirthdate, Owner petOwner, List<PetVaccine> petVaccines) {
         this.petId = petId;
         this.petName = petName;
         this.petImage = petImage;
@@ -28,6 +29,15 @@ public class Pet {
         this.petGenre = petGenre;
         this.petBirthdate = petBirthdate;
         this.petOwner = petOwner;
+        this.petVaccines = petVaccines;
+    }
+
+    public List<PetVaccine> getPetVaccines() {
+        return petVaccines;
+    }
+
+    public void setPetVaccines(List<PetVaccine> petVaccines) {
+        this.petVaccines = petVaccines;
     }
 
     public long getPetId() {

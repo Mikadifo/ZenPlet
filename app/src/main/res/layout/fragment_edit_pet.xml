@@ -182,7 +182,7 @@
                 android:inputType="textPersonName"
                 android:textColor="@color/colorPrimaryDark"
                 android:textColorHint="#99363537"
-                app:layout_constraintBottom_toTopOf="@+id/textView12"
+                app:layout_constraintBottom_toTopOf="@+id/descText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -221,7 +221,7 @@
 
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/descText"
             android:layout_width="251dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
