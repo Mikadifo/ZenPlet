@@ -20,19 +20,16 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.mikadifo.zenplet.API.CallWithToken;
-import com.mikadifo.zenplet.API.model.Owner;
+import com.mikadifo.zenplet.API.model.LostPet;
 import com.mikadifo.zenplet.API.model.Pet;
-import com.mikadifo.zenplet.API.service.OwnerService;
-import com.mikadifo.zenplet.API.service.PetAdapter;
+import com.mikadifo.zenplet.API.service.LostPetService;
 import com.mikadifo.zenplet.API.service.PetService;
 import com.mikadifo.zenplet.R;
 import com.mikadifo.zenplet.ui.SignUpActivity;
@@ -199,11 +196,30 @@ public class EditPet extends Fragment {
             btnlo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    FragmentManager fragmentManager = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager
-                            .beginTransaction()
-                            .replace(R.id.nav_host_fragment, new PostLostPet());
-                    fragmentTransaction.commit();
+                    CallWithToken callWithToken= new CallWithToken();
+                    Retrofit retrofit = callWithToken.getCallToken();
+                    LostPetService  lostPetService = retrofit.create(LostPetService.class);
+                    Call<LostPet> call = lostPetService.getLostPetByPetId(FragmentPets.selectedPet.getPetId());
+                    call.enqueue(new Callback<LostPet>() {
+                        @Override
+                        public void onResponse(Call<LostPet> call, Response<LostPet> response) {
+                            System.out.println(response.body());
+                            FragmentManager fragmentManager = getFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager
+                                    .beginTransaction()
+                                    .replace(R.id.nav_host_fragment, new EditLostPet(response.body()));
+                            fragmentTransaction.commit();
+                        }
+
+                        @Override
+                        public void onFailure(Call<LostPet> call, Throwable t) {
+                            FragmentManager fragmentManager = getFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager
+                                    .beginTransaction()
+                                    .replace(R.id.nav_host_fragment, new PostLostPet());
+                            fragmentTransaction.commit();
+                        }
+                    });
                 }
             });
             //asignar los metodos a los botones
@@ -230,17 +246,6 @@ public class EditPet extends Fragment {
                         call.enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
-<<<<<<< HEAD
-                                SignUpActivity.ownerNew.getOwnerPets().remove(FragmentPets.selectedPet);
-                                dialogo1.dismiss();
-                                FragmentManager fragmentManager = getFragmentManager();
-                                FragmentTransaction fragmentTransaction = fragmentManager
-                                        .beginTransaction()
-                                        .replace(R.id.nav_host_fragment, new FragmentPets());
-                                fragmentTransaction.commit();
-=======
->>>>>>> fer
-
                                 SignUpActivity.ownerNew.getOwnerPets().remove(FragmentPets.selectedPet);
                                 dialogo1.dismiss();
                                 FragmentManager fragmentManager = getFragmentManager();

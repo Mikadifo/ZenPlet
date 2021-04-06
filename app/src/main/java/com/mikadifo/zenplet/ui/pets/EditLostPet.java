@@ -3,12 +3,27 @@ package com.mikadifo.zenplet.ui.pets;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.mikadifo.zenplet.API.CallWithToken;
+import com.mikadifo.zenplet.API.model.LostPet;
+import com.mikadifo.zenplet.API.model.Owner;
+import com.mikadifo.zenplet.API.model.Pet;
+import com.mikadifo.zenplet.API.service.LostPetService;
 import com.mikadifo.zenplet.R;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,10 +36,15 @@ public class EditLostPet extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private LostPet editingLostPet;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    public EditLostPet(LostPet editingLostPet) {
+        this.editingLostPet = editingLostPet;
+    }
 
     public EditLostPet() {
         // Required empty public constructor
@@ -61,6 +81,85 @@ public class EditLostPet extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_lost_pet, container, false);
+        View root = inflater.inflate(R.layout.fragment_edit_lost_pet, container, false);
+        EditText additionalInfo = root.findViewById(R.id.editTextTextMultiLine);
+        additionalInfo.setText(this.editingLostPet.getLostPetAdditionalInfo());
+
+        Button buttonSave = root.findViewById(R.id.btnSaveAdditionalInfo);
+        Button buttonPetFound = root.findViewById(R.id.btnPetFound);
+
+        buttonSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LostPet lostPetEdit = new LostPet(
+                        new Owner(),
+                        new Pet(),
+                        additionalInfo.getText().toString()
+                );
+                CallWithToken callWithToken = new CallWithToken();
+                Retrofit retrofit = callWithToken.getCallToken();
+                LostPetService lostPetService = retrofit.create(LostPetService.class);
+                Call<LostPet> call = lostPetService.updateLostPet(FragmentPets.selectedPet.getPetId(), lostPetEdit);
+                call.enqueue(new Callback<LostPet>() {
+                    @Override
+                    public void onResponse(Call<LostPet> call, Response<LostPet> response) {
+                        System.out.println(response.body());
+                        if (response.body().getLostPetAdditionalInfo().equals(lostPetEdit.getLostPetAdditionalInfo())) {
+                            Toast.makeText(root.getContext(), "Lost Pet Updated", Toast.LENGTH_LONG).show();
+                            FragmentManager fragmentManager = getFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager
+                                    .beginTransaction()
+                                    .replace(R.id.nav_host_fragment, new EditPet());
+                            fragmentTransaction.commit();
+                        } else {
+                            Toast.makeText(root.getContext(), "Error updating lost pet", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<LostPet> call, Throwable t) {
+                        try {
+                            throw t;
+                        } catch (Throwable throwable) {
+                            throwable.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+        buttonPetFound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CallWithToken callWithToken = new CallWithToken();
+                Retrofit retrofit = callWithToken.getCallToken();
+                LostPetService lostPetService = retrofit.create(LostPetService.class);
+                Call<Void> call = lostPetService.deleteLostPet(FragmentPets.selectedPet.getPetId());
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        System.out.println(response.body());
+                        Toast.makeText(root.getContext(), "We are happy to help you to find your pet.", Toast.LENGTH_LONG).show();
+                        editingLostPet = null;
+                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager
+                                .beginTransaction()
+                                .replace(R.id.nav_host_fragment, new EditPet());
+                        fragmentTransaction.commit();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        try {
+                            throw t;
+                        } catch (Throwable throwable) {
+                            throwable.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+
+
+        return root;
     }
 }

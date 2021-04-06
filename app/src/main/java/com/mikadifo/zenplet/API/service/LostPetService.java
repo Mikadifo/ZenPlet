@@ -12,7 +12,6 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface LostPetService {
 
@@ -22,10 +21,13 @@ public interface LostPetService {
     @POST("/api/save-lost-pet")
     Call<LostPet> saveLostPet(@Body LostPet lostpet);
 
-    @PUT("/api/edit-lost-pet/{id}")
-    Call<LostPet> updateLostPet(@Path("id") long id, @Body LostPet lostpet);
+    @PUT("/api/edit-lost-pet/{petId}")
+    Call<LostPet> updateLostPet(@Path("petId") long petId, @Body LostPet lostpet);
 
     @DELETE("/api/delete-lost-pet/{id}")
-    Call deleteLostPet(@Path("id") long id);
+    Call<Void> deleteLostPet(@Path("id") long id);
+
+    @GET("/api/lost-pet/pet/{petId}")
+    Call<LostPet> getLostPetByPetId(@Path("petId") long petId);
 
 }
