@@ -21,16 +21,16 @@ import com.mikadifo.zenplet.R;
 
 import java.util.List;
 
-public class VaccinesAdapter extends ArrayAdapter<Vaccine> {
+public class VaccinesAdapter extends ArrayAdapter<PetVaccine> {
     private Context context;
     private List<PetVaccine> petVaccines;
 
 
-    public VaccinesAdapter(@NonNull Context context, @LayoutRes int resource,  @NonNull List<PetVaccine> vaccines){
+    public VaccinesAdapter(@NonNull Context context, @LayoutRes int resource,  @NonNull List<PetVaccine> objects){
         super(context, resource, objects);
         this.context = context;
-        this.vaccines = objects;
-        this.petVaccines=vaccines;
+        this.petVaccines = objects;
+
     }
 
     @Override
@@ -44,10 +44,10 @@ public class VaccinesAdapter extends ArrayAdapter<Vaccine> {
         TextView txtNext = (TextView) rowView.findViewById(R.id.nextText);
         TextView txtDescription = (TextView) rowView.findViewById(R.id.descText);
 
-        txtNameV.setText(vaccines.get(pos).getVaccinesName());
+        txtNameV.setText(petVaccines.get(pos).getVaccine().getVaccinesName());
         txtDate.setText(petVaccines.get(pos).getPetVaccineDate());
         txtNext.setText(petVaccines.get(pos).getPetVaccineNext());
-        txtDescription.setText(vaccines.get(pos).getVaccinesDescription());
+        txtDescription.setText(petVaccines.get(pos).getVaccine().getVaccinesDescription());
 
     return rowView;
     }
