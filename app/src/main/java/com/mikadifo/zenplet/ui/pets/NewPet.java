@@ -169,7 +169,7 @@ public class NewPet extends Fragment {
                         callUpdateFirstOwner.enqueue(new Callback<Owner>() {
                             @Override
                             public void onResponse(Call<Owner> call, Response<Owner> response) {
-
+                                SignUpActivity.ownerNew = response.body();
                                 System.out.println("Este es el response"+response.body());
                                 System.out.println("Se creo el primero ");
 

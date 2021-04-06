@@ -155,6 +155,7 @@ public class EditPet extends Fragment {
                 String fotoEnBase64 = Base64.encodeToString(imageInByte, Base64.DEFAULT);
 
                 FragmentPets.selectedPet.setPetName(name.getText().toString());
+                FragmentPets.selectedPet.setPetOwner(SignUpActivity.ownerNew);
                 FragmentPets.selectedPet.setPetSize(size.getText().toString());
                 FragmentPets.selectedPet.setPetBreed(breed.getText().toString());
                 FragmentPets.selectedPet.setPetGenre(genre.getText().toString());
