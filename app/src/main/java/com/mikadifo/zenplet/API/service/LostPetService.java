@@ -17,7 +17,7 @@ import retrofit2.http.Query;
 public interface LostPetService {
 
     @GET("/api/lost-pet")
-    Call<List<Pet>> getLostPets();
+    Call<List<LostPet>> getLostPets();
 
     @POST("/api/save-lost-pet")
     Call<LostPet> saveLostPet(@Body LostPet lostpet);

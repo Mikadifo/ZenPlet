@@ -139,6 +139,7 @@ public class EditPet extends Fragment {
         size.setText(FragmentPets.selectedPet.getPetSize());
         breed.setText(FragmentPets.selectedPet.getPetBreed());
         genre.setText(FragmentPets.selectedPet.getPetGenre());
+        birthdate.setText(FragmentPets.selectedPet.getPetBirthdate());
         //llamada a token, retrofit y pestService
         CallWithToken callWithToken= new CallWithToken();
         Retrofit retrofit = callWithToken.getCallToken();
@@ -230,17 +231,6 @@ public class EditPet extends Fragment {
                         call.enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
-<<<<<<< HEAD
-                                SignUpActivity.ownerNew.getOwnerPets().remove(FragmentPets.selectedPet);
-                                dialogo1.dismiss();
-                                FragmentManager fragmentManager = getFragmentManager();
-                                FragmentTransaction fragmentTransaction = fragmentManager
-                                        .beginTransaction()
-                                        .replace(R.id.nav_host_fragment, new FragmentPets());
-                                fragmentTransaction.commit();
-=======
->>>>>>> fer
-
                                 SignUpActivity.ownerNew.getOwnerPets().remove(FragmentPets.selectedPet);
                                 dialogo1.dismiss();
                                 FragmentManager fragmentManager = getFragmentManager();

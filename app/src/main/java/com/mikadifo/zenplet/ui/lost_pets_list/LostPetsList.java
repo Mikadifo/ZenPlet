@@ -3,12 +3,33 @@ package com.mikadifo.zenplet.ui.lost_pets_list;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
+import com.mikadifo.zenplet.API.CallWithToken;
+import com.mikadifo.zenplet.API.model.LostPet;
+import com.mikadifo.zenplet.API.model.Pet;
+import com.mikadifo.zenplet.API.service.LosPetAdapter;
+import com.mikadifo.zenplet.API.service.LostPetService;
+import com.mikadifo.zenplet.API.service.PetAdapter;
 import com.mikadifo.zenplet.R;
+import com.mikadifo.zenplet.ui.SignUpActivity;
+import com.mikadifo.zenplet.ui.pets.EditLostPet;
+import com.mikadifo.zenplet.ui.pets.EditPet;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +37,8 @@ import com.mikadifo.zenplet.R;
  * create an instance of this fragment.
  */
 public class LostPetsList extends Fragment {
+    private static LostPet selectedLostPet;
+    private  LostPet lostPet;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,7 +83,35 @@ public class LostPetsList extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lost_pets_list, container, false);
+        View root = inflater.inflate(R.layout.fragment_lost_pets_list, container, false);
+        System.out.println("ajhsdjadjasdjasd entro a lost pets");
+        ListView listView =root.findViewById(R.id.list_lost_pets);
+        CallWithToken callWithToken = new CallWithToken();
+        Retrofit retrofit = callWithToken.getCallToken();
+        LostPetService lostPetService = retrofit.create(LostPetService.class);
+        Call<List<LostPet>> call = lostPetService.getLostPets();
+        call.enqueue(new Callback<List<LostPet>>() {
+            @Override
+            public void onResponse(Call<List<LostPet>> call, Response<List<LostPet>> response) {
+                if (response.body() != null){
+                    for (LostPet lostPet: response.body()){
+                        List<LostPet> lostPetList = new ArrayList<LostPet>(response.body());
+                        listView.setAdapter(new LosPetAdapter(getContext(), R.layout.list_lost_pets, lostPetList));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<LostPet>> call, Throwable t) {
+                try {
+                    throw t;
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }
+        });
+
+        return root;
     }
+
 }
