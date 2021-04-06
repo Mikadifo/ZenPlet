@@ -136,6 +136,7 @@ public class EditPet extends Fragment {
         size.setText(FragmentPets.selectedPet.getPetSize());
         breed.setText(FragmentPets.selectedPet.getPetBreed());
         genre.setText(FragmentPets.selectedPet.getPetGenre());
+        birthdate.setText(FragmentPets.selectedPet.getPetBirthdate());
         //llamada a token, retrofit y pestService
         CallWithToken callWithToken= new CallWithToken();
         Retrofit retrofit = callWithToken.getCallToken();

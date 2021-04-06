@@ -16,7 +16,7 @@ import retrofit2.http.Path;
 public interface LostPetService {
 
     @GET("/api/lost-pet")
-    Call<List<Pet>> getLostPets();
+    Call<List<LostPet>> getLostPets();
 
     @POST("/api/save-lost-pet")
     Call<LostPet> saveLostPet(@Body LostPet lostpet);
