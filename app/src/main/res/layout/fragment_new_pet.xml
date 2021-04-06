@@ -58,7 +58,7 @@
                                     android:layout_width="135dp"
                                     android:layout_height="match_parent"
                                     android:contentDescription="@string/account"
-                                    app:layout_constraintBottom_toTopOf="@+id/textView10"
+                                    app:layout_constraintBottom_toTopOf="@+id/nextText"
                                     app:layout_constraintEnd_toStartOf="@+id/btnCamara"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:srcCompat="@android:drawable/ic_menu_crop" />
@@ -82,7 +82,7 @@
                                             android:textColor="@color/colorLightBackground"
                                             android:textSize="18sp"
                                             android:textStyle="bold"
-                                            app:layout_constraintBottom_toTopOf="@+id/textView10"
+                                            app:layout_constraintBottom_toTopOf="@+id/nextText"
                                             app:layout_constraintEnd_toEndOf="parent"
                                             app:layout_constraintHorizontal_bias="0.015"
                                             app:layout_constraintStart_toStartOf="@+id/imgFoto" />
@@ -122,7 +122,7 @@
                                     android:orientation="vertical">
 
                                         <TextView
-                                            android:id="@+id/textView10"
+                                            android:id="@+id/nextText"
                                             android:layout_width="248dp"
                                             android:layout_height="wrap_content"
                                             android:layout_marginBottom="4dp"
@@ -181,7 +181,7 @@
                                             android:inputType="textPersonName"
                                             android:textColor="@color/colorPrimaryDark"
                                             android:textColorHint="#99363537"
-                                            app:layout_constraintBottom_toTopOf="@+id/textView9"
+                                            app:layout_constraintBottom_toTopOf="@+id/dateText"
                                             app:layout_constraintEnd_toEndOf="parent"
                                             app:layout_constraintStart_toStartOf="parent" />
 
@@ -219,7 +219,7 @@
                                             app:layout_constraintStart_toStartOf="parent" />
 
                                         <TextView
-                                            android:id="@+id/textView9"
+                                            android:id="@+id/dateText"
                                             android:layout_width="248dp"
                                             android:layout_height="wrap_content"
                                             android:layout_marginBottom="8dp"
