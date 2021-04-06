@@ -173,7 +173,7 @@ public class EditPet extends Fragment {
                                 .beginTransaction()
                                 .replace(R.id.nav_host_fragment, new FragmentPets());
                         fragmentTransaction.commit();
-
+                        Toast.makeText(view.getContext(), "Updated pet", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -225,11 +225,12 @@ public class EditPet extends Fragment {
                 dialogo1.setCancelable(false);
                 dialogo1.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogo1, int id) {
-                        System.out.println(FragmentPets.selectedPet.getPetId());
+
                         Call<Void> call = petService.deletePet(FragmentPets.selectedPet.getPetId());
                         call.enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
+<<<<<<< HEAD
                                 SignUpActivity.ownerNew.getOwnerPets().remove(FragmentPets.selectedPet);
                                 dialogo1.dismiss();
                                 FragmentManager fragmentManager = getFragmentManager();
@@ -237,7 +238,16 @@ public class EditPet extends Fragment {
                                         .beginTransaction()
                                         .replace(R.id.nav_host_fragment, new FragmentPets());
                                 fragmentTransaction.commit();
+=======
+>>>>>>> fer
 
+                                SignUpActivity.ownerNew.getOwnerPets().remove(FragmentPets.selectedPet);
+                                dialogo1.dismiss();
+                                FragmentManager fragmentManager = getFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager
+                                        .beginTransaction()
+                                        .replace(R.id.nav_host_fragment, new FragmentPets());
+                                fragmentTransaction.commit();
                             }
 
                             @Override
@@ -266,6 +276,7 @@ public class EditPet extends Fragment {
         Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(intent.resolveActivity(getActivity().getPackageManager())!=null){
             //manejar el resultado
+            System.out.println("Camara");
             startActivityForResult(intent,1);
         }
 
