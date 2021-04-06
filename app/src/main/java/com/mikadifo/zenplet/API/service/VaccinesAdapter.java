@@ -37,7 +37,7 @@ public class VaccinesAdapter extends ArrayAdapter<PetVaccine> {
     public View getView(final int pos, View convertView, ViewGroup parent){
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View rowView = inflater.inflate(R.layout.pets_list, parent, false);
+        View rowView = inflater.inflate(R.layout.vaccines_list, parent, false);
 
         TextView txtNameV = (TextView) rowView.findViewById(R.id.nameText);
         TextView txtDate = (TextView) rowView.findViewById(R.id.dateText);

@@ -86,8 +86,7 @@ public class Vaccines extends Fragment {
         }
 
         ListView list=root.findViewById(R.id.ListVaccines);
-        list.setAdapter(new VaccinesAdapter(getContext(),R.layout.vaccines_list, petVaccineslist ));
-
+        list.setAdapter(new VaccinesAdapter(root.getContext(),R.layout.vaccines_list, petVaccineslist ));
 
         Button btn = root.findViewById(R.id.butNewVaccines);
         btn.setOnClickListener(new View.OnClickListener() {
