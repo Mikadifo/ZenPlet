@@ -1,7 +1,8 @@
 package com.mikadifo.zenplet.ui.pets;
 
-import android.app.Dialog;
+import android.app.DatePickerDialog;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -11,11 +12,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.content.Intent;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -29,7 +32,10 @@ import com.mikadifo.zenplet.R;
 import com.mikadifo.zenplet.ui.SignUpActivity;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Calendar;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,6 +48,9 @@ import retrofit2.Retrofit;
  */
 public class NewPet extends Fragment {
     private Pet pet = new Pet();
+    //private EditText birthdate;
+
+
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -103,6 +112,25 @@ public class NewPet extends Fragment {
         EditText genre = root.findViewById(R.id.edit_new_genre);
         EditText breed = root.findViewById(R.id.edit_new_breed);
         EditText birthdate = root.findViewById(R.id.edit_new_birthdate);
+        birthdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int day,month,year;
+                Calendar calendar = Calendar.getInstance();
+                day=calendar.get(Calendar.DAY_OF_MONTH);
+                month=calendar.get(Calendar.MONTH);
+                year=calendar.get(Calendar.YEAR);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        birthdate.setText(dayOfMonth+"/"+(month+1)+"/"+year);
+                    }
+                },day,month,year);
+                datePickerDialog.show();
+            }
+        });
+
 
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -111,20 +139,29 @@ public class NewPet extends Fragment {
                 CallWithToken callWithToken = new CallWithToken();
                 Retrofit retrofit = callWithToken.getCallToken();
 
+                Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] imageInByte = baos.toByteArray();
+                String fotoEnBase64 = Base64.encodeToString(imageInByte, Base64.DEFAULT);
+
                 pet.setPetName(name.getText().toString());
                 pet.setPetSize(size.getText().toString());
                 pet.setPetGenre(genre.getText().toString());
                 pet.setPetBreed(breed.getText().toString());
+
+                pet.setPetBirthdate(birthdate.getText().toString());
+                pet.setPetImage(fotoEnBase64);
                 // falta el cumpleaños pet.se
                 pet.setPetOwner(SignUpActivity.ownerNew);
                 PetService petService = retrofit.create(PetService.class);
+                RequestBody nombre = RequestBody.create(MediaType.parse("text/plain"),"petImage");
                 Call<Pet> call = petService.savePet(pet);
                 call.enqueue(new Callback<Pet>() {
                     @Override
                     public void onResponse(Call<Pet> call, Response<Pet> response) {
                         pet=response.body();
                         SignUpActivity.ownerNew.getOwnerPets().add(pet);
-
                         System.out.println(response.body());
                         System.out.println(pet);
                         OwnerService ownerService = retrofit.create(OwnerService.class);
@@ -132,7 +169,7 @@ public class NewPet extends Fragment {
                         callUpdateFirstOwner.enqueue(new Callback<Owner>() {
                             @Override
                             public void onResponse(Call<Owner> call, Response<Owner> response) {
-
+                                SignUpActivity.ownerNew = response.body();
                                 System.out.println("Este es el response"+response.body());
                                 System.out.println("Se creo el primero ");
 
@@ -168,8 +205,11 @@ public class NewPet extends Fragment {
         });
         openCameraBtn.setOnClickListener(this::cameraAccess);
         openGalleryBtn.setOnClickListener(this::loadImage);
+
         return root;
     }
+
+
 
     public void cameraAccess(View view){
         Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

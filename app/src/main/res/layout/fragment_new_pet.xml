@@ -267,6 +267,9 @@
 
                                         <EditText
                                             android:id="@+id/edit_new_birthdate"
+                                            android:focusable="false"
+                                            android:clickable="true"
+                                            android:maxLines="1"
                                             android:layout_width="251dp"
                                             android:layout_height="wrap_content"
                                             android:layout_marginBottom="28dp"

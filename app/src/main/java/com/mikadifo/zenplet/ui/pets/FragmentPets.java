@@ -108,7 +108,6 @@ public class FragmentPets extends Fragment {
         });
         if (SignUpActivity.ownerNew.getOwnerPets() != null){
             for (Pet pet: SignUpActivity.ownerNew.getOwnerPets()){
-                System.out.println(pet.getPetName());
                 List<Pet> petList = new ArrayList<Pet>(SignUpActivity.ownerNew.getOwnerPets());
                 listView.setAdapter(new PetAdapter(getContext(), R.layout.pets_list, petList));
                 //llamar desde la lista de pets al fragment EditPet

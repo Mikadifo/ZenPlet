@@ -7,7 +7,7 @@
     android:background="@color/colorLightBackground">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imgPet"
         android:layout_width="85dp"
         android:layout_height="120dp"
         android:layout_marginStart="24dp"
@@ -28,7 +28,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/imgPet"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -40,7 +40,7 @@
         android:fontFamily="@font/ptsans"
         android:text="Type"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/imgPet"
         app:layout_constraintTop_toBottomOf="@+id/textViewNamePetsNew" />
 
     <TextView
@@ -65,6 +65,6 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/imgPet"
         app:layout_constraintTop_toBottomOf="@+id/textViewTypePetsNew" />
 </androidx.constraintlayout.widget.ConstraintLayout>

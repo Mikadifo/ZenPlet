@@ -1,5 +1,8 @@
 package com.mikadifo.zenplet.ui.account;
 
+import android.accounts.Account;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -17,10 +20,13 @@ import android.widget.Toast;
 import com.mikadifo.zenplet.API.CallWithToken;
 import com.mikadifo.zenplet.API.model.Owner;
 import com.mikadifo.zenplet.API.service.OwnerService;
+import com.mikadifo.zenplet.API.service.PetService;
+import com.mikadifo.zenplet.MainActivity;
 import com.mikadifo.zenplet.R;
 import com.mikadifo.zenplet.nav.BottomNavActivity;
 import com.mikadifo.zenplet.ui.LogInActivity;
 import com.mikadifo.zenplet.ui.SignUpActivity;
+import com.mikadifo.zenplet.ui.pets.FragmentPets;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -91,6 +97,17 @@ public class Account1 extends Fragment {
         email.setText(SignUpActivity.ownerNew.getOwnerEmail());
         phone.setText(SignUpActivity.ownerNew.getOwnerPhoneNumber());
         Button btns = root.findViewById(R.id.btnSave);
+        Button btnChangePassword = root.findViewById(R.id.btnChangePassword3);
+        btnChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment, new ChangePassword());
+                fragmentTransaction.commit();
+            }
+        });
         btns.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,8 +161,53 @@ public class Account1 extends Fragment {
             }
 
         });
+        Button btnd = root.findViewById(R.id.btnDeleteAccount);
+        btnd.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                System.out.println("id "+ SignUpActivity.ownerNew.getOwnerId());
+                CallWithToken callWithToken= new CallWithToken();
+                Retrofit retrofit = callWithToken.getCallToken();
+                OwnerService ownerService = retrofit.create(OwnerService.class);
+                AlertDialog.Builder dialogo1 = new AlertDialog.Builder(getContext());
+                dialogo1.setTitle("Important");
+                dialogo1.setMessage("Are you sure to remove this Account?");
+                dialogo1.setCancelable(false);
+                dialogo1.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
 
+                        Call<Void> call = ownerService.deleteOwner(SignUpActivity.ownerNew.getOwnerId());
+                        call.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                System.out.println("Hola");
+                                SignUpActivity.ownerNew= new Owner();
+                                dialogo1.dismiss();
+                                Toast.makeText(view.getContext(), "Successfully delete", Toast.LENGTH_LONG).show();
+                                startActivity(
+                                        new Intent(root.getContext(), MainActivity.class)
+                                );
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                try {
+                                    throw t;
+                                } catch (Throwable throwable) {
+                                    throwable.printStackTrace();
+                                }
+                            }
+
+
+                        });
+                    }
+                })
+                        .setNegativeButton("No",null).show();
+            }
+        });
         return root;
     }
+
 
 }

@@ -8,12 +8,16 @@ import com.mikadifo.zenplet.API.service.OwnerService;
 import com.mikadifo.zenplet.R;
 import com.mikadifo.zenplet.nav.BottomNavActivity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,12 +55,27 @@ public class LogInActivity extends AppCompatActivity {
         call.enqueue(new Callback<Owner>() {
             @Override
             public void onResponse(Call<Owner> call, Response<Owner> response) {
-                CallWithToken.token = response.body().getToken();
-                System.out.println("este dice nulo?"+SignUpActivity.ownerNew.getOwnerPets());
-                SignUpActivity.ownerNew = response.body();
-                startActivity(
-                        new Intent(LogInActivity.this, BottomNavActivity.class)
-                );
+                if (response.body().getOwnerId()!=0){
+                    CallWithToken.token = response.body().getToken();
+                    System.out.println("este dice nulo?"+SignUpActivity.ownerNew.getOwnerPets());
+                    SignUpActivity.ownerNew = response.body();
+                    startActivity(
+                            new Intent(LogInActivity.this, BottomNavActivity.class)
+                    );
+                }else{
+                    AlertDialog.Builder dialogo1 = new AlertDialog.Builder(LogInActivity.this);
+                    dialogo1.setTitle("Important");
+                    dialogo1.setMessage("This user is not registered");
+                    dialogo1.setIcon(R.drawable.ic_logo);
+                    dialogo1.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(getApplicationContext(),"Ok Button", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    dialogo1.show();
+                }
+
 
             }
 
