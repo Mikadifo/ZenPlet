@@ -80,9 +80,7 @@ public class Vaccines extends Fragment {
         List<PetVaccine> petVaccineslist= new ArrayList<>();
 
         for(Pet pet:SignUpActivity.ownerNew.getOwnerPets()) {
-            for (PetVaccine petVaccine : pet.getPetVaccines()) {
-                petVaccineslist.add(petVaccine);
-            }
+            petVaccineslist.addAll(pet.getPetVaccines());
         }
 
         ListView list=root.findViewById(R.id.ListVaccines);
