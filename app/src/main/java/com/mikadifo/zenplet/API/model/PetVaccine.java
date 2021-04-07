@@ -14,6 +14,8 @@ public class PetVaccine {
 
     private Pet pet;
 
+    public PetVaccine() {
+    }
 
     public void setPetVaccinesId(Long petVaccinesId) {
         id = id;

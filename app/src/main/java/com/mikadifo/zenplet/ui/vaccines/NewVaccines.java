@@ -1,5 +1,7 @@
 package com.mikadifo.zenplet.ui.vaccines;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,9 +11,30 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Spinner;
 
+import com.mikadifo.zenplet.API.CallWithToken;
+import com.mikadifo.zenplet.API.model.Pet;
+import com.mikadifo.zenplet.API.model.PetVaccine;
+import com.mikadifo.zenplet.API.model.Vaccine;
+import com.mikadifo.zenplet.API.service.PetVaccineService;
+import com.mikadifo.zenplet.API.service.VaccineService;
 import com.mikadifo.zenplet.R;
+import com.mikadifo.zenplet.ui.SignUpActivity;
+import com.mikadifo.zenplet.ui.pets.FragmentPets;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +42,10 @@ import com.mikadifo.zenplet.R;
  * create an instance of this fragment.
  */
 public class NewVaccines extends Fragment {
+    private Vaccine vaccine = new Vaccine();
+    private PetVaccine petVaccine = new PetVaccine();
+    private Pet petForVaccine = new Pet();
+    private Pet selectedPet;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -65,10 +92,120 @@ public class NewVaccines extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_new_vaccines, container, false);
+        Spinner spinnerVaccinesForPet = (Spinner) root.findViewById(R.id.spinnerVaccinesForPet);
+        ArrayAdapter<Pet> arrayAdapter = new ArrayAdapter(root.getContext(), R.layout.support_simple_spinner_dropdown_item,SignUpActivity.ownerNew.getOwnerPets().toArray());
+        arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinnerVaccinesForPet.setAdapter(arrayAdapter);
+        spinnerVaccinesForPet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println(position);
+                selectedPet = (Pet) spinnerVaccinesForPet.getItemAtPosition(position);
+                System.out.println(selectedPet);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        EditText nameVaccines = root.findViewById(R.id.new_name_vaccines);
+        EditText date = root.findViewById(R.id.new_date_vaccine);
+        EditText dateNext = root.findViewById(R.id.new_next_vaccines);
+        EditText nameDescription = root.findViewById(R.id.new_description_vaccines);
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int day,month,year;
+                Calendar calendar = Calendar.getInstance();
+                day=calendar.get(Calendar.DAY_OF_MONTH);
+                month=calendar.get(Calendar.MONTH);
+                year=calendar.get(Calendar.YEAR);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        date.setText(dayOfMonth+"/"+(month+1)+"/"+year);
+                    }
+                },day,month,year);
+                datePickerDialog.show();
+            }
+        });
+        dateNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int day,month,year;
+                Calendar calendar = Calendar.getInstance();
+                day=calendar.get(Calendar.DAY_OF_MONTH);
+                month=calendar.get(Calendar.MONTH);
+                year=calendar.get(Calendar.YEAR);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        dateNext.setText(dayOfMonth+"/"+(month+1)+"/"+year);
+                    }
+                },day,month,year);
+                datePickerDialog.show();
+            }
+        });
         Button btn = root.findViewById(R.id.buttonSaveVaccines);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                CallWithToken callWithToken = new CallWithToken();
+                Retrofit retrofit = callWithToken.getCallToken();
+                vaccine.setVaccinesName(nameVaccines.getText().toString());
+                vaccine.setVaccinesDescription(nameDescription.getText().toString());
+                //petVaccine.setPet(FragmentPets.selectedPet);
+                VaccineService vaccineService = retrofit.create(VaccineService.class);
+                Call<Vaccine> call = vaccineService.saveVaccines(vaccine);
+                call.enqueue(new Callback<Vaccine>() {
+                    @Override
+                    public void onResponse(Call<Vaccine> call, Response<Vaccine> response) {
+                        System.out.println("hey si sirve la vacuna nomas");
+                        vaccine = response.body();
+                        for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()){
+                            if (pet.getPetId() == selectedPet.getPetId()){
+                            petForVaccine = pet;
+                            }
+                        }
+
+                        petVaccine.setPetVaccineDate(date.getText().toString());
+                        petVaccine.setPetVaccineNext(dateNext.getText().toString());
+                        petVaccine.setVaccine(vaccine);
+                        petVaccine.setPet(petForVaccine);
+                        System.out.println(petVaccine);
+                        CallWithToken callWithToken = new CallWithToken();
+                        Retrofit retrofit = callWithToken.getCallToken();
+                        PetVaccineService petVaccineService = retrofit.create(PetVaccineService.class);
+                        Call<PetVaccine> petVaccineCall = petVaccineService.savePetVaccines(petVaccine);
+                        petVaccineCall.enqueue(new Callback<PetVaccine>() {
+                            @Override
+                            public void onResponse(Call<PetVaccine> call, Response<PetVaccine> response) {
+                                System.out.println(response.body());
+                                petVaccine = response.body();
+                                System.out.println("sirve todo al 10000");
+                                for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()){
+                                    if (petForVaccine.getPetId()==response.body().getId().getPetId()){
+                                        pet.getPetVaccines().add(petVaccine);
+                                    }
+                                }
+                                System.out.println("si se cumplio todo");
+                            }
+
+                            @Override
+                            public void onFailure(Call<PetVaccine> call, Throwable t) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFailure(Call<Vaccine> call, Throwable t) {
+
+                    }
+                });
+
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager
                         .beginTransaction()

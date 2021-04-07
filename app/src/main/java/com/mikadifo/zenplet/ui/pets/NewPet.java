@@ -162,8 +162,6 @@ public class NewPet extends Fragment {
                     public void onResponse(Call<Pet> call, Response<Pet> response) {
                         pet=response.body();
                         SignUpActivity.ownerNew.getOwnerPets().add(pet);
-                        System.out.println(response.body());
-                        System.out.println(pet);
                         OwnerService ownerService = retrofit.create(OwnerService.class);
                         Call<Owner> callUpdateFirstOwner = ownerService.updateOwner(SignUpActivity.ownerNew.getOwnerId(), SignUpActivity.ownerNew);
                         callUpdateFirstOwner.enqueue(new Callback<Owner>() {

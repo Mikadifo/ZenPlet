@@ -8,6 +8,39 @@
     android:background="@color/colorLightBackground"
     tools:context=".ui.vaccines.EditVaccines">
 
+    <TextView
+        android:id="@+id/VaccineePetLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="50dp"
+        android:fontFamily="@font/ptsans"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="50dp"
+        android:fontFamily="@font/ptsans"
+        android:text="@string/StrVaccineForPet"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_description_vaccines" />
+
     <Button
         android:id="@+id/deleteVaccine"
         android:layout_width="match_parent"
@@ -31,7 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="100dp"
         android:background="@drawable/ic_button"
         android:fontFamily="@font/ptsans"
@@ -42,7 +75,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_description_vaccines" />
+        app:layout_constraintTop_toBottomOf="@+id/VaccineePetLabel" />
 
     <TextView
         android:id="@+id/textView20"
