@@ -9,8 +9,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 
+import com.mikadifo.zenplet.API.model.LostPet;
+import com.mikadifo.zenplet.API.model.Pet;
+import com.mikadifo.zenplet.API.model.PetVaccine;
+import com.mikadifo.zenplet.API.service.LosPetAdapter;
+import com.mikadifo.zenplet.API.service.PetAdapter;
+import com.mikadifo.zenplet.API.service.VaccinesAdapter;
 import com.mikadifo.zenplet.R;
+import com.mikadifo.zenplet.ui.SignUpActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,6 +77,15 @@ public class Vaccines extends Fragment {
         // Inflate the layout for this fragment
 
         View root = inflater.inflate(R.layout.fragment_vaccines, container, false);
+        List<PetVaccine> petVaccineslist= new ArrayList<>();
+
+        for(Pet pet:SignUpActivity.ownerNew.getOwnerPets()) {
+            petVaccineslist.addAll(pet.getPetVaccines());
+        }
+
+        ListView list=root.findViewById(R.id.ListVaccines);
+        list.setAdapter(new VaccinesAdapter(root.getContext(),R.layout.vaccines_list, petVaccineslist ));
+
         Button btn = root.findViewById(R.id.butNewVaccines);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override

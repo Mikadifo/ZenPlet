@@ -21,33 +21,37 @@ import com.mikadifo.zenplet.R;
 
 import java.util.List;
 
+<<<<<<< HEAD
 /*public class VaccinesAdapter extends ArrayAdapter<Vaccine> {
+=======
+public class VaccinesAdapter extends ArrayAdapter<PetVaccine> {
+>>>>>>> fert
     private Context context;
     private List<PetVaccine> petVaccines;
 
 
-    public VaccinesAdapter(@NonNull Context context, @LayoutRes int resource,  @NonNull List<PetVaccine> vaccines){
+    public VaccinesAdapter(@NonNull Context context, @LayoutRes int resource,  @NonNull List<PetVaccine> objects){
         super(context, resource, objects);
         this.context = context;
-        this.vaccines = objects;
-        this.petVaccines=vaccines;
+        this.petVaccines = objects;
+
     }
 
     @Override
     public View getView(final int pos, View convertView, ViewGroup parent){
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View rowView = inflater.inflate(R.layout.pets_list, parent, false);
+        View rowView = inflater.inflate(R.layout.vaccines_list, parent, false);
 
         TextView txtNameV = (TextView) rowView.findViewById(R.id.nameText);
         TextView txtDate = (TextView) rowView.findViewById(R.id.dateText);
         TextView txtNext = (TextView) rowView.findViewById(R.id.nextText);
         TextView txtDescription = (TextView) rowView.findViewById(R.id.descText);
 
-        txtNameV.setText(vaccines.get(pos).getVaccinesName());
+        txtNameV.setText(petVaccines.get(pos).getVaccine().getVaccinesName());
         txtDate.setText(petVaccines.get(pos).getPetVaccineDate());
         txtNext.setText(petVaccines.get(pos).getPetVaccineNext());
-        txtDescription.setText(vaccines.get(pos).getVaccinesDescription());
+        txtDescription.setText(petVaccines.get(pos).getVaccine().getVaccinesDescription());
 
     return rowView;
     }

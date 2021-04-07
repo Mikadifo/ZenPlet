@@ -96,7 +96,7 @@ public class LostPetsList extends Fragment {
                 if (response.body() != null){
                     for (LostPet lostPet: response.body()){
                         List<LostPet> lostPetList = new ArrayList<LostPet>(response.body());
-                        listView.setAdapter(new LosPetAdapter(getContext(), R.layout.list_lost_pets, lostPetList));
+                        listView.setAdapter(new LosPetAdapter(root.getContext(), R.layout.list_lost_pets, lostPetList));
                     }
                 }
             }
