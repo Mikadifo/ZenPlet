@@ -5,15 +5,16 @@ public class LostPet {
     private LostPetId id = new LostPetId();
     private Pet pet;
     private Owner owner;
+    private String lostPetLocation;
     private String lostPetAdditionalInfo;
 
     public LostPet() {
     }
 
-    public LostPet(LostPetId id, Pet pet, Owner owner, String lostPetAdditionalInfo) {
-        this.id = id;
+    public LostPet(Pet pet, Owner owner, String lostPetLocation, String lostPetAdditionalInfo) {
         this.pet = pet;
         this.owner = owner;
+        this.lostPetLocation = lostPetLocation;
         this.lostPetAdditionalInfo = lostPetAdditionalInfo;
     }
 
@@ -21,6 +22,14 @@ public class LostPet {
         this.owner = owner;
         this.pet = pet;
         this.lostPetAdditionalInfo = lostPetAdditionalInfo;
+    }
+
+    public String getLostPetLocation() {
+        return lostPetLocation;
+    }
+
+    public void setLostPetLocation(String lostPetLocation) {
+        this.lostPetLocation = lostPetLocation;
     }
 
     public String getLostPetAdditionalInfo() {
