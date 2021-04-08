@@ -166,6 +166,7 @@ public class EditPet extends Fragment {
                     public void onResponse(Call<Pet> call, Response<Pet> response) {
                         Toast.makeText(view.getContext(), "The data has been updated successfully", Toast.LENGTH_LONG).show();
                         System.out.println(response.body());
+
                         FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager
                                 .beginTransaction()
@@ -185,8 +186,6 @@ public class EditPet extends Fragment {
                 });
             }
         });
-
-
         //Asignar metodos a los botones
         Button openCameraBtn = root.findViewById(R.id.btnAbrirCamara);
         Button openGalleryBtn = root.findViewById(R.id.btnAbrirGaleria);

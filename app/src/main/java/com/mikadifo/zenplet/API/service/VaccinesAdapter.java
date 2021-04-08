@@ -21,11 +21,9 @@ import com.mikadifo.zenplet.R;
 
 import java.util.List;
 
-<<<<<<< HEAD
-/*public class VaccinesAdapter extends ArrayAdapter<Vaccine> {
-=======
+
 public class VaccinesAdapter extends ArrayAdapter<PetVaccine> {
->>>>>>> fert
+
     private Context context;
     private List<PetVaccine> petVaccines;
 
@@ -57,4 +55,4 @@ public class VaccinesAdapter extends ArrayAdapter<PetVaccine> {
     }
 
 
-}*/
+}
