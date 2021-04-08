@@ -44,6 +44,8 @@
 
     <EditText
         android:id="@+id/new_next_vaccines"
+        android:focusable="false"
+        android:clickable="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
@@ -167,6 +169,8 @@
 
     <EditText
         android:id="@+id/new_date_vaccine"
+        android:focusable="false"
+        android:clickable="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
