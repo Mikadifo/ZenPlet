@@ -69,5 +69,6 @@
     <string name="StringTituloPetOwner">Add the owner\'s email</string>
     <string name="btnOk">Accept</string>
     <string name="btnCancelar">Cancel</string>
+    <string name="mapbox_access_token">MAPBOX_ACCESS_TOKEN</string>
     <string name="StrVaccineForPet">Vaccine For:</string>
 </resources>
