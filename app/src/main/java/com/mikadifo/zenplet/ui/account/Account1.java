@@ -180,7 +180,6 @@ public class Account1 extends Fragment {
                         call.enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
-                                System.out.println("Hola");
                                 SignUpActivity.ownerNew= new Owner();
                                 dialogo1.dismiss();
                                 Toast.makeText(view.getContext(), "Successfully delete", Toast.LENGTH_LONG).show();

@@ -158,7 +158,7 @@ public class NewVaccines extends Fragment {
                 call.enqueue(new Callback<Vaccine>() {
                     @Override
                     public void onResponse(Call<Vaccine> call, Response<Vaccine> response) {
-                        System.out.println("hey si sirve la vacuna nomas");
+                        System.out.println(response.body());
                         vaccine = response.body();
                         for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()){
                             if (pet.getPetId() == selectedPet.getPetId()){

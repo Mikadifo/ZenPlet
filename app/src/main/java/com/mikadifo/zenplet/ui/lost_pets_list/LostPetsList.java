@@ -84,7 +84,6 @@ public class LostPetsList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_lost_pets_list, container, false);
-        System.out.println("ajhsdjadjasdjasd entro a lost pets");
         ListView listView =root.findViewById(R.id.list_lost_pets);
         CallWithToken callWithToken = new CallWithToken();
         Retrofit retrofit = callWithToken.getCallToken();
