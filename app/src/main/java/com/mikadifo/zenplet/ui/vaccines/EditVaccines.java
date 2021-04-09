@@ -16,11 +16,13 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mikadifo.zenplet.API.CallWithToken;
 import com.mikadifo.zenplet.API.model.Pet;
 import com.mikadifo.zenplet.API.model.PetVaccine;
+import com.mikadifo.zenplet.API.model.PetVaccinesId;
 import com.mikadifo.zenplet.API.model.Vaccine;
 import com.mikadifo.zenplet.API.service.PetService;
 import com.mikadifo.zenplet.API.service.PetVaccineService;
@@ -50,8 +52,8 @@ public class EditVaccines extends Fragment {
     private Pet selectedPet;
     private PetVaccine petVaccine = new PetVaccine();
     private Pet petForVaccine = new Pet();
-    private Vaccine vaccine = new Vaccine();
-
+    private Pet petVaccineSelected = new Pet();
+    private Vaccine vaccineToUpdate;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -93,149 +95,149 @@ public class EditVaccines extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_edit_vaccines, container, false);
-        Spinner spinnerVaccinesForPet = (Spinner) root.findViewById(R.id.spinnerVaccinesForPet);
-        ArrayAdapter<Pet> arrayAdapter = new ArrayAdapter(root.getContext(),
-                R.layout.support_simple_spinner_dropdown_item,
-                SignUpActivity.ownerNew.getOwnerPets().toArray());
-        arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spinnerVaccinesForPet.setAdapter(arrayAdapter);
-        spinnerVaccinesForPet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println(position);
-                selectedPet = (Pet) spinnerVaccinesForPet.getItemAtPosition(position);
-                System.out.println(selectedPet);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        EditText nameVaccines = root.findViewById(R.id.new_name_vaccines);
-        EditText date = root.findViewById(R.id.new_date_vaccine);
-        EditText dateNext = root.findViewById(R.id.new_next_vaccines);
-        EditText nameDescription = root.findViewById(R.id.new_description_vaccines);
+        TextView txtPetFor = root.findViewById(R.id.VaccineePetLabel);
+        EditText nameVaccines = root.findViewById(R.id.edit_name_vaccines);
+        EditText date = root.findViewById(R.id.edit_date_vaccine);
+        EditText dateNext = root.findViewById(R.id.edit_next_vaccines);
+        EditText nameDescription = root.findViewById(R.id.edit_description_vaccines);
 
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int day,month,year;
+                int day, month, year;
                 Calendar calendar = Calendar.getInstance();
-                day=calendar.get(Calendar.DAY_OF_MONTH);
-                month=calendar.get(Calendar.MONTH);
-                year=calendar.get(Calendar.YEAR);
+                day = calendar.get(Calendar.DAY_OF_MONTH);
+                month = calendar.get(Calendar.MONTH);
+                year = calendar.get(Calendar.YEAR);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
                         new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        date.setText(dayOfMonth+"/"+(month+1)+"/"+year);
-                    }
-                },day,month,year);
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                date.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+                            }
+                        }, day, month, year);
                 datePickerDialog.show();
             }
         });
         dateNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int day,month,year;
+                int day, month, year;
                 Calendar calendar = Calendar.getInstance();
-                day=calendar.get(Calendar.DAY_OF_MONTH);
-                month=calendar.get(Calendar.MONTH);
-                year=calendar.get(Calendar.YEAR);
+                day = calendar.get(Calendar.DAY_OF_MONTH);
+                month = calendar.get(Calendar.MONTH);
+                year = calendar.get(Calendar.YEAR);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
                         new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        dateNext.setText(dayOfMonth+"/"+(month+1)+"/"+year);
-                    }
-                },day,month,year);
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                dateNext.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+                            }
+                        }, day, month, year);
                 datePickerDialog.show();
             }
         });
+        for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()) {
+            if (pet.getPetId() == Vaccines.selectedPetVaccine.getId().getPetId()) {
+                petVaccineSelected = pet;
+            }
+        }
+
         //mostrar los datos para poder editar
-        nameVaccines.setText(vaccine.getVaccinesName());
-        nameDescription.setText(vaccine.getVaccinesDescription());
-        date.setText(petVaccine.getPetVaccineDate());
-        dateNext.setText(petVaccine.getPetVaccineDate());
-        //Guardar los datos editados
-        Button btn = root.findViewById(R.id.buttonSaveVaccines);
+        nameVaccines.setText(Vaccines.selectedPetVaccine.getVaccine().getVaccinesName());
+        nameDescription.setText(Vaccines.selectedPetVaccine.getVaccine().getVaccinesDescription());
+        date.setText(Vaccines.selectedPetVaccine.getPetVaccineDate());
+        dateNext.setText(Vaccines.selectedPetVaccine.getPetVaccineNext());
+        txtPetFor.setText(petVaccineSelected.getPetName());
+
+        Button btn = root.findViewById(R.id.saveVaccine);
         btn.setOnClickListener(new View.OnClickListener() {
-                                   @Override
-                                   public void onClick(View view) {
-                                       CallWithToken callWithToken = new CallWithToken();
-                                       Retrofit retrofit = callWithToken.getCallToken();
-                                       vaccine.setVaccinesName(nameVaccines.getText().toString());
-                                       vaccine.setVaccinesDescription(nameDescription.getText().toString());
-                                       VaccineService vaccineService = retrofit.create(VaccineService.class);
-                                       Call<Vaccine> call = vaccineService.updateVaccine(petForVaccine.getPetId(),vaccine);
-                                       call.enqueue(new Callback<Vaccine>() {
-                                           @Override
-                                           public void onResponse(Call<Vaccine> call, Response<Vaccine> response) {
-                                               vaccine = response.body();
-                                               for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()) {
-                                                   if (pet.getPetId() == selectedPet.getPetId()) {
-                                                       petForVaccine = pet;
-                                                   }
-                                               }
-                                               petVaccine.setPetVaccineDate(date.getText().toString());
-                                               petVaccine.setPetVaccineNext(dateNext.getText().toString());
-                                               petVaccine.setVaccine(vaccine);
-                                               petVaccine.setPet(petForVaccine);
-                                               System.out.println(petVaccine);
-                                               CallWithToken callWithToken = new CallWithToken();
-                                               Retrofit retrofit = callWithToken.getCallToken();
-                                               PetVaccineService petVaccineService = retrofit.create(PetVaccineService.class);
-                                               Call<PetVaccine> petVaccineCall = petVaccineService.updatePetVaccines(petForVaccine.getPetId(),
-                                                       petVaccine.getVaccine().
-                                                               getVaccinesId(),
-                                                       petVaccine);
-                                               petVaccineCall.enqueue(new Callback<PetVaccine>() {
-                                                   @Override
-                                                   public void onResponse(Call<PetVaccine> call, Response<PetVaccine> response) {
-                                                      petVaccine = response.body();
-                                                       for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()){
-                                                           if (petForVaccine.getPetId()==response.body().getId().getPetId()){
-                                                               pet.getPetVaccines().add(petVaccine);
-                                                           }
-                                                       }
-                                                       Toast.makeText(view.getContext(),
-                                                               "The data has been updated successfully",
-                                                               Toast.LENGTH_LONG).show();
-                                                      //llevar al fragmento vaccines
-                                                       FragmentManager fragmentManager = getFragmentManager();
-                                                       FragmentTransaction fragmentTransaction = fragmentManager
-                                                               .beginTransaction()
-                                                               .replace(R.id.nav_host_fragment, new Vaccines());
-                                                       fragmentTransaction.commit();
-                                                   }
+            @Override
+            public void onClick(View view) {
+                CallWithToken callWithToken = new CallWithToken();
+                Retrofit retrofit = callWithToken.getCallToken();
+                vaccineToUpdate = Vaccines.selectedPetVaccine.getVaccine();
+                vaccineToUpdate.setVaccinesName(nameVaccines.getText().toString());
+                vaccineToUpdate.setVaccinesDescription(nameDescription.getText().toString());
+                VaccineService vaccineService = retrofit.create(VaccineService.class);
+                Call<Vaccine> call = vaccineService.updateVaccine(vaccineToUpdate.getVaccinesId(), vaccineToUpdate);
+                call.enqueue(new Callback<Vaccine>() {
+                    @Override
+                    public void onResponse(Call<Vaccine> call, Response<Vaccine> response) {
+                        System.out.println(response.body());
+                        vaccineToUpdate = response.body();
+                        petVaccine.setId(new PetVaccinesId(petVaccineSelected.getPetId(), 0L));
+                        petVaccine.setPetVaccineDate(date.getText().toString());
+                        petVaccine.setPetVaccineNext(dateNext.getText().toString());
+                        petVaccine.setVaccine(vaccineToUpdate);
 
-                                                   @Override
-                                                   public void onFailure(Call<PetVaccine> call, Throwable t) {
-                                                       try {
-                                                           throw t;
-                                                       } catch (Throwable throwable) {
-                                                           throwable.printStackTrace();
-                                                       }
-                                                   }
-                                               });
-                                           }
+                        CallWithToken callWithToken = new CallWithToken();
+                        Retrofit retrofit = callWithToken.getCallToken();
+                        PetVaccineService petVaccineService = retrofit.create(PetVaccineService.class);
+                        Call<PetVaccine> petVaccineCall
+                                = petVaccineService.updatePetVaccines(
+                                        petVaccine.getId().getPetId(),
+                                        petVaccine.getVaccine().
+                                        getVaccinesId(),
+                                        petVaccine
+                        );
+                        petVaccineCall.enqueue(new Callback<PetVaccine>() {
+                            @Override
+                            public void onResponse(Call<PetVaccine> call, Response<PetVaccine> response) {
+                                System.out.println(response.body() + "body response de pet vaccine updated");
+                                petVaccine = response.body();
 
-                                           @Override
-                                           public void onFailure(Call<Vaccine> call, Throwable t) {
-                                               try {
-                                                   throw t;
-                                               } catch (Throwable throwable) {
-                                                   throwable.printStackTrace();
-                                               }
-                                           }
-                                       });
+                                PetVaccine beforePetVaccine = new PetVaccine();
+                                for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()) {
+                                    if (pet.getPetId() == response.body().getId().getPetId()) {
+                                        for (PetVaccine currentPetVaccine : pet.getPetVaccines()) {
+                                            if (currentPetVaccine.getVaccine().getVaccinesId() == response.body().getId().getVaccineId()) {
+                                                beforePetVaccine = currentPetVaccine;
+                                            }
+                                        }
+                                        pet.getPetVaccines().remove(beforePetVaccine);
+                                        pet.getPetVaccines().add(response.body());
+                                    }
+                                }
 
-                                   }
-                               });
+                                Toast.makeText(view.getContext(),
+                                        "The vaccine has been updated successfully",
+                                        Toast.LENGTH_LONG).show();
+                                //llevar al fragmento vaccines
+                                FragmentManager fragmentManager = getFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager
+                                        .beginTransaction()
+                                        .replace(R.id.nav_host_fragment, new Vaccines());
+                                fragmentTransaction.commit();
+                            }
 
-        //borrar vacuna
+                            @Override
+                            public void onFailure(Call<PetVaccine> call, Throwable t) {
+                                try {
+                                    throw t;
+                                } catch (Throwable throwable) {
+                                    throwable.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFailure(Call<Vaccine> call, Throwable t) {
+                        try {
+                            throw t;
+                        } catch (Throwable throwable) {
+                            throwable.printStackTrace();
+                        }
+                    }
+                });
+
+            }
+        });
+
+
         Button btnde = root.findViewById(R.id.deleteVaccine);
         btnde.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,43 +245,26 @@ public class EditVaccines extends Fragment {
                 CallWithToken callWithToken = new CallWithToken();
                 Retrofit retrofit = callWithToken.getCallToken();
                 VaccineService vaccineService = retrofit.create(VaccineService.class);
-                Call<Vaccine> vaccineCall =
-                        vaccineService.deleteVaccine(vaccine.getVaccinesId());
-                vaccineCall.enqueue(new Callback<Vaccine>() {
-                                           @Override
-                                           public void onResponse(Call<Vaccine> call,
-                                                                  Response<Vaccine> response) {
-                                               PetVaccineService petvaccineService = retrofit.create(PetVaccineService.class);
-                                               Call<PetVaccine> vaccineCall =
-                                                       petvaccineService.deletePetVaccines(petForVaccine.getPetId());
-                                               vaccineCall.enqueue(new Callback<PetVaccine>() {
-
-                                                   @Override
-                                                   public void onResponse(Call<PetVaccine> call, Response<PetVaccine> response) {
-
-
-                                                       FragmentManager fragmentManager = getFragmentManager();
-                                                       FragmentTransaction fragmentTransaction = fragmentManager
-                                                               .beginTransaction()
-                                                               .replace(R.id.nav_host_fragment, new Vaccines());
-                                                       fragmentTransaction.commit();
-                                                   }
-
-                                                   @Override
-                                                   public void onFailure(Call<PetVaccine> call, Throwable t) {
-                                                       try {
-                                                           throw t;
-                                                       } catch (Throwable throwable) {
-                                                           throwable.printStackTrace();
-                                                       }
-                                                   }
-
-
-                                               });
-                                           }
+                Call<Void> vaccineCall = vaccineService.deleteVaccine(Vaccines.selectedPetVaccine.getVaccine().getVaccinesId());
+                vaccineCall.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call,
+                                           Response<Void> response) {
+                        petVaccineSelected.getPetVaccines().remove(Vaccines.selectedPetVaccine);
+                        for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()) {
+                            if (pet.getPetId() == petForVaccine.getPetId()) {
+                                pet.setPetVaccines(petForVaccine.getPetVaccines());
+                            }
+                        }
+                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager
+                                .beginTransaction()
+                                .replace(R.id.nav_host_fragment, new Vaccines());
+                        fragmentTransaction.commit();
+                    }
 
                     @Override
-                    public void onFailure(Call<Vaccine> call, Throwable t) {
+                    public void onFailure(Call<Void> call, Throwable t) {
                         try {
                             throw t;
                         } catch (Throwable throwable) {

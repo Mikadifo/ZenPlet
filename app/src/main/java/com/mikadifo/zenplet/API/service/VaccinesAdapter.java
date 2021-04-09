@@ -51,7 +51,7 @@ public class VaccinesAdapter extends ArrayAdapter<PetVaccine> {
         txtNext.setText(petVaccines.get(pos).getPetVaccineNext());
         txtDescription.setText(petVaccines.get(pos).getVaccine().getVaccinesDescription());
 
-    return rowView;
+        return rowView;
     }
 
 

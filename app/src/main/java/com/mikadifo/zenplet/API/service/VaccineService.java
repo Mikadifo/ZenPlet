@@ -26,5 +26,5 @@ public interface VaccineService {
     Call<Vaccine> updateVaccine(@Path("id") long id, @Body Vaccine vaccine);
 
     @DELETE("/api/delete-vaccine/{id}")
-    Call deleteVaccine(@Path("id") long id);
+    Call<Void> deleteVaccine(@Path("id") long id);
 }

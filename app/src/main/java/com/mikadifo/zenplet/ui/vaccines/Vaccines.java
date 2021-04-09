@@ -8,12 +8,14 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
 import com.mikadifo.zenplet.API.model.LostPet;
 import com.mikadifo.zenplet.API.model.Pet;
 import com.mikadifo.zenplet.API.model.PetVaccine;
+import com.mikadifo.zenplet.API.model.Vaccine;
 import com.mikadifo.zenplet.API.service.LosPetAdapter;
 import com.mikadifo.zenplet.API.service.PetAdapter;
 import com.mikadifo.zenplet.API.service.VaccinesAdapter;
@@ -39,6 +41,9 @@ public class Vaccines extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    public static PetVaccine selectedPetVaccine;
+    private View root;
 
     /**
      * Use this factory method to create a new instance of
@@ -76,15 +81,19 @@ public class Vaccines extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View root = inflater.inflate(R.layout.fragment_vaccines, container, false);
+        root = inflater.inflate(R.layout.fragment_vaccines, container, false);
         List<PetVaccine> petVaccineslist= new ArrayList<>();
-
         for(Pet pet:SignUpActivity.ownerNew.getOwnerPets()) {
-            petVaccineslist.addAll(pet.getPetVaccines());
+            if (pet.getPetVaccines() != null) {
+                petVaccineslist.addAll(pet.getPetVaccines());
+            }
         }
 
-        ListView list=root.findViewById(R.id.ListVaccines);
-        list.setAdapter(new VaccinesAdapter(root.getContext(),R.layout.vaccines_list, petVaccineslist ));
+        if (!petVaccineslist.isEmpty()) {
+            ListView list=root.findViewById(R.id.ListVaccines);
+            list.setAdapter(new VaccinesAdapter(root.getContext(),R.layout.vaccines_list, petVaccineslist ));
+            list.setOnItemClickListener(vaccineListener);
+        }
 
         Button btn = root.findViewById(R.id.butNewVaccines);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -99,5 +108,16 @@ public class Vaccines extends Fragment {
         });
         return root;
     }
+
+    private AdapterView.OnItemClickListener vaccineListener= (adapterView, view, position, id) -> {
+        selectedPetVaccine = (PetVaccine) adapterView.getItemAtPosition(position);
+        System.out.println("Este es cuando selecciona vaccine" + selectedPetVaccine);
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager
+                .beginTransaction()
+                .replace(R.id.nav_host_fragment, new EditVaccines());
+        fragmentTransaction.commit();
+    };
+
 
 }

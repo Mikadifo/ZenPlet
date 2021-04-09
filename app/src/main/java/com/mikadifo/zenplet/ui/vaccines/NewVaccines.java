@@ -1,6 +1,5 @@
 package com.mikadifo.zenplet.ui.vaccines;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 
@@ -26,9 +25,6 @@ import com.mikadifo.zenplet.API.service.PetVaccineService;
 import com.mikadifo.zenplet.API.service.VaccineService;
 import com.mikadifo.zenplet.R;
 import com.mikadifo.zenplet.ui.SignUpActivity;
-import com.mikadifo.zenplet.ui.pets.FragmentPets;
-
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import retrofit2.Call;
@@ -44,7 +40,7 @@ import retrofit2.Retrofit;
 public class NewVaccines extends Fragment {
     private Vaccine vaccine = new Vaccine();
     private PetVaccine petVaccine = new PetVaccine();
-    private Pet petForVaccine = new Pet();
+    public Pet petForVaccine = new Pet();
     private Pet selectedPet;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -166,7 +162,7 @@ public class NewVaccines extends Fragment {
                         vaccine = response.body();
                         for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()){
                             if (pet.getPetId() == selectedPet.getPetId()){
-                            petForVaccine = pet;
+                                petForVaccine = pet;
                             }
                         }
 
@@ -184,13 +180,16 @@ public class NewVaccines extends Fragment {
                             public void onResponse(Call<PetVaccine> call, Response<PetVaccine> response) {
                                 System.out.println(response.body());
                                 petVaccine = response.body();
-                                System.out.println("sirve todo al 10000");
                                 for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()){
                                     if (petForVaccine.getPetId()==response.body().getId().getPetId()){
                                         pet.getPetVaccines().add(petVaccine);
                                     }
                                 }
-                                System.out.println("si se cumplio todo");
+                                FragmentManager fragmentManager = getFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager
+                                        .beginTransaction()
+                                        .replace(R.id.nav_host_fragment, new Vaccines());
+                                fragmentTransaction.commit();
                             }
 
                             @Override
@@ -205,12 +204,6 @@ public class NewVaccines extends Fragment {
 
                     }
                 });
-
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager
-                        .beginTransaction()
-                        .replace(R.id.nav_host_fragment, new Vaccines());
-                fragmentTransaction.commit();
             }
         });
         return root;

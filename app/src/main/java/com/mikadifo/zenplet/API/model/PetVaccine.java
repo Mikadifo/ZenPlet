@@ -17,10 +17,6 @@ public class PetVaccine {
     public PetVaccine() {
     }
 
-    public void setPetVaccinesId(Long petVaccinesId) {
-        id = id;
-    }
-
     public String getPetVaccineDate() {
         return petVaccineDate;
     }
@@ -80,9 +76,12 @@ public class PetVaccine {
     @Override
     public String toString() {
         return "PetVaccine{" +
-                "PetVaccinesId=" + id +
-                ", petVaccineDate='" + petVaccineDate + '\'' +
+                "petVaccineDate='" + petVaccineDate + '\'' +
                 ", petVaccineNext='" + petVaccineNext + '\'' +
+                ", id=" + id +
+                ", vaccine=" + vaccine +
+                ", pet=" + pet +
                 '}';
     }
+
 }
