@@ -24,27 +24,12 @@
         app:layout_constraintBottom_toTopOf="@+id/text_last_location"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <EditText
-        android:id="@+id/map_last_location"
-        android:layout_width="248dp"
-        android:layout_height="51dp"
-        android:layout_marginEnd="80dp"
-        android:layout_marginBottom="36dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:importantForAutofill="no"
-        android:inputType="textMultiLine"
-        android:textColor="@color/colorPrimaryDark"
-        android:textColorHint="#99363537"
-        app:layout_constraintBottom_toTopOf="@+id/btnPublishLostPet"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <Button
         android:id="@+id/btnPublishLostPet"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="243dp"
         android:layout_height="45dp"
-        android:layout_marginEnd="84dp"
+        android:layout_marginEnd="88dp"
         android:layout_marginBottom="32dp"
         android:background="@drawable/ic_button"
         android:backgroundTint="@color/colorPrimaryDark"
@@ -55,37 +40,15 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/linea"
-        android:src="@drawable/ic_horizontal_red_line"
-        app:layout_constraintBottom_toTopOf="@+id/imageView5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/linea2"
-        android:src="@drawable/ic_horizontal_red_line"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+        app:layout_constraintTop_toBottomOf="@+id/text_last_location"
+        app:layout_constraintVertical_bias="0.221" />
 
     <TextView
         android:id="@+id/text_rules_to_post_lostpet"
         android:layout_width="243dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="75dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="75dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/ptsans"
@@ -95,8 +58,7 @@
         android:textStyle="normal"
         app:layout_constraintBottom_toTopOf="@+id/text_additional_info"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/text_additional_info"
@@ -116,19 +78,26 @@
         android:id="@+id/text_last_location"
         android:layout_width="243dp"
         android:layout_height="28dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="84dp"
-        android:layout_marginBottom="8dp"
         android:fontFamily="@font/ptsans"
         android:text="@string/last_location"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/map_last_location"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/texteditAdditionalInfo" />
+
     <com.mapbox.mapboxsdk.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:id="@+id/mapview"
+        android:layout_width="240dp"
+        android:layout_height="214dp"
+        android:layout_marginStart="83dp"
+        android:layout_marginTop="87dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </com.mapbox.mapboxsdk.maps.MapView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

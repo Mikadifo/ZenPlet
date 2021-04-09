@@ -17,6 +17,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.MarkerOptions;
+import com.mapbox.mapboxsdk.camera.CameraPosition;
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
@@ -46,7 +50,7 @@ public class PostLostPet extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private MapView mapView;
+
 
 
     // TODO: Rename and change types of parameters
@@ -88,35 +92,28 @@ public class PostLostPet extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Mapbox.getInstance(getContext().getApplicationContext(),  getString(R.string.mapbox_access_token));
+
         View root = inflater.inflate(R.layout.fragment_post_lost_pet, container, false);
-        Button btn = root.findViewById(R.id.btnPublishLostPet);
-        EditText additionalInfo = root.findViewById(R.id.texteditAdditionalInfo);
-        EditText mapa = root.findViewById(R.id.map_last_location);
-        mapa.setOnClickListener(new View.OnClickListener() {
+        MapView mapView;
+        mapView = (MapView) root.findViewById(R.id.mapview);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
-            public void onClick(View v) {
-
-                Mapbox.getInstance(getContext(), getString(R.string.mapbox_access_token));
-
-                mapView = (MapView) root.findViewById(R.id.mapView);
-                mapView.onCreate(savedInstanceState);
-                mapView.getMapAsync(new OnMapReadyCallback() {
-
+            public void onMapReady(@NonNull MapboxMap mapboxMap) {
+                mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
                     @Override
-                    public void onMapReady(@NonNull MapboxMap mapboxMap) {
-                        mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
-                            @Override
-                            public void onStyleLoaded(@NonNull Style style) {
+                    public void onStyleLoaded(@NonNull Style style) {
+                        mapboxMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(48.85819, 2.29458))
+                                .title("Eiffel Tower"));
 
-
-                            }
-
-
-                        });
                     }
                 });
-
-
+            }
+        });
+        Button btn = root.findViewById(R.id.btnPublishLostPet);
+        EditText additionalInfo = root.findViewById(R.id.texteditAdditionalInfo);
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -156,8 +153,6 @@ public class PostLostPet extends Fragment {
                         });
 
                     }
-                });
-            }
                 });
 
         return root;
