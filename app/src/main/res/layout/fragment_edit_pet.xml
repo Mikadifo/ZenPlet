@@ -18,6 +18,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:layout_gravity="center"
             android:orientation="vertical">
 
@@ -318,7 +319,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="80dp"
                     android:layout_marginEnd="80dp"
-                    android:layout_marginBottom="16dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -331,6 +331,7 @@
                         android:backgroundTint="@color/colorPrimaryRed"
                         android:fontFamily="@font/ptsans"
                         android:text="@string/delete"
+                        android:textAlignment="center"
                         android:textAllCaps="false"
                         android:textColor="@color/colorLightBackground"
                         android:textSize="18sp"
@@ -353,6 +354,7 @@
                         android:backgroundTint="@color/colorPrimaryDark"
                         android:fontFamily="@font/ptsans"
                         android:text="@string/lost"
+                        android:textAlignment="center"
                         android:textAllCaps="false"
                         android:textColor="@color/colorLightBackground"
                         android:textSize="18sp"
