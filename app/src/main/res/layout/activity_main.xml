@@ -5,145 +5,132 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorLightBackground"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/text_welcome"
-        android:layout_width="172dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginEnd="80dp"
-        android:fontFamily="@font/ptsans"
-        android:text="@string/menu_welcome"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/text_welcome_info"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/text_other_signin"
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="80dp"
-        android:layout_marginBottom="80dp"
-        android:fontFamily="@font/ptsans"
-        android:text="@string/sign_in_fb_or_google"
-        android:textAlignment="textEnd"
-        android:textColor="@color/colorPrimaryDark"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/to_login" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/to_login"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="80dp"
-        android:background="@drawable/ic_button"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:fontFamily="@font/ptsans"
-        android:onClick="toLogIn"
-        android:text="@string/log_in_button"
-        android:textAllCaps="false"
-        android:textColor="@color/colorLightBackground"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/text_other_signin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.552"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/to_signup" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/to_signup"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="80dp"
-        android:layout_marginBottom="9dp"
-        android:background="@drawable/ic_button"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:fontFamily="@font/ptsans"
-        android:onClick="toSignUp"
-        android:text="@string/sign_up_button"
-        android:textAllCaps="false"
-        android:textColor="@color/colorLightBackground"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/to_login"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_pets_found" />
+            <ImageView
+                android:id="@+id/img_logo"
+                android:layout_width="match_parent"
+                android:layout_height="303dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginEnd="80dp"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="@string/logo_description"
+                app:srcCompat="@drawable/ic_logo" />
 
-    <ImageView
-        android:id="@+id/img_logo"
-        android:layout_width="248dp"
-        android:layout_height="303dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="80dp"
-        android:layout_marginBottom="16dp"
-        android:contentDescription="@string/logo_description"
-        app:layout_constraintBottom_toTopOf="@+id/img_appname"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_logo" />
+            <ImageView
+                android:id="@+id/img_appname"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="80dp"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="@string/appname_description"
+                app:srcCompat="@drawable/ic_app_name" />
 
-    <TextView
-        android:id="@+id/text_welcome_info"
-        android:layout_width="172dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginEnd="80dp"
-        android:fontFamily="@font/ptsans"
-        android:text="@string/menu_welcome_info"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="18sp"
-        android:textStyle="normal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_welcome" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
 
-    <ImageView
-        android:id="@+id/img_appname"
-        android:layout_width="229dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="80dp"
-        android:layout_marginBottom="16dp"
-        android:contentDescription="@string/appname_description"
-        app:layout_constraintBottom_toTopOf="@+id/text_welcome"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_logo"
-        app:srcCompat="@drawable/ic_app_name" />
+            <TextView
+                android:id="@+id/text_welcome"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginEnd="80dp"
+                android:fontFamily="@font/ptsans"
+                android:text="@string/menu_welcome"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/text_pets_found"
-        android:layout_width="166dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="80dp"
-        android:layout_marginBottom="16dp"
-        android:fontFamily="@font/ptsans"
-        android:textColor="@color/colorPrimaryDark"
-        app:layout_constraintBottom_toTopOf="@+id/to_signup"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_welcome_info" />
+            <TextView
+                android:id="@+id/text_welcome_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="80dp"
+                android:layout_marginEnd="80dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/ptsans"
+                android:text="@string/menu_welcome_info"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/text_pets_found"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="80dp"
+                android:layout_marginEnd="80dp"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/ptsans"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <Button
+                android:id="@+id/to_login"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="80dp"
+                android:background="@drawable/ic_button"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:fontFamily="@font/ptsans"
+                android:onClick="toLogIn"
+                android:text="@string/log_in_button"
+                android:textAllCaps="false"
+                android:textColor="@color/colorLightBackground"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/to_signup"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="80dp"
+                android:layout_marginBottom="9dp"
+                android:background="@drawable/ic_button"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:fontFamily="@font/ptsans"
+                android:onClick="toSignUp"
+                android:text="@string/sign_up_button"
+                android:textAllCaps="false"
+                android:textColor="@color/colorLightBackground"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/text_other_signin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="80dp"
+                android:layout_marginBottom="80dp"
+                android:fontFamily="@font/ptsans"
+                android:text="@string/sign_in_fb_or_google"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryDark" />
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
