@@ -24,28 +24,6 @@
                     android:orientation="vertical">
 
 
-                        <ImageView
-                            android:id="@+id/imageView14"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:contentDescription="@string/linea2"
-                            android:src="@drawable/ic_horizontal_red_line"
-                            app:layout_constraintBottom_toTopOf="@+id/textView3"
-                            app:layout_constraintEnd_toEndOf="parent" />
-
-                        <ImageView
-                            android:id="@+id/imageView6"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:contentDescription="@string/linea2"
-                            android:src="@drawable/ic_horizontal_red_line"
-                            app:layout_constraintBottom_toTopOf="@+id/imgFoto"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.0" />
-
                         <LinearLayout
                             android:layout_width="298dp"
                             android:layout_height="136dp"
