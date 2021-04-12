@@ -125,7 +125,7 @@ public class FragmentPets extends Fragment {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager
                 .beginTransaction()
-                .replace(R.id.nav_host_fragment, new EditPet(root));
+                .replace(R.id.nav_host_fragment, new EditPet());
         fragmentTransaction.commit();
     };
 }

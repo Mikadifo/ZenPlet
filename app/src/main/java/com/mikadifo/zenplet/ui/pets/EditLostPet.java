@@ -2,6 +2,7 @@ package com.mikadifo.zenplet.ui.pets;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -13,17 +14,27 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.Marker;
+import com.mapbox.mapboxsdk.annotations.MarkerOptions;
+import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.maps.MapView;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+import com.mapbox.mapboxsdk.maps.Style;
 import com.mikadifo.zenplet.API.CallWithToken;
 import com.mikadifo.zenplet.API.model.LostPet;
 import com.mikadifo.zenplet.API.model.Owner;
 import com.mikadifo.zenplet.API.model.Pet;
 import com.mikadifo.zenplet.API.service.LostPetService;
+import com.mikadifo.zenplet.API.service.PetsFoundService;
 import com.mikadifo.zenplet.R;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +42,8 @@ import retrofit2.Retrofit;
  * create an instance of this fragment.
  */
 public class EditLostPet extends Fragment {
+    public String lostPetLocation;
+    private Marker marcadorPost;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -84,7 +97,36 @@ public class EditLostPet extends Fragment {
         View root = inflater.inflate(R.layout.fragment_edit_lost_pet, container, false);
         EditText additionalInfo = root.findViewById(R.id.editTextTextMultiLine);
         additionalInfo.setText(this.editingLostPet.getLostPetAdditionalInfo());
+        Mapbox.getInstance(getContext().getApplicationContext(),  getString(R.string.mapbox_access_token));
+        MapView mapView;
+        mapView = (MapView) root.findViewById(R.id.mapview);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(@NonNull MapboxMap mapboxMap) {
+                mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
+                    @Override
+                    public void onStyleLoaded(@NonNull Style style) {
+                        String [] location = editingLostPet.getLostPetLocation().split(",");
+                        marcadorPost = mapboxMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(Double.parseDouble(location[0]), Double.parseDouble(location[1])))
+                                .title("Your pet"));
+                        mapboxMap.addOnMapLongClickListener(new MapboxMap.OnMapLongClickListener() {
+                            @Override
+                            public boolean onMapLongClick(@NonNull LatLng point) {
+                                mapboxMap.removeMarker(marcadorPost);
+                                marcadorPost = mapboxMap.addMarker(new MarkerOptions()
+                                        .position(point));
 
+                                lostPetLocation = point.getLatitude()+","+point.getLongitude();
+
+                                return true;
+                            }
+                        });
+                    }
+                });
+            }
+        });
         Button buttonSave = root.findViewById(R.id.btnSaveAdditionalInfo);
         Button buttonPetFound = root.findViewById(R.id.btnPetFound);
 
@@ -92,8 +134,9 @@ public class EditLostPet extends Fragment {
             @Override
             public void onClick(View view) {
                 LostPet lostPetEdit = new LostPet(
-                        new Owner(),
                         new Pet(),
+                        new Owner(),
+                        lostPetLocation,
                         additionalInfo.getText().toString()
                 );
                 CallWithToken callWithToken = new CallWithToken();
@@ -134,17 +177,39 @@ public class EditLostPet extends Fragment {
                 Retrofit retrofit = callWithToken.getCallToken();
                 LostPetService lostPetService = retrofit.create(LostPetService.class);
                 Call<Void> call = lostPetService.deleteLostPet(FragmentPets.selectedPet.getPetId());
+
                 call.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         System.out.println(response.body());
-                        Toast.makeText(root.getContext(), "We are happy to help you to find your pet.", Toast.LENGTH_LONG).show();
-                        editingLostPet = null;
-                        FragmentManager fragmentManager = getFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager
-                                .beginTransaction()
-                                .replace(R.id.nav_host_fragment, new EditPet());
-                        fragmentTransaction.commit();
+                        if (response.body() == null) {
+                            CallWithToken callTokenPetFound = new CallWithToken();
+                            Retrofit retrofitPetFound = callTokenPetFound.getCallToken();
+                            PetsFoundService petsFoundService = retrofitPetFound.create(PetsFoundService.class);
+                            Call<Long> callPetFound = petsFoundService.addPetsFound();
+                            callPetFound.enqueue(new Callback<Long>() {
+                                @Override
+                                public void onResponse(Call<Long> call, Response<Long> response) {
+                                    System.out.println(response.body());
+                                    Toast.makeText(root.getContext(), "We are happy to help you to find your pet.", Toast.LENGTH_LONG).show();
+                                    editingLostPet = null;
+                                    FragmentManager fragmentManager = getFragmentManager();
+                                    FragmentTransaction fragmentTransaction = fragmentManager
+                                            .beginTransaction()
+                                            .replace(R.id.nav_host_fragment, new EditPet());
+                                    fragmentTransaction.commit();
+                                }
+
+                                @Override
+                                public void onFailure(Call<Long> call, Throwable t) {
+                                    try {
+                                        throw t;
+                                    } catch (Throwable throwable) {
+                                        throwable.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
                     }
 
                     @Override

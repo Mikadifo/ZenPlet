@@ -48,7 +48,6 @@ import retrofit2.Retrofit;
  * create an instance of this fragment.
  */
 public class EditPet extends Fragment {
-    private View beforeRoot;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -63,10 +62,6 @@ public class EditPet extends Fragment {
     public EditPet() {
 
         // Required empty public constructor
-    }
-
-    public EditPet(View root){
-         beforeRoot = root;
     }
 
     /**
@@ -159,7 +154,6 @@ public class EditPet extends Fragment {
                 FragmentPets.selectedPet.setPetGenre(genre.getText().toString());
                 FragmentPets.selectedPet.setPetBirthdate(birthdate.getText().toString());
                 FragmentPets.selectedPet.setPetImage(fotoEnBase64);
-                //llamada al metodo del servicio
                 Call<Pet> callupdate = petService.updatePet(FragmentPets.selectedPet.getPetId(), FragmentPets.selectedPet);
                 callupdate.enqueue(new Callback<Pet>() {
                     @Override
@@ -222,11 +216,9 @@ public class EditPet extends Fragment {
                     });
                 }
             });
-            //asignar los metodos a los botones
         openGalleryBtn.setOnClickListener(this::cargarImagen);
         openCameraBtn.setOnClickListener(this::AbrirCamara);
 
-        //eliminar Pet
         Button btnd = root.findViewById(R.id.btnDelete);
         btnd.setOnClickListener(new View.OnClickListener() {
 
