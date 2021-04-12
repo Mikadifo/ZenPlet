@@ -8,72 +8,78 @@
     android:background="@color/colorLightBackground"
     tools:context=".ui.pets.PostLostPet">
 
-    <Button
-        android:id="@+id/btnPublishLostPet"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="243dp"
-        android:layout_height="45dp"
-        android:layout_marginEnd="75dp"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/ic_button"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:fontFamily="@font/ptsans"
-        android:text="@string/publish_text"
-        android:textAllCaps="false"
-        android:textColor="@color/colorLightBackground"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/texteditAdditionalInfo" />
-
-    <TextView
-        android:id="@+id/text_rules_to_post_lostpet"
-        android:layout_width="243dp"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="75dp"
-        android:layout_marginEnd="75dp"
-        android:layout_marginBottom="8dp"
-        android:fontFamily="@font/ptsans"
-        android:text="@string/publish_rules"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="20sp"
-        android:textStyle="normal"
-        app:layout_constraintBottom_toTopOf="@+id/text_additional_info"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/text_additional_info"
-        android:layout_width="243dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="75dp"
-        android:layout_marginBottom="16dp"
-        android:fontFamily="@font/ptsans"
-        android:text="@string/additional_info_text"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/texteditAdditionalInfo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_rules_to_post_lostpet" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/texteditAdditionalInfo"
-        android:layout_width="243dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="75dp"
-        android:layout_marginBottom="32dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="@string/additional_info"
-        android:importantForAutofill="no"
-        android:inputType="textMultiLine"
-        android:textColor="@color/colorPrimaryDark"
-        android:textColorHint="#99363537"
-        app:layout_constraintBottom_toTopOf="@+id/btnPublishLostPet"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_additional_info" />
+            <TextView
+                android:id="@+id/text_rules_to_post_lostpet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="80dp"
+                android:layout_marginEnd="80dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/ptsans"
+                android:text="@string/publish_rules"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/text_additional_info"
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginEnd="80dp"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/ptsans"
+                android:text="@string/additional_info_text"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/texteditAdditionalInfo"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginEnd="80dp"
+                android:layout_marginBottom="32dp"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="@string/additional_info"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                android:textColor="@color/colorPrimaryDark"
+                android:textColorHint="#99363537" />
+
+            <Button
+                android:id="@+id/btnPublishLostPet"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginEnd="80dp"
+                android:background="@drawable/ic_button"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:fontFamily="@font/ptsans"
+                android:text="@string/publish_text"
+                android:textAllCaps="false"
+                android:textColor="@color/colorLightBackground"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
