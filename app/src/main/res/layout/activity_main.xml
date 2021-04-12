@@ -12,7 +12,6 @@
         android:layout_width="172dp"
         android:layout_height="25dp"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="80dp"
         android:fontFamily="@font/ptsans"
         android:text="@string/menu_welcome"
@@ -21,8 +20,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/text_welcome_info"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_appname" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/text_other_signin"
@@ -70,9 +68,9 @@
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="80dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="9dp"
         android:background="@drawable/ic_button"
         android:backgroundTint="@color/colorPrimaryDark"
         android:fontFamily="@font/ptsans"
@@ -86,24 +84,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_welcome_info" />
-
-    <TextView
-        android:id="@+id/text_welcome_info"
-        android:layout_width="172dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginEnd="80dp"
-        android:layout_marginBottom="8dp"
-        android:fontFamily="@font/ptsans"
-        android:text="@string/menu_welcome_info"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="18sp"
-        android:textStyle="normal"
-        app:layout_constraintBottom_toTopOf="@+id/to_signup"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_welcome" />
+        app:layout_constraintTop_toBottomOf="@+id/text_pets_found" />
 
     <ImageView
         android:id="@+id/img_logo"
@@ -120,6 +101,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_logo" />
 
+    <TextView
+        android:id="@+id/text_welcome_info"
+        android:layout_width="172dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="80dp"
+        android:fontFamily="@font/ptsans"
+        android:text="@string/menu_welcome_info"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_welcome" />
+
     <ImageView
         android:id="@+id/img_appname"
         android:layout_width="229dp"
@@ -134,5 +130,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_logo"
         app:srcCompat="@drawable/ic_app_name" />
+
+    <TextView
+        android:id="@+id/text_pets_found"
+        android:layout_width="166dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/ptsans"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toTopOf="@+id/to_signup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_welcome_info" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,12 +18,14 @@ import com.mikadifo.zenplet.API.model.LostPet;
 import com.mikadifo.zenplet.API.model.Owner;
 import com.mikadifo.zenplet.API.model.Pet;
 import com.mikadifo.zenplet.API.service.LostPetService;
+import com.mikadifo.zenplet.API.service.PetsFoundService;
 import com.mikadifo.zenplet.R;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -134,17 +136,39 @@ public class EditLostPet extends Fragment {
                 Retrofit retrofit = callWithToken.getCallToken();
                 LostPetService lostPetService = retrofit.create(LostPetService.class);
                 Call<Void> call = lostPetService.deleteLostPet(FragmentPets.selectedPet.getPetId());
+
                 call.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         System.out.println(response.body());
-                        Toast.makeText(root.getContext(), "We are happy to help you to find your pet.", Toast.LENGTH_LONG).show();
-                        editingLostPet = null;
-                        FragmentManager fragmentManager = getFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager
-                                .beginTransaction()
-                                .replace(R.id.nav_host_fragment, new EditPet());
-                        fragmentTransaction.commit();
+                        if (response.body() == null) {
+                            CallWithToken callTokenPetFound = new CallWithToken();
+                            Retrofit retrofitPetFound = callTokenPetFound.getCallToken();
+                            PetsFoundService petsFoundService = retrofitPetFound.create(PetsFoundService.class);
+                            Call<Long> callPetFound = petsFoundService.addPetsFound();
+                            callPetFound.enqueue(new Callback<Long>() {
+                                @Override
+                                public void onResponse(Call<Long> call, Response<Long> response) {
+                                    System.out.println(response.body());
+                                    Toast.makeText(root.getContext(), "We are happy to help you to find your pet.", Toast.LENGTH_LONG).show();
+                                    editingLostPet = null;
+                                    FragmentManager fragmentManager = getFragmentManager();
+                                    FragmentTransaction fragmentTransaction = fragmentManager
+                                            .beginTransaction()
+                                            .replace(R.id.nav_host_fragment, new EditPet());
+                                    fragmentTransaction.commit();
+                                }
+
+                                @Override
+                                public void onFailure(Call<Long> call, Throwable t) {
+                                    try {
+                                        throw t;
+                                    } catch (Throwable throwable) {
+                                        throwable.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
                     }
 
                     @Override
