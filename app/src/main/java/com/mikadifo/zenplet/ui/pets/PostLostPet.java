@@ -45,7 +45,7 @@ import retrofit2.Retrofit;
  * create an instance of this fragment.
  */
 public class PostLostPet extends Fragment {
-    public static String lostPetLocation;
+    public String lostPetLocation;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -112,7 +112,8 @@ public class PostLostPet extends Fragment {
                                 System.out.println(point);
                                 mapboxMap.addMarker(new MarkerOptions()
                                         .position(point));
-                                lostPetLocation = point.toString();
+
+                                lostPetLocation = point.getLatitude()+","+point.getLongitude();
 
                                 return true;
                             }
