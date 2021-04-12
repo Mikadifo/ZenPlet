@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout4"
     android:layout_width="match_parent"
@@ -24,8 +25,8 @@
                 android:id="@+id/text_additional_info2"
                 android:layout_width="match_parent"
                 android:layout_height="28dp"
-                android:layout_marginTop="60dp"
                 android:layout_marginStart="80dp"
+                android:layout_marginTop="60dp"
                 android:layout_marginEnd="80dp"
                 android:layout_marginBottom="16dp"
                 android:fontFamily="@font/ptsans"
@@ -53,7 +54,7 @@
                 android:layout_height="250dp"
                 android:layout_marginStart="80dp"
                 android:layout_marginEnd="80dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="12dp"
                 android:ems="10"
                 android:gravity="start|top"
                 android:hint="@string/additional_info"
@@ -61,6 +62,20 @@
                 android:inputType="textMultiLine"
                 android:textColor="@color/colorPrimaryDark"
                 android:textColorHint="#99363537" />
+
+            <com.mapbox.mapboxsdk.maps.MapView
+                android:id="@+id/mapview"
+                android:layout_width="match_parent"
+                android:layout_height="290dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="32dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                mapbox:mapbox_cameraTargetLat="-2.90055"
+                mapbox:mapbox_cameraTargetLng="-79.00453"
+                mapbox:mapbox_cameraZoom="10"></com.mapbox.mapboxsdk.maps.MapView>
 
             <Button
                 android:id="@+id/btnSaveAdditionalInfo"
@@ -84,8 +99,8 @@
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginStart="80dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="80dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/ic_button"
@@ -96,7 +111,7 @@
                 android:textColor="@color/colorLightBackground"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
