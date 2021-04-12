@@ -93,6 +93,7 @@
         android:layout_width="240dp"
         android:layout_height="214dp"
         android:layout_marginStart="83dp"
+
         android:layout_marginTop="87dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

@@ -45,6 +45,7 @@ import retrofit2.Retrofit;
  * create an instance of this fragment.
  */
 public class PostLostPet extends Fragment {
+    public static String lostPetLocation;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -101,13 +102,21 @@ public class PostLostPet extends Fragment {
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(@NonNull MapboxMap mapboxMap) {
+
                 mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
                     @Override
                     public void onStyleLoaded(@NonNull Style style) {
-                        mapboxMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(48.85819, 2.29458))
-                                .title("Eiffel Tower"));
+                        mapboxMap.addOnMapLongClickListener(new MapboxMap.OnMapLongClickListener() {
+                            @Override
+                            public boolean onMapLongClick(@NonNull LatLng point) {
+                                System.out.println(point);
+                                mapboxMap.addMarker(new MarkerOptions()
+                                        .position(point));
+                                lostPetLocation = point.toString();
 
+                                return true;
+                            }
+                        });
                     }
                 });
             }
@@ -118,8 +127,9 @@ public class PostLostPet extends Fragment {
                     @Override
                     public void onClick(View view) {
                         LostPet lostPet = new LostPet(
-                                SignUpActivity.ownerNew,
                                 FragmentPets.selectedPet,
+                                SignUpActivity.ownerNew,
+                                lostPetLocation,
                                 additionalInfo.getText().toString()
                         );
                         CallWithToken callWithToken = new CallWithToken();

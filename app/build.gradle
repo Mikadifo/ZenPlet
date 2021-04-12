@@ -42,4 +42,5 @@ dependencies {
     implementation ('com.mapbox.mapboxsdk:mapbox-android-sdk:9.6.1'){
         exclude group: 'group_name', module: 'module_name'
     }
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-gestures:0.5.1'
 }
