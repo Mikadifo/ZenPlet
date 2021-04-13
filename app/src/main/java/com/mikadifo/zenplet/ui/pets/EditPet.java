@@ -158,7 +158,7 @@ public class EditPet extends Fragment {
                 callupdate.enqueue(new Callback<Pet>() {
                     @Override
                     public void onResponse(Call<Pet> call, Response<Pet> response) {
-                        Toast.makeText(view.getContext(), "The data has been updated successfully", Toast.LENGTH_LONG).show();
+                        Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_The_data_has_been_save_successfully), Toast.LENGTH_LONG).show();
                         System.out.println(response.body());
 
                         FragmentManager fragmentManager = getFragmentManager();
@@ -166,7 +166,7 @@ public class EditPet extends Fragment {
                                 .beginTransaction()
                                 .replace(R.id.nav_host_fragment, new FragmentPets());
                         fragmentTransaction.commit();
-                        Toast.makeText(view.getContext(), "Updated pet", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_updated_pet), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -228,10 +228,10 @@ public class EditPet extends Fragment {
                 Retrofit retrofit = callWithToken.getCallToken();
                 PetService petService = retrofit.create(PetService.class);
                 AlertDialog.Builder dialogo1 = new AlertDialog.Builder(getContext());
-                dialogo1.setTitle("Important");
-                dialogo1.setMessage("Are you sure to remove this pet?");
+                dialogo1.setTitle(getContext().getResources().getString(R.string.dialog_Important));
+                dialogo1.setMessage(getContext().getResources().getString(R.string.dialog_Are_you_sure_to_remove_this_pet));
                 dialogo1.setCancelable(false);
-                dialogo1.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                dialogo1.setPositiveButton(getContext().getResources().getString(R.string.option_yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogo1, int id) {
 
                         Call<Void> call = petService.deletePet(FragmentPets.selectedPet.getPetId());
@@ -305,7 +305,7 @@ public class EditPet extends Fragment {
         Intent intent= new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/");
         //recibir el resultado de la foto
-        startActivityForResult(Intent.createChooser(intent,"Seleccione la aplicacion"), 10);
+        startActivityForResult(Intent.createChooser(intent,getContext().getResources().getString(R.string.toast_Select_the_app)), 10);
     }
 
 }

@@ -142,9 +142,10 @@ public class PostLostPet extends Fragment {
                             public void onResponse(Call<LostPet> call, Response<LostPet> response) {
                                 System.out.println(response.body());
                                 if (response.body().getOwner().getOwnerId() == 0) {
-                                    System.out.println("An error has been ocurred while saving lost pet");
+                                    System.out.println(getContext().getResources().getString(R.string.toast_An_error_has_been_ocurred_while_saving_lost_pet));
+                                    Toast.makeText(root.getContext(), getContext().getResources().getString(R.string.toast_An_error_has_been_ocurred_while_saving_lost_pet), Toast.LENGTH_LONG).show();
                                 } else {
-                                    Toast.makeText(root.getContext(), "The data has been save successfully", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(root.getContext(), getContext().getResources().getString(R.string.toast_The_data_has_been_save_successfully), Toast.LENGTH_LONG).show();
                                     FragmentManager fragmentManager = getFragmentManager();
                                     FragmentTransaction fragmentTransaction = fragmentManager
                                             .beginTransaction()

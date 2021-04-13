@@ -203,7 +203,7 @@ public class EditVaccines extends Fragment {
                                 }
 
                                 Toast.makeText(view.getContext(),
-                                        "The vaccine has been updated successfully",
+                                        getContext().getResources().getString(R.string.toast_The_vaccine_has_been_updated_successfully),
                                         Toast.LENGTH_LONG).show();
                                 //llevar al fragmento vaccines
                                 FragmentManager fragmentManager = getFragmentManager();

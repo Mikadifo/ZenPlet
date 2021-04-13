@@ -110,7 +110,7 @@ public class ChangePassword extends Fragment {
                                     @Override
                                     public void onResponse(Call<Owner> call, Response<Owner> response) {
 
-                                        Toast.makeText(v.getContext(), "Se ha cambiado la contraseña con exito", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(v.getContext(), getContext().getResources().getString(R.string.toast_changed_password_successfully), Toast.LENGTH_LONG).show();
                                     }
 
                                     @Override
@@ -123,10 +123,10 @@ public class ChangePassword extends Fragment {
                                     }
                                 });
                             }else{
-                                Toast.makeText(v.getContext(), "Las nuevas contraseñas no coinciden", Toast.LENGTH_LONG).show();
+                                Toast.makeText(v.getContext(), getContext().getResources().getString(R.string.toast_new_passwords_do_not_match), Toast.LENGTH_LONG).show();
                             }
                         }else{
-                            Toast.makeText(v.getContext(), "La contraseña no es correcta", Toast.LENGTH_LONG).show();
+                            Toast.makeText(v.getContext(), getContext().getResources().getString(R.string.toast_the_password_is_not_correct), Toast.LENGTH_LONG).show();
                         }
                     }
 
