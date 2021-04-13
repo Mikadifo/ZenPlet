@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ZenPlet</string>
+    <string name="app_name" translatable="false">ZenPlet</string>
     <string name="splash_logo_image_description">ZenPlet Logo Image</string>
     <string name="splash_app_name_image_description">ZenPlet App Name Image</string>
     <string name="splash_tag_line_image_description">ZenPlet Tag line Image</string>
@@ -9,7 +9,7 @@
     <string name="log_in_button">Log in</string>
     <string name="sign_in_fb_or_google">Sign in with <b>Facebook</b> or <b>Google</b></string>
     <string name="logo_description">ZenPlet Logo</string>
-    <string name="appname_description">ZENPLET</string>
+    <string name="appname_description" translatable="false">ZENPLET</string>
     <string name="already_have_account">Already have an account? <b>Log in</b></string>
     <string name="username">Username:</string>
     <string name="email">Email:</string>
@@ -23,8 +23,6 @@
     <string name="repeat_password">Repeat new password:</string>
     <string name="account">ACCOUNT</string>
     <string name="change_password">Change Password</string>
-    <string name="delete_account">Delete Account</string>
-    <string name="phone_number">Phone Number:</string>
     <string name="title_activity_bottom_nav">MainActivity</string>
     <string name="StringName">Name</string>
     <string name="StringDate">Date</string>
@@ -47,7 +45,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="delete">Delete</string>
     <string name="lost">Lost</string>
-    <string name="view_pet_owners">View Pet Owners</string>
+    <string name="view_pet_owners">View Pet Owner</string>
     <string name="add_pet_owners">Add Pet Owners</string>
     <string name="abrir_galeria">Open Gallery</string>
     <string name="abrir_camara">Open Camera</string>
@@ -71,4 +69,36 @@
     <string name="StrVaccineForPet">Vaccine For:</string>
     <string name="pet_image_description">Pet Image</string>
     <string name="last_location">Last Location:</string>
+    <string name="line2">line2</string>
+    <string name="linea">line</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="phone_number">Phone Number</string>
+    //toast Account 1
+    <string name="toast_cannot_be_changed">The data is the same and cannot be changed</string>
+    <string name="toast_successfully_saved_changes">Successfully saved changes</string>
+    <string name="dialog_are_you_sure_remove">Are you sure to remove this Account</string>
+    <string name="toas_successfully_delete">Successfully delete</string>
+    //  Toast change password
+    <string name="toast_changed_password_successfully">Changed password successfully</string>
+    <string name="toast_new_passwords_do_not_match">New passwords do not match</string>
+    <string name="toast_the_password_is_not_correct">The password is not correct</string>
+    //Toast Edit Lost Pets
+    <string name="toast_Lost_Pet_Updated">Lost Pet Updated</string>
+    <string name="toast_Error_updating_lost_petd">Error updating lost pet</string>
+    <string name="toast_We_are_happy_to_help_you_to_find_your_pet">We are happy to help you to find your pet.</string>
+    //Toast Edit Pet
+    <string name="toast_The_data_has_been_updated_successfully">The data has been updated successfully</string>
+    <string name="dialog_Important">Important</string>
+    <string name="dialog_Are_you_sure_to_remove_this_pet">Are you sure to remove this pet?</string>
+    <string name="option_yes">Yes</string>
+    <string name="toast_updated_pet">Updated Pet</string>
+    <string name="toast_Select_the_app">Select the app</string>
+    //Toast post Lost Pet
+    <string name="toast_An_error_has_been_ocurred_while_saving_lost_pet">An error has been ocurred while saving lost pet</string>
+    <string name="toast_The_data_has_been_save_successfully">The data has been save successfully</string>
+    //Toast Edit Vaccines
+    <string name="toast_The_vaccine_has_been_updated_successfully">The vaccine has been updated successfully</string>
+    //Toast Login Activity
+    <string name="dialog_This_user_is_not_registered">This user is not registered</string>
+
 </resources>

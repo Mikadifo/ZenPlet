@@ -64,13 +64,13 @@ public class LogInActivity extends AppCompatActivity {
                     );
                 }else{
                     AlertDialog.Builder dialogo1 = new AlertDialog.Builder(LogInActivity.this);
-                    dialogo1.setTitle("Important");
-                    dialogo1.setMessage("This user is not registered");
+                    dialogo1.setTitle(getApplicationContext().getResources().getString(R.string.dialog_Important));
+                    dialogo1.setMessage(getApplicationContext().getResources().getString(R.string.dialog_This_user_is_not_registered));
                     dialogo1.setIcon(R.drawable.ic_logo);
                     dialogo1.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(getApplicationContext(),"Ok Button", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"Ok", Toast.LENGTH_SHORT).show();
                         }
                     });
                     dialogo1.show();

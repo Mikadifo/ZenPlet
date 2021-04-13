@@ -148,14 +148,14 @@ public class EditLostPet extends Fragment {
                     public void onResponse(Call<LostPet> call, Response<LostPet> response) {
                         System.out.println(response.body());
                         if (response.body().getLostPetAdditionalInfo().equals(lostPetEdit.getLostPetAdditionalInfo())) {
-                            Toast.makeText(root.getContext(), "Lost Pet Updated", Toast.LENGTH_LONG).show();
+                            Toast.makeText(root.getContext(), getContext().getResources().getString(R.string.toast_Lost_Pet_Updated), Toast.LENGTH_LONG).show();
                             FragmentManager fragmentManager = getFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager
                                     .beginTransaction()
                                     .replace(R.id.nav_host_fragment, new EditPet());
                             fragmentTransaction.commit();
                         } else {
-                            Toast.makeText(root.getContext(), "Error updating lost pet", Toast.LENGTH_LONG).show();
+                            Toast.makeText(root.getContext(), getContext().getResources().getString(R.string.toast_Error_updating_lost_petd), Toast.LENGTH_LONG).show();
                         }
                     }
 
@@ -191,7 +191,7 @@ public class EditLostPet extends Fragment {
                                 @Override
                                 public void onResponse(Call<Long> call, Response<Long> response) {
                                     System.out.println(response.body());
-                                    Toast.makeText(root.getContext(), "We are happy to help you to find your pet.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(root.getContext(), getContext().getResources().getString(R.string.toast_We_are_happy_to_help_you_to_find_your_pet), Toast.LENGTH_LONG).show();
                                     editingLostPet = null;
                                     FragmentManager fragmentManager = getFragmentManager();
                                     FragmentTransaction fragmentTransaction = fragmentManager

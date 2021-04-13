@@ -124,7 +124,7 @@ public class Account1 extends Fragment {
                                 SignUpActivity.ownerNew.getOwnerEmail().equals(email.getText().toString())&&
                                 SignUpActivity.ownerNew.getOwnerPhoneNumber().equals(phone.getText().toString())
                         ){
-                            Toast.makeText(view.getContext(), "The data is the same and cannot be changed", Toast.LENGTH_LONG).show();
+                            Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_cannot_be_changed), Toast.LENGTH_LONG).show();
 
                            }else {
                             SignUpActivity.ownerNew.setOwnerName(username.getText().toString());
@@ -134,7 +134,7 @@ public class Account1 extends Fragment {
                             callupdate.enqueue(new Callback<Owner>() {
                                 @Override
                                 public void onResponse(Call<Owner> call, Response<Owner> response) {
-                                    Toast.makeText(view.getContext(), "Successfully saved changes", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_successfully_saved_changes), Toast.LENGTH_LONG).show();
                                 }
 
                                 @Override
@@ -170,10 +170,10 @@ public class Account1 extends Fragment {
                 Retrofit retrofit = callWithToken.getCallToken();
                 OwnerService ownerService = retrofit.create(OwnerService.class);
                 AlertDialog.Builder dialogo1 = new AlertDialog.Builder(getContext());
-                dialogo1.setTitle("Important");
-                dialogo1.setMessage("Are you sure to remove this Account?");
+                dialogo1.setTitle(getContext().getResources().getString(R.string.dialog_Important));
+                dialogo1.setMessage(getContext().getResources().getString(R.string.dialog_are_you_sure_remove));
                 dialogo1.setCancelable(false);
-                dialogo1.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                dialogo1.setPositiveButton(getContext().getResources().getString(R.string.option_yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogo1, int id) {
 
                         Call<Void> call = ownerService.deleteOwner(SignUpActivity.ownerNew.getOwnerId());
@@ -182,7 +182,7 @@ public class Account1 extends Fragment {
                             public void onResponse(Call<Void> call, Response<Void> response) {
                                 SignUpActivity.ownerNew= new Owner();
                                 dialogo1.dismiss();
-                                Toast.makeText(view.getContext(), "Successfully delete", Toast.LENGTH_LONG).show();
+                                Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toas_successfully_delete), Toast.LENGTH_LONG).show();
                                 startActivity(
                                         new Intent(root.getContext(), MainActivity.class)
                                 );
