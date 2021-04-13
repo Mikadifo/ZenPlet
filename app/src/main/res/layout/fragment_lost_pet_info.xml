@@ -9,67 +9,90 @@
     android:background="@color/colorLightBackground"
     tools:context=".ui.lost_pets_list.LostPetInfo" >
 
-    <TextView
-        android:id="@+id/lostPetNameInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="177dp"
-        android:layout_marginTop="50dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/lostPetImageInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="147dp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lostPetNameInfo"
-        tools:src="@tools:sample/avatars" />
-
-    <TextView
-        android:id="@+id/lostPetTitleInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="192dp"
-        android:layout_marginTop="36dp"
-        android:fontFamily="@font/ptsans"
-        android:text="@string/StrgInfoLostPet"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lostPetImageInfo" />
-
-    <TextView
-        android:id="@+id/lostPetInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="176dp"
-        android:layout_marginTop="28dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lostPetTitleInfo" />
-
-    <com.mapbox.mapboxsdk.maps.MapView
-        android:id="@+id/mapViewInfo"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="290dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lostPetInfo"
-        mapbox:mapbox_cameraTargetLat="-2.90055"
-        mapbox:mapbox_cameraTargetLng="-79.00453"
-        mapbox:mapbox_cameraZoom="10" />
-
-    <Button
-        android:id="@+id/btnBackInfo"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="165dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/StringBtnInfo"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapViewInfo" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/lostPetNameInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/ptsans"
+                android:text="PetName"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/lostPetImageInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                tools:src="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/lostPetTitleInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:fontFamily="@font/ptsans"
+                android:text="@string/StrgInfoLostPet"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/lostPetInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/ptsans"
+                android:gravity="center"
+                android:text="TextView"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <com.mapbox.mapboxsdk.maps.MapView
+                android:id="@+id/mapViewInfo"
+                android:layout_width="match_parent"
+                android:layout_height="290dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="32dp"
+                mapbox:mapbox_cameraTargetLat="-2.90055"
+                mapbox:mapbox_cameraTargetLng="-79.00453"
+                mapbox:mapbox_cameraZoom="10" />
+
+            <Button
+                android:id="@+id/btnBackInfo"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="80dp"
+                android:layout_marginEnd="80dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/colorPrimaryDark"
+                android:fontFamily="@font/ptsans"
+                android:text="@string/StringBtnInfo"
+                android:textColor="@color/colorLightBackground"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
