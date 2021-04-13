@@ -15,6 +15,7 @@ import android.widget.ListView;
 import com.mikadifo.zenplet.API.CallWithToken;
 import com.mikadifo.zenplet.API.model.LostPet;
 import com.mikadifo.zenplet.API.model.Pet;
+import com.mikadifo.zenplet.API.model.PetVaccine;
 import com.mikadifo.zenplet.API.service.LosPetAdapter;
 import com.mikadifo.zenplet.API.service.LostPetService;
 import com.mikadifo.zenplet.API.service.PetAdapter;
@@ -22,6 +23,7 @@ import com.mikadifo.zenplet.R;
 import com.mikadifo.zenplet.ui.SignUpActivity;
 import com.mikadifo.zenplet.ui.pets.EditLostPet;
 import com.mikadifo.zenplet.ui.pets.EditPet;
+import com.mikadifo.zenplet.ui.vaccines.EditVaccines;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +39,7 @@ import retrofit2.Retrofit;
  * create an instance of this fragment.
  */
 public class LostPetsList extends Fragment {
-    private static LostPet selectedLostPet;
+    public static LostPet selectedLostPet;
     private  LostPet lostPet;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -97,6 +99,7 @@ public class LostPetsList extends Fragment {
                         List<LostPet> lostPetList = new ArrayList<LostPet>(response.body());
                         listView.setAdapter(new LosPetAdapter(root.getContext(), R.layout.list_lost_pets, lostPetList));
                     }
+                    listView.setOnItemClickListener(lostPetlistener);
                 }
             }
 
@@ -112,5 +115,15 @@ public class LostPetsList extends Fragment {
 
         return root;
     }
+
+    private AdapterView.OnItemClickListener lostPetlistener = (adapterView, view, position, id) -> {
+        selectedLostPet = (LostPet) adapterView.getItemAtPosition(position);
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager
+                .beginTransaction()
+                .replace(R.id.nav_host_fragment, new LostPetInfo());
+        fragmentTransaction.commit();
+    };
+
 
 }

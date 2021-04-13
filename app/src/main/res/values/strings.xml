@@ -71,4 +71,6 @@
     <string name="StrVaccineForPet">Vaccine For:</string>
     <string name="pet_image_description">Pet Image</string>
     <string name="last_location">Last Location:</string>
+    <string name="StrgInfoLostPet">Info:</string>
+    <string name="StringBtnInfo">Back</string>
 </resources>

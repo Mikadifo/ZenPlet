@@ -42,7 +42,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * create an instance of this fragment.
  */
 public class EditLostPet extends Fragment {
-    public String lostPetLocation;
+    private String lostPetLocation;
     private Marker marcadorPost;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -94,10 +94,10 @@ public class EditLostPet extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Mapbox.getInstance(getContext().getApplicationContext(),  getString(R.string.mapbox_access_token));
         View root = inflater.inflate(R.layout.fragment_edit_lost_pet, container, false);
         EditText additionalInfo = root.findViewById(R.id.editTextTextMultiLine);
         additionalInfo.setText(this.editingLostPet.getLostPetAdditionalInfo());
-        Mapbox.getInstance(getContext().getApplicationContext(),  getString(R.string.mapbox_access_token));
         MapView mapView;
         mapView = (MapView) root.findViewById(R.id.mapview);
         mapView.onCreate(savedInstanceState);
