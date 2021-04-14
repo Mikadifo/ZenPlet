@@ -111,43 +111,46 @@ public class Account1 extends Fragment {
         btns.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CallWithToken callWithToken= new CallWithToken();
-                Retrofit retrofit = callWithToken.getCallToken();
-                OwnerService ownerService = retrofit.create(OwnerService.class);
-                Call<Owner> call = ownerService.getOwnerById(SignUpActivity.ownerNew.getOwnerId());
-                call.enqueue(new Callback<Owner>() {
-                    @Override
-                    public void onResponse(Call<Owner> call, Response<Owner> response) {
-                        SignUpActivity.ownerNew = response.body();
+                if(username.getText().toString().isEmpty()||email.getText().toString().isEmpty()||phone.getText().toString().isEmpty()){
+                    Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_you_must_complete_the_fields), Toast.LENGTH_LONG).show();
+                }else{
+                    CallWithToken callWithToken= new CallWithToken();
+                    Retrofit retrofit = callWithToken.getCallToken();
+                    OwnerService ownerService = retrofit.create(OwnerService.class);
+                    Call<Owner> call = ownerService.getOwnerById(SignUpActivity.ownerNew.getOwnerId());
+                    call.enqueue(new Callback<Owner>() {
+                        @Override
+                        public void onResponse(Call<Owner> call, Response<Owner> response) {
+                            SignUpActivity.ownerNew = response.body();
 
-                        if(SignUpActivity.ownerNew.getOwnerName().equals(username.getText().toString())&&
-                                SignUpActivity.ownerNew.getOwnerEmail().equals(email.getText().toString())&&
-                                SignUpActivity.ownerNew.getOwnerPhoneNumber().equals(phone.getText().toString())
-                        ){
-                            Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_cannot_be_changed), Toast.LENGTH_LONG).show();
+                            if(SignUpActivity.ownerNew.getOwnerName().equals(username.getText().toString())&&
+                                    SignUpActivity.ownerNew.getOwnerEmail().equals(email.getText().toString())&&
+                                    SignUpActivity.ownerNew.getOwnerPhoneNumber().equals(phone.getText().toString())
+                            ){
+                                Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_cannot_be_changed), Toast.LENGTH_LONG).show();
 
-                           }else {
-                            SignUpActivity.ownerNew.setOwnerName(username.getText().toString());
-                            SignUpActivity.ownerNew.setOwnerEmail(email.getText().toString());
-                            SignUpActivity.ownerNew.setOwnerPhoneNumber(phone.getText().toString());
-                            Call<Owner> callupdate = ownerService.updateOwner(SignUpActivity.ownerNew.getOwnerId(),SignUpActivity.ownerNew);
-                            callupdate.enqueue(new Callback<Owner>() {
-                                @Override
-                                public void onResponse(Call<Owner> call, Response<Owner> response) {
-                                    Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_successfully_saved_changes), Toast.LENGTH_LONG).show();
-                                }
-
-                                @Override
-                                public void onFailure(Call<Owner> call, Throwable t) {
-                                    try {
-                                        throw t;
-                                    } catch (Throwable throwable) {
-                                        throwable.printStackTrace();
+                            }else {
+                                SignUpActivity.ownerNew.setOwnerName(username.getText().toString());
+                                SignUpActivity.ownerNew.setOwnerEmail(email.getText().toString());
+                                SignUpActivity.ownerNew.setOwnerPhoneNumber(phone.getText().toString());
+                                Call<Owner> callupdate = ownerService.updateOwner(SignUpActivity.ownerNew.getOwnerId(),SignUpActivity.ownerNew);
+                                callupdate.enqueue(new Callback<Owner>() {
+                                    @Override
+                                    public void onResponse(Call<Owner> call, Response<Owner> response) {
+                                        Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_successfully_saved_changes), Toast.LENGTH_LONG).show();
                                     }
-                                }
-                            });
+
+                                    @Override
+                                    public void onFailure(Call<Owner> call, Throwable t) {
+                                        try {
+                                            throw t;
+                                        } catch (Throwable throwable) {
+                                            throwable.printStackTrace();
+                                        }
+                                    }
+                                });
+                            }
                         }
-                    }
 
                     @Override
                     public void onFailure(Call<Owner> call, Throwable t) {
@@ -159,7 +162,7 @@ public class Account1 extends Fragment {
                     }
                 });
             }
-
+            }
         });
         Button btnd = root.findViewById(R.id.btnDeleteAccount);
         btnd.setOnClickListener(new View.OnClickListener(){

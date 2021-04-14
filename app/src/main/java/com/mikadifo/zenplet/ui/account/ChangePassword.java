@@ -82,63 +82,68 @@ public class ChangePassword extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_change_password, container, false);
         Button btn = root.findViewById(R.id.btnSaveNewPassword);
+        EditText ownerOldPassword = root.findViewById(R.id.edit_old_pwd);
+        EditText newPassword = root.findViewById(R.id.edit_new_passwords);
+        EditText confirmNewPassword = root.findViewById(R.id.edit_repeat_passwords);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(ownerOldPassword.getText().toString().isEmpty()||newPassword.getText().toString().isEmpty()||confirmNewPassword.getText().toString().isEmpty()){
+                    Toast.makeText(v.getContext(), getContext().getResources().getString(R.string.toast_cannot_be_changed), Toast.LENGTH_LONG).show();
+                }else{
 
-                EditText ownerOldPassword = root.findViewById(R.id.edit_old_pwd);
-                EditText newPassword = root.findViewById(R.id.edit_new_passwords);
-                EditText confirmNewPassword = root.findViewById(R.id.edit_repeat_passwords);
 
-                CallWithToken callWithTokentoken = new CallWithToken();
-                Retrofit retrofit = callWithTokentoken.getCallToken();
+                    CallWithToken callWithTokentoken = new CallWithToken();
+                    Retrofit retrofit = callWithTokentoken.getCallToken();
 
-                OwnerService ownerService = retrofit.create(OwnerService.class);
-                Call<Owner> call = ownerService.getOwnerById(SignUpActivity.ownerNew.getOwnerId());
-                System.out.println(call.request().toString());
-                call.enqueue(new Callback<Owner>() {
-                    @Override
-                    public void onResponse(Call<Owner> call, Response<Owner> response) {
-                        System.out.println(response.body());
-                        System.out.println(SignUpActivity.ownerNew);
-                        if (ownerOldPassword.getText().toString().equals(SignUpActivity.ownerNew.getOwnerPassword())){
-                            if (newPassword.getText().toString().equals(confirmNewPassword.getText().toString())){
-                                SignUpActivity.ownerNew.setOwnerPassword(newPassword.getText().toString());
-                                Call<Owner> callUpdate = ownerService.updateOwner(SignUpActivity
-                                        .ownerNew.getOwnerId(), SignUpActivity.ownerNew);
-                                callUpdate.enqueue(new Callback<Owner>() {
-                                    @Override
-                                    public void onResponse(Call<Owner> call, Response<Owner> response) {
+                    OwnerService ownerService = retrofit.create(OwnerService.class);
+                    Call<Owner> call = ownerService.getOwnerById(SignUpActivity.ownerNew.getOwnerId());
+                    System.out.println(call.request().toString());
+                    call.enqueue(new Callback<Owner>() {
+                        @Override
+                        public void onResponse(Call<Owner> call, Response<Owner> response) {
+                            System.out.println(response.body());
+                            System.out.println(SignUpActivity.ownerNew);
+                            if (ownerOldPassword.getText().toString().equals(SignUpActivity.ownerNew.getOwnerPassword())){
+                                if (newPassword.getText().toString().equals(confirmNewPassword.getText().toString())){
+                                    SignUpActivity.ownerNew.setOwnerPassword(newPassword.getText().toString());
+                                    Call<Owner> callUpdate = ownerService.updateOwner(SignUpActivity
+                                            .ownerNew.getOwnerId(), SignUpActivity.ownerNew);
+                                    callUpdate.enqueue(new Callback<Owner>() {
+                                        @Override
+                                        public void onResponse(Call<Owner> call, Response<Owner> response) {
 
-                                        Toast.makeText(v.getContext(), getContext().getResources().getString(R.string.toast_changed_password_successfully), Toast.LENGTH_LONG).show();
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<Owner> call, Throwable t) {
-                                        try {
-                                            throw t;
-                                        } catch (Throwable throwable) {
-                                            throwable.printStackTrace();
+                                            Toast.makeText(v.getContext(), getContext().getResources().getString(R.string.toast_changed_password_successfully), Toast.LENGTH_LONG).show();
                                         }
-                                    }
-                                });
-                            }else{
-                                Toast.makeText(v.getContext(), getContext().getResources().getString(R.string.toast_new_passwords_do_not_match), Toast.LENGTH_LONG).show();
-                            }
-                        }else{
-                            Toast.makeText(v.getContext(), getContext().getResources().getString(R.string.toast_the_password_is_not_correct), Toast.LENGTH_LONG).show();
-                        }
-                    }
 
-                    @Override
-                    public void onFailure(Call<Owner> call, Throwable t) {
-                        try {
-                            throw t;
-                        } catch (Throwable throwable) {
-                            throwable.printStackTrace();
+                                        @Override
+                                        public void onFailure(Call<Owner> call, Throwable t) {
+                                            try {
+                                                throw t;
+                                            } catch (Throwable throwable) {
+                                                throwable.printStackTrace();
+                                            }
+                                        }
+                                    });
+                                }else{
+                                    Toast.makeText(v.getContext(), getContext().getResources().getString(R.string.toast_new_passwords_do_not_match), Toast.LENGTH_LONG).show();
+                                }
+                            }else{
+                                Toast.makeText(v.getContext(), getContext().getResources().getString(R.string.toast_the_password_is_not_correct), Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
-                });
+
+                        @Override
+                        public void onFailure(Call<Owner> call, Throwable t) {
+                            try {
+                                throw t;
+                            } catch (Throwable throwable) {
+                                throwable.printStackTrace();
+                            }
+                        }
+                    });
+                }
+
 
                 }
         });

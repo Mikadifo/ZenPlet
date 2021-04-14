@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println(response.body());
                 System.out.println(response.body().longValue());
                 TextView petsFound = findViewById(R.id.text_pets_found);
-                petsFound.setText(response.body().longValue() + " pets found using our app.");
+                petsFound.setText(response.body().longValue() + " "+getBaseContext().getResources().getString(R.string.Text_pets_found_using_our_app_));
             }
 
             @Override

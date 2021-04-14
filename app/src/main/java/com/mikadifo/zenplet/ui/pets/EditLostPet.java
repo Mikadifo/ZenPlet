@@ -133,41 +133,46 @@ public class EditLostPet extends Fragment {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LostPet lostPetEdit = new LostPet(
-                        new Pet(),
-                        new Owner(),
-                        lostPetLocation,
-                        additionalInfo.getText().toString()
-                );
-                CallWithToken callWithToken = new CallWithToken();
-                Retrofit retrofit = callWithToken.getCallToken();
-                LostPetService lostPetService = retrofit.create(LostPetService.class);
-                Call<LostPet> call = lostPetService.updateLostPet(FragmentPets.selectedPet.getPetId(), lostPetEdit);
-                call.enqueue(new Callback<LostPet>() {
-                    @Override
-                    public void onResponse(Call<LostPet> call, Response<LostPet> response) {
-                        System.out.println(response.body());
-                        if (response.body().getLostPetAdditionalInfo().equals(lostPetEdit.getLostPetAdditionalInfo())) {
-                            Toast.makeText(root.getContext(), getContext().getResources().getString(R.string.toast_Lost_Pet_Updated), Toast.LENGTH_LONG).show();
-                            FragmentManager fragmentManager = getFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager
-                                    .beginTransaction()
-                                    .replace(R.id.nav_host_fragment, new EditPet());
-                            fragmentTransaction.commit();
-                        } else {
-                            Toast.makeText(root.getContext(), getContext().getResources().getString(R.string.toast_Error_updating_lost_petd), Toast.LENGTH_LONG).show();
+                if(additionalInfo.getText().toString().isEmpty()||lostPetLocation.isEmpty()){
+                    Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_cannot_be_changed), Toast.LENGTH_LONG).show();
+                }else{
+                    LostPet lostPetEdit = new LostPet(
+                            new Pet(),
+                            new Owner(),
+                            lostPetLocation,
+                            additionalInfo.getText().toString()
+                    );
+                    CallWithToken callWithToken = new CallWithToken();
+                    Retrofit retrofit = callWithToken.getCallToken();
+                    LostPetService lostPetService = retrofit.create(LostPetService.class);
+                    Call<LostPet> call = lostPetService.updateLostPet(FragmentPets.selectedPet.getPetId(), lostPetEdit);
+                    call.enqueue(new Callback<LostPet>() {
+                        @Override
+                        public void onResponse(Call<LostPet> call, Response<LostPet> response) {
+                            System.out.println(response.body());
+                            if (response.body().getLostPetAdditionalInfo().equals(lostPetEdit.getLostPetAdditionalInfo())) {
+                                Toast.makeText(root.getContext(), getContext().getResources().getString(R.string.toast_Lost_Pet_Updated), Toast.LENGTH_LONG).show();
+                                FragmentManager fragmentManager = getFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager
+                                        .beginTransaction()
+                                        .replace(R.id.nav_host_fragment, new EditPet());
+                                fragmentTransaction.commit();
+                            } else {
+                                Toast.makeText(root.getContext(), getContext().getResources().getString(R.string.toast_Error_updating_lost_petd), Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<LostPet> call, Throwable t) {
-                        try {
-                            throw t;
-                        } catch (Throwable throwable) {
-                            throwable.printStackTrace();
+                        @Override
+                        public void onFailure(Call<LostPet> call, Throwable t) {
+                            try {
+                                throw t;
+                            } catch (Throwable throwable) {
+                                throwable.printStackTrace();
+                            }
                         }
-                    }
-                });
+                    });
+                }
+
             }
         });
         buttonPetFound.setOnClickListener(new View.OnClickListener() {

@@ -67,7 +67,7 @@
     <string name="btnCancelar">Cancel</string>
     <string name="mapbox_access_token">pk.eyJ1IjoiZG9ybWFtdWQwMyIsImEiOiJja243djU4YzgwcmZ3Mm9xbmpsc2pnc2FsIn0.eZI3kr1WDuRrtuhP5ZgDhQ</string>
     <string name="StrVaccineForPet">Vaccine For:</string>
-    <string name="pet_image_description">Pet Image</string>
+    <string name="pet_image">Pet Image</string>
     <string name="last_location">Last Location:</string>
     <string name="StrgInfoLostPet">Info:</string>
     <string name="StringBtnInfo">Back</string>
@@ -95,4 +95,6 @@
     <string name="toast_The_data_has_been_save_successfully">The data has been save successfully</string>
     <string name="toast_The_vaccine_has_been_updated_successfully">The vaccine has been updated successfully</string>
     <string name="dialog_This_user_is_not_registered">This user is not registered</string>
+    <string name="toast_you_must_complete_the_fields">You must complete all fields</string>
+    <string name="Text_pets_found_using_our_app.">pets found using our app.</string>
 </resources>

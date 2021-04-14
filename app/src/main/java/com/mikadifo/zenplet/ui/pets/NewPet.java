@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 import com.mikadifo.zenplet.API.CallWithToken;
@@ -130,51 +131,67 @@ public class NewPet extends Fragment {
                 datePickerDialog.show();
             }
         });
-
-
-
+        //crear la mascota
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CallWithToken callWithToken = new CallWithToken();
-                Retrofit retrofit = callWithToken.getCallToken();
-
-                Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] imageInByte = baos.toByteArray();
-                String fotoEnBase64 = Base64.encodeToString(imageInByte, Base64.DEFAULT);
-
-                pet.setPetName(name.getText().toString());
-                pet.setPetSize(size.getText().toString());
-                pet.setPetGenre(genre.getText().toString());
-                pet.setPetBreed(breed.getText().toString());
-
-                pet.setPetBirthdate(birthdate.getText().toString());
-                pet.setPetImage(fotoEnBase64);
-                // falta el cumpleaños pet.se
-                pet.setPetOwner(SignUpActivity.ownerNew);
-                PetService petService = retrofit.create(PetService.class);
-                RequestBody nombre = RequestBody.create(MediaType.parse("text/plain"),"petImage");
-                Call<Pet> call = petService.savePet(pet);
-                call.enqueue(new Callback<Pet>() {
-                    @Override
-                    public void onResponse(Call<Pet> call, Response<Pet> response) {
-                        pet=response.body();
-                        SignUpActivity.ownerNew.getOwnerPets().add(pet);
-                        OwnerService ownerService = retrofit.create(OwnerService.class);
-                        Call<Owner> callUpdateFirstOwner = ownerService.updateOwner(SignUpActivity.ownerNew.getOwnerId(), SignUpActivity.ownerNew);
-                        callUpdateFirstOwner.enqueue(new Callback<Owner>() {
+               if (name.getText().toString().isEmpty() || size.getText().toString().isEmpty() ||
+                            genre.getText().toString().isEmpty() || breed.getText().toString().isEmpty() ||
+                            birthdate.getText().toString().isEmpty()||imageView.getDrawable() == null) {
+                        Toast.makeText(view.getContext(),
+                                getContext().getResources().getString(R.string.toast_you_must_complete_the_fields),
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        byte[] imageInByte = baos.toByteArray();
+                        String fotoEnBase64 = Base64.encodeToString(imageInByte, Base64.DEFAULT);
+                        CallWithToken callWithToken = new CallWithToken();
+                        Retrofit retrofit = callWithToken.getCallToken();
+                        pet.setPetName(name.getText().toString());
+                        pet.setPetSize(size.getText().toString());
+                        pet.setPetGenre(genre.getText().toString());
+                        pet.setPetBreed(breed.getText().toString());
+                        pet.setPetBirthdate(birthdate.getText().toString());
+                        pet.setPetImage(fotoEnBase64);
+                        pet.setPetOwner(SignUpActivity.ownerNew);
+                        PetService petService = retrofit.create(PetService.class);
+                        //RequestBody nombre = RequestBody.create(MediaType.parse("text/plain"), "petImage");
+                        Call<Pet> call = petService.savePet(pet);
+                        call.enqueue(new Callback<Pet>() {
                             @Override
-                            public void onResponse(Call<Owner> call, Response<Owner> response) {
-                                SignUpActivity.ownerNew = response.body();
-                                System.out.println("Este es el response"+response.body());
-                                System.out.println("Se creo el primero ");
+                            public void onResponse(Call<Pet> call, Response<Pet> response) {
+                                pet = response.body();
+                                SignUpActivity.ownerNew.getOwnerPets().add(pet);
+                                OwnerService ownerService = retrofit.create(OwnerService.class);
+                                Call<Owner> callUpdateFirstOwner = ownerService.updateOwner(SignUpActivity.ownerNew.getOwnerId(), SignUpActivity.ownerNew);
+                                callUpdateFirstOwner.enqueue(new Callback<Owner>() {
+                                    @Override
+                                    public void onResponse(Call<Owner> call, Response<Owner> response) {
+                                        SignUpActivity.ownerNew = response.body();
+                                        System.out.println("foto en base ultimo" + fotoEnBase64.toString());
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Owner> call, Throwable t) {
+                                        try {
+                                            throw t;
+                                        } catch (Throwable throwable) {
+                                            throwable.printStackTrace();
+                                        }
+                                    }
+                                });
+                                FragmentManager fragmentManager = getFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager
+                                        .beginTransaction()
+                                        .replace(R.id.nav_host_fragment, new FragmentPets());
+                                fragmentTransaction.commit();
 
                             }
 
                             @Override
-                            public void onFailure(Call<Owner> call, Throwable t) {
+                            public void onFailure(Call<Pet> call, Throwable t) {
                                 try {
                                     throw t;
                                 } catch (Throwable throwable) {
@@ -182,33 +199,14 @@ public class NewPet extends Fragment {
                                 }
                             }
                         });
-                        FragmentManager fragmentManager = getFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager
-                                .beginTransaction()
-                                .replace(R.id.nav_host_fragment, new FragmentPets());
-                        fragmentTransaction.commit();
-
                     }
-
-                    @Override
-                    public void onFailure(Call<Pet> call, Throwable t) {
-                        try {
-                            throw t;
-                        } catch (Throwable throwable) {
-                            throwable.printStackTrace();
-                        }
-                    }
-                });
-            }
+                }
         });
         openCameraBtn.setOnClickListener(this::cameraAccess);
         openGalleryBtn.setOnClickListener(this::loadImage);
 
         return root;
     }
-
-
-
     public void cameraAccess(View view){
         Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(intent.resolveActivity(getActivity().getPackageManager())!=null){

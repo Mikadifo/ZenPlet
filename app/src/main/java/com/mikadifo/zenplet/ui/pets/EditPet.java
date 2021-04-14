@@ -109,6 +109,7 @@ public class EditPet extends Fragment {
         birthdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 int day,month,year;
                 Calendar calendar = Calendar.getInstance();
                 day=calendar.get(Calendar.DAY_OF_MONTH);
@@ -141,43 +142,52 @@ public class EditPet extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] imageInByte = baos.toByteArray();
-                String fotoEnBase64 = Base64.encodeToString(imageInByte, Base64.DEFAULT);
 
-                FragmentPets.selectedPet.setPetName(name.getText().toString());
-                FragmentPets.selectedPet.setPetOwner(SignUpActivity.ownerNew);
-                FragmentPets.selectedPet.setPetSize(size.getText().toString());
-                FragmentPets.selectedPet.setPetBreed(breed.getText().toString());
-                FragmentPets.selectedPet.setPetGenre(genre.getText().toString());
-                FragmentPets.selectedPet.setPetBirthdate(birthdate.getText().toString());
-                FragmentPets.selectedPet.setPetImage(fotoEnBase64);
-                Call<Pet> callupdate = petService.updatePet(FragmentPets.selectedPet.getPetId(), FragmentPets.selectedPet);
-                callupdate.enqueue(new Callback<Pet>() {
-                    @Override
-                    public void onResponse(Call<Pet> call, Response<Pet> response) {
-                        Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_The_data_has_been_save_successfully), Toast.LENGTH_LONG).show();
-                        System.out.println(response.body());
+                if (name.getText().toString().isEmpty()||size.getText().toString().isEmpty()||
+                        breed.getText().toString().isEmpty()||genre.getText().toString().isEmpty()||
+                        birthdate.getText().toString().isEmpty()||imageView.getDrawable()==null) {
+                    Toast.makeText(view.getContext(),
+                            getContext().getResources().getString(R.string.toast_you_must_complete_the_fields),
+                            Toast.LENGTH_LONG).show();
 
-                        FragmentManager fragmentManager = getFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager
-                                .beginTransaction()
-                                .replace(R.id.nav_host_fragment, new FragmentPets());
-                        fragmentTransaction.commit();
-                        Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_updated_pet), Toast.LENGTH_SHORT).show();
-                    }
+                } else {
+                    Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    byte[] imageInByte = baos.toByteArray();
+                    String fotoEnBase64 = Base64.encodeToString(imageInByte, Base64.DEFAULT);
+                    FragmentPets.selectedPet.setPetName(name.getText().toString());
+                    FragmentPets.selectedPet.setPetOwner(SignUpActivity.ownerNew);
+                    FragmentPets.selectedPet.setPetSize(size.getText().toString());
+                    FragmentPets.selectedPet.setPetBreed(breed.getText().toString());
+                    FragmentPets.selectedPet.setPetGenre(genre.getText().toString());
+                    FragmentPets.selectedPet.setPetBirthdate(birthdate.getText().toString());
+                    FragmentPets.selectedPet.setPetImage(fotoEnBase64);
+                    Call<Pet> callupdate = petService.updatePet(FragmentPets.selectedPet.getPetId(), FragmentPets.selectedPet);
+                    callupdate.enqueue(new Callback<Pet>() {
+                        @Override
+                        public void onResponse(Call<Pet> call, Response<Pet> response) {
+                            Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_The_data_has_been_save_successfully), Toast.LENGTH_LONG).show();
+                            System.out.println(response.body());
 
-                    @Override
-                    public void onFailure(Call<Pet> call, Throwable t) {
-                        try {
-                            throw t;
-                        } catch (Throwable throwable) {
-                            throwable.printStackTrace();
+                            FragmentManager fragmentManager = getFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager
+                                    .beginTransaction()
+                                    .replace(R.id.nav_host_fragment, new FragmentPets());
+                            fragmentTransaction.commit();
+                            Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_updated_pet), Toast.LENGTH_SHORT).show();
                         }
-                    }
-                });
+
+                        @Override
+                        public void onFailure(Call<Pet> call, Throwable t) {
+                            try {
+                                throw t;
+                            } catch (Throwable throwable) {
+                                throwable.printStackTrace();
+                            }
+                        }
+                    });
+                }
             }
         });
         //Asignar metodos a los botones

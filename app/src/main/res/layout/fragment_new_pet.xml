@@ -34,11 +34,11 @@
                                     android:id="@+id/imgFoto"
                                     android:layout_width="135dp"
                                     android:layout_height="match_parent"
+                                    android:background="#DFDCBF"
                                     android:contentDescription="@string/account"
                                     app:layout_constraintBottom_toTopOf="@+id/nextText"
                                     app:layout_constraintEnd_toStartOf="@+id/btnCamara"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:srcCompat="@android:drawable/ic_menu_crop" />
+                                    app:layout_constraintStart_toStartOf="parent" />
 
                                 <LinearLayout
                                     android:layout_width="174dp"
