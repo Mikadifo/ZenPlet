@@ -1,6 +1,7 @@
 package com.mikadifo.zenplet.ui.vaccines;
 
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -29,7 +30,6 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  * Use the {@link Vaccines#newInstance} factory method to
  * create an instance of this fragment.
- *
  */
 public class Vaccines extends Fragment {
 
@@ -82,16 +82,16 @@ public class Vaccines extends Fragment {
         // Inflate the layout for this fragment
 
         root = inflater.inflate(R.layout.fragment_vaccines, container, false);
-        List<PetVaccine> petVaccineslist= new ArrayList<>();
-        for(Pet pet:SignUpActivity.ownerNew.getOwnerPets()) {
+        List<PetVaccine> petVaccineslist = new ArrayList<>();
+        for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()) {
             if (pet.getPetVaccines() != null) {
                 petVaccineslist.addAll(pet.getPetVaccines());
             }
         }
 
         if (!petVaccineslist.isEmpty()) {
-            ListView list=root.findViewById(R.id.ListVaccines);
-            list.setAdapter(new VaccinesAdapter(root.getContext(),R.layout.vaccines_list, petVaccineslist ));
+            ListView list = root.findViewById(R.id.ListVaccines);
+            list.setAdapter(new VaccinesAdapter(root.getContext(), R.layout.vaccines_list, petVaccineslist));
             list.setOnItemClickListener(vaccineListener);
         }
 
@@ -109,7 +109,7 @@ public class Vaccines extends Fragment {
         return root;
     }
 
-    private AdapterView.OnItemClickListener vaccineListener= (adapterView, view, position, id) -> {
+    private AdapterView.OnItemClickListener vaccineListener = (adapterView, view, position, id) -> {
         selectedPetVaccine = (PetVaccine) adapterView.getItemAtPosition(position);
         System.out.println("Este es cuando selecciona vaccine" + selectedPetVaccine);
         FragmentManager fragmentManager = getFragmentManager();

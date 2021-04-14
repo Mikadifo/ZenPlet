@@ -25,6 +25,7 @@ import com.mikadifo.zenplet.API.service.PetVaccineService;
 import com.mikadifo.zenplet.API.service.VaccineService;
 import com.mikadifo.zenplet.R;
 import com.mikadifo.zenplet.ui.SignUpActivity;
+
 import java.util.Calendar;
 
 import retrofit2.Call;
@@ -88,8 +89,8 @@ public class NewVaccines extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_new_vaccines, container, false);
-        Spinner spinnerVaccinesForPet = (Spinner) root.findViewById(R.id.spinnerVaccinesForPet);
-        ArrayAdapter<Pet> arrayAdapter = new ArrayAdapter(root.getContext(), R.layout.support_simple_spinner_dropdown_item,SignUpActivity.ownerNew.getOwnerPets().toArray());
+        Spinner spinnerVaccinesForPet = root.findViewById(R.id.spinnerVaccinesForPet);
+        ArrayAdapter<Pet> arrayAdapter = new ArrayAdapter(root.getContext(), R.layout.support_simple_spinner_dropdown_item, SignUpActivity.ownerNew.getOwnerPets().toArray());
         arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerVaccinesForPet.setAdapter(arrayAdapter);
         spinnerVaccinesForPet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -99,6 +100,7 @@ public class NewVaccines extends Fragment {
                 selectedPet = (Pet) spinnerVaccinesForPet.getItemAtPosition(position);
                 System.out.println(selectedPet);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -111,36 +113,36 @@ public class NewVaccines extends Fragment {
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int day,month,year;
+                int day, month, year;
                 Calendar calendar = Calendar.getInstance();
-                day=calendar.get(Calendar.DAY_OF_MONTH);
-                month=calendar.get(Calendar.MONTH);
-                year=calendar.get(Calendar.YEAR);
+                day = calendar.get(Calendar.DAY_OF_MONTH);
+                month = calendar.get(Calendar.MONTH);
+                year = calendar.get(Calendar.YEAR);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        date.setText(dayOfMonth+"/"+(month+1)+"/"+year);
+                        date.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
                     }
-                },day,month,year);
+                }, day, month, year);
                 datePickerDialog.show();
             }
         });
         dateNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int day,month,year;
+                int day, month, year;
                 Calendar calendar = Calendar.getInstance();
-                day=calendar.get(Calendar.DAY_OF_MONTH);
-                month=calendar.get(Calendar.MONTH);
-                year=calendar.get(Calendar.YEAR);
+                day = calendar.get(Calendar.DAY_OF_MONTH);
+                month = calendar.get(Calendar.MONTH);
+                year = calendar.get(Calendar.YEAR);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        dateNext.setText(dayOfMonth+"/"+(month+1)+"/"+year);
+                        dateNext.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
                     }
-                },day,month,year);
+                }, day, month, year);
                 datePickerDialog.show();
             }
         });
@@ -160,8 +162,8 @@ public class NewVaccines extends Fragment {
                     public void onResponse(Call<Vaccine> call, Response<Vaccine> response) {
                         System.out.println(response.body());
                         vaccine = response.body();
-                        for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()){
-                            if (pet.getPetId() == selectedPet.getPetId()){
+                        for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()) {
+                            if (pet.getPetId() == selectedPet.getPetId()) {
                                 petForVaccine = pet;
                             }
                         }
@@ -180,8 +182,8 @@ public class NewVaccines extends Fragment {
                             public void onResponse(Call<PetVaccine> call, Response<PetVaccine> response) {
                                 System.out.println(response.body());
                                 petVaccine = response.body();
-                                for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()){
-                                    if (petForVaccine.getPetId()==response.body().getId().getPetId()){
+                                for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()) {
+                                    if (pet.getPetId() == response.body().getId().getPetId()) {
                                         pet.getPetVaccines().add(petVaccine);
                                     }
                                 }
