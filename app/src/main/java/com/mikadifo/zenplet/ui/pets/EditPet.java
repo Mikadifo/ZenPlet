@@ -118,7 +118,7 @@ public class EditPet extends Fragment {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        birthdate.setText(dayOfMonth+"/"+(month+1)+"/"+year);
+                        birthdate.setText(year+"-"+(month+1)+"-"+dayOfMonth);
                     }
                 },day,month,year);
                 datePickerDialog.show();
