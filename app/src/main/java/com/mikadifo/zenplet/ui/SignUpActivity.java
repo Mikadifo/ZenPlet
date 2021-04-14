@@ -2,6 +2,7 @@ package com.mikadifo.zenplet.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.mikadifo.zenplet.AES;
 import com.mikadifo.zenplet.API.CallWithToken;
 import com.mikadifo.zenplet.API.model.Owner;
 import com.mikadifo.zenplet.API.service.OwnerService;
@@ -38,7 +39,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         ownerNew.setOwnerName(ownerName.getText().toString());
         ownerNew.setOwnerEmail(ownerEmail.getText().toString());
-        ownerNew.setOwnerPassword(ownerPassword.getText().toString());
+        ownerNew.setOwnerPassword(AES.encrypt(ownerPassword.getText().toString()));
         ownerNew.setOwnerPhoneNumber(ownerPhoneNumber.getText().toString());
 
         OwnerService ownerService = retrofit.create(OwnerService.class);
