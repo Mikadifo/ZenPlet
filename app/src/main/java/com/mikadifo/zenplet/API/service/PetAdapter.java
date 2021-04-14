@@ -68,19 +68,19 @@ public class PetAdapter extends ArrayAdapter<Pet> {
         Calendar fechaNacimiento = Calendar.getInstance();
         Calendar fechaActual = Calendar.getInstance();
         fechaNacimiento.setTime(date);
-        int año = fechaActual.get(Calendar.YEAR)- fechaNacimiento.get(Calendar.YEAR);
+        int year = fechaActual.get(Calendar.YEAR)- fechaNacimiento.get(Calendar.YEAR);
         int mes =fechaActual.get(Calendar.MONTH)- fechaNacimiento.get(Calendar.MONTH);
         int dia = fechaActual.get(Calendar.DATE)- fechaNacimiento.get(Calendar.DATE);
         if(mes<0 || (mes==0 && dia<0)){
-            año--;
+            year--;
 
         }
-        txtPetAge.setText(Integer.toString(año));
+        txtPetAge.setText(Integer.toString(year)+" Year "+Integer.toString(mes)+" Month ");
         txtPetName.setText(pets.get(pos).getPetName());
         txtPetType.setText(pets.get(pos).getPetBreed());
         txtPetGenre.setText(pets.get(pos).getPetGenre());
 
-        byte[] decodedString = Base64.decode(pets.get(pos).getPetImage(), Base64.DEFAULT);
+        byte[] decodedString = Base64.decode(pets.get(pos).getPetImage().split(",")[1], Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         imageView.setImageBitmap(decodedByte);
 

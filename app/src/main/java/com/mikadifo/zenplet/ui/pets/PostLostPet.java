@@ -113,7 +113,7 @@ public class PostLostPet extends Fragment {
                                 mapboxMap.addMarker(new MarkerOptions()
                                         .position(point));
 
-                                lostPetLocation = point.getLatitude()+","+point.getLongitude();
+                                lostPetLocation = point.getLongitude()+","+point.getLatitude();
 
                                 return true;
                             }

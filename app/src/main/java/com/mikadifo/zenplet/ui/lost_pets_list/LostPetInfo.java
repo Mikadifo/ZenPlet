@@ -106,7 +106,7 @@ public class LostPetInfo extends Fragment {
                     public void onStyleLoaded(@NonNull Style style) {
                         String [] location = LostPetsList.selectedLostPet.getLostPetLocation().split(",");
                         marcadorLostPetInfo = mapboxMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(Double.parseDouble(location[0]), Double.parseDouble(location[1])))
+                                .position(new LatLng(Double.parseDouble(location[1]), Double.parseDouble(location[0])))
                                 .title("Your pet"));
                     }
                 });

@@ -47,6 +47,28 @@
                                     android:orientation="vertical">
 
                                         <Button
+                                            android:id="@+id/btnCamara"
+                                            style="@style/Widget.AppCompat.Button.Borderless"
+                                            android:layout_width="112dp"
+                                            android:layout_height="38dp"
+                                            android:background="@drawable/ic_button"
+                                            android:backgroundTint="@color/colorPrimaryDark"
+                                            android:fontFamily="@font/ptsans"
+                                            android:text="@string/abrir_camara"
+                                            android:textAllCaps="false"
+                                            android:textColor="@color/colorLightBackground"
+                                            android:textSize="18sp"
+                                            android:textStyle="bold"
+                                            app:layout_constraintBottom_toTopOf="@+id/btnGaleria"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintHorizontal_bias="0.954"
+                                            app:layout_constraintStart_toEndOf="@+id/foto" />
+
+                                        <Space
+                                            android:layout_width="149dp"
+                                            android:layout_height="15dp" />
+
+                                        <Button
                                             android:id="@+id/btnGaleria"
                                             style="@style/Widget.AppCompat.Button.Borderless"
                                             android:layout_width="114dp"
@@ -64,27 +86,6 @@
                                             app:layout_constraintHorizontal_bias="0.015"
                                             app:layout_constraintStart_toStartOf="@+id/imgFoto" />
 
-                                        <Space
-                                            android:layout_width="149dp"
-                                            android:layout_height="15dp" />
-
-                                        <Button
-                                            android:id="@+id/btnCamara"
-                                            style="@style/Widget.AppCompat.Button.Borderless"
-                                            android:layout_width="112dp"
-                                            android:layout_height="38dp"
-                                            android:background="@drawable/ic_button"
-                                            android:backgroundTint="@color/colorPrimaryDark"
-                                            android:fontFamily="@font/ptsans"
-                                            android:text="@string/abrir_camara"
-                                            android:textAllCaps="false"
-                                            android:textColor="@color/colorLightBackground"
-                                            android:textSize="18sp"
-                                            android:textStyle="bold"
-                                            app:layout_constraintBottom_toTopOf="@+id/btnGaleria"
-                                            app:layout_constraintEnd_toEndOf="parent"
-                                            app:layout_constraintHorizontal_bias="0.954"
-                                            app:layout_constraintStart_toEndOf="@+id/foto" />
                                 </LinearLayout>
                         </LinearLayout>
 

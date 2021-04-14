@@ -32,6 +32,7 @@ import com.mikadifo.zenplet.R;
 import com.mikadifo.zenplet.ui.SignUpActivity;
 
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
 import okhttp3.MediaType;
@@ -143,7 +144,8 @@ public class NewPet extends Fragment {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] imageInByte = baos.toByteArray();
-                String fotoEnBase64 = Base64.encodeToString(imageInByte, Base64.DEFAULT);
+
+                String fotoEnBase64 ="data:image/jpeg;base64,"+Base64.encodeToString(imageInByte, Base64.NO_WRAP);
 
                 pet.setPetName(name.getText().toString());
                 pet.setPetSize(size.getText().toString());

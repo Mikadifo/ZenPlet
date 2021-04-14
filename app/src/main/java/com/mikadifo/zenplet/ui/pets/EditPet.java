@@ -124,7 +124,7 @@ public class EditPet extends Fragment {
                 datePickerDialog.show();
             }
         });
-        byte[] decodedString = Base64.decode(FragmentPets.selectedPet.getPetImage(), Base64.DEFAULT);
+        byte[] decodedString = Base64.decode(FragmentPets.selectedPet.getPetImage().split(",")[1], Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         imageView.setImageBitmap(decodedByte);
         name.setText(FragmentPets.selectedPet.getPetName());
@@ -145,7 +145,7 @@ public class EditPet extends Fragment {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] imageInByte = baos.toByteArray();
-                String fotoEnBase64 = Base64.encodeToString(imageInByte, Base64.DEFAULT);
+                String fotoEnBase64 = Base64.encodeToString(imageInByte, Base64.NO_WRAP);
 
                 FragmentPets.selectedPet.setPetName(name.getText().toString());
                 FragmentPets.selectedPet.setPetOwner(SignUpActivity.ownerNew);

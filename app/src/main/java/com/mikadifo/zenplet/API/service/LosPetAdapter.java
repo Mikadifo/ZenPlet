@@ -43,7 +43,7 @@ public class LosPetAdapter extends ArrayAdapter<LostPet> {
 
         txtPetName.setText(lostPets.get(pos).getPet().getPetName());
         txtAddInfo.setText(lostPets.get(pos).getLostPetAdditionalInfo());
-        byte[] decodedString = Base64.decode(lostPets.get(pos).getPet().getPetImage(), Base64.DEFAULT);
+        byte[] decodedString = Base64.decode(lostPets.get(pos).getPet().getPetImage().split(",")[1], Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         imageView.setImageBitmap(decodedByte);
 
