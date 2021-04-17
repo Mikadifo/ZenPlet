@@ -21,6 +21,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.Spinner;
 
 
 import com.mikadifo.zenplet.API.CallWithToken;
@@ -32,6 +34,7 @@ import com.mikadifo.zenplet.R;
 import com.mikadifo.zenplet.ui.SignUpActivity;
 
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
 import okhttp3.MediaType;
@@ -108,8 +111,8 @@ public class NewPet extends Fragment {
         Button openGalleryBtn = root.findViewById(R.id.btnGaleria);
         Button btn = root.findViewById(R.id.btnCreatPet);
         EditText name = root.findViewById(R.id.edit_new_name);
-        EditText size = root.findViewById(R.id.edit_new_sizze);
-        EditText genre = root.findViewById(R.id.edit_new_genre);
+        Spinner spinnerSizeNewPet =root.findViewById(R.id.spinnerSizeNewPet);
+        RadioButton radioButtonGenreNewPetMale =root.findViewById(R.id.ratioMale);
         EditText breed = root.findViewById(R.id.edit_new_breed);
         EditText birthdate = root.findViewById(R.id.edit_new_birthdate);
         birthdate.setOnClickListener(new View.OnClickListener() {
@@ -124,7 +127,7 @@ public class NewPet extends Fragment {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        birthdate.setText(dayOfMonth+"/"+(month+1)+"/"+year);
+                        birthdate.setText(year+"-"+(month+1)+"-"+dayOfMonth);
                     }
                 },day,month,year);
                 datePickerDialog.show();
@@ -143,13 +146,14 @@ public class NewPet extends Fragment {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] imageInByte = baos.toByteArray();
-                String fotoEnBase64 = Base64.encodeToString(imageInByte, Base64.DEFAULT);
 
+                String fotoEnBase64 ="data:image/jpeg;base64,"+Base64.encodeToString(imageInByte, Base64.NO_WRAP);
                 pet.setPetName(name.getText().toString());
-                pet.setPetSize(size.getText().toString());
-                pet.setPetGenre(genre.getText().toString());
+                pet.setPetSize(spinnerSizeNewPet.getSelectedItem().toString());
+                if (radioButtonGenreNewPetMale.isChecked()){
+                    pet.setPetGenre("Male");
+                }else pet.setPetGenre("Female");
                 pet.setPetBreed(breed.getText().toString());
-
                 pet.setPetBirthdate(birthdate.getText().toString());
                 pet.setPetImage(fotoEnBase64);
                 // falta el cumpleaños pet.se

@@ -28,6 +28,13 @@ import com.mikadifo.zenplet.ui.pets.FragmentPets;
 
 import com.mikadifo.zenplet.ui.pets.PostLostPet;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class PetAdapter extends ArrayAdapter<Pet> {
@@ -50,12 +57,30 @@ public class PetAdapter extends ArrayAdapter<Pet> {
         TextView txtPetName = (TextView) rowView.findViewById(R.id.textViewNamePetsNew);
         TextView txtPetType = (TextView) rowView.findViewById(R.id.textViewTypePetsNew);
         TextView txtPetGenre = (TextView) rowView.findViewById(R.id.textViewGenrePetsNew);
+        TextView txtPetAge = (TextView) rowView.findViewById(R.id.textViewAgePetsNew);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.imgPet);
+        Date date=null;
+        try {
+            date = new SimpleDateFormat("yyyy-mm-dd").parse(pets.get(pos).getPetBirthdate());
+        } catch (ParseException e) {
+            System.out.println("Error:"+e);
+        }
+        Calendar fechaNacimiento = Calendar.getInstance();
+        Calendar fechaActual = Calendar.getInstance();
+        fechaNacimiento.setTime(date);
+        int year = fechaActual.get(Calendar.YEAR)- fechaNacimiento.get(Calendar.YEAR);
+        int mes =fechaActual.get(Calendar.MONTH)- fechaNacimiento.get(Calendar.MONTH);
+        int dia = fechaActual.get(Calendar.DATE)- fechaNacimiento.get(Calendar.DATE);
+        if(mes<0 || (mes==0 && dia<0)){
+            year--;
 
+        }
+        txtPetAge.setText(Integer.toString(year)+" Year "+Integer.toString(mes)+" Month ");
         txtPetName.setText(pets.get(pos).getPetName());
         txtPetType.setText(pets.get(pos).getPetBreed());
         txtPetGenre.setText(pets.get(pos).getPetGenre());
-        byte[] decodedString = Base64.decode(pets.get(pos).getPetImage(), Base64.DEFAULT);
+
+        byte[] decodedString = Base64.decode(pets.get(pos).getPetImage().split(",")[1], Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         imageView.setImageBitmap(decodedByte);
 

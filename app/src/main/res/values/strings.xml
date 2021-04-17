@@ -95,4 +95,13 @@
     <string name="toast_The_data_has_been_save_successfully">The data has been save successfully</string>
     <string name="toast_The_vaccine_has_been_updated_successfully">The vaccine has been updated successfully</string>
     <string name="dialog_This_user_is_not_registered">This user is not registered</string>
+    <string name="stringFemaleRatio">Female</string>
+    <string name="stringMaleRatio">Male</string>
+    <string-array name="Size">
+        <item>small breed</item>
+        <item>medium breed</item>
+        <item>large breed</item>
+        <item>giant breed</item>
+    </string-array>
+
 </resources>

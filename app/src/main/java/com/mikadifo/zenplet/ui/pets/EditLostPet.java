@@ -109,7 +109,7 @@ public class EditLostPet extends Fragment {
                     public void onStyleLoaded(@NonNull Style style) {
                         String [] location = editingLostPet.getLostPetLocation().split(",");
                         marcadorPost = mapboxMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(Double.parseDouble(location[0]), Double.parseDouble(location[1])))
+                                .position(new LatLng(Double.parseDouble(location[1]), Double.parseDouble(location[0])))
                                 .title("Your pet"));
                         mapboxMap.addOnMapLongClickListener(new MapboxMap.OnMapLongClickListener() {
                             @Override
