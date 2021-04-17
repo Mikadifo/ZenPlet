@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.mikadifo.zenplet.API.CallWithToken;
 import com.mikadifo.zenplet.API.model.Owner;
@@ -44,7 +48,7 @@ public class ChangePassword extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    AwesomeValidation awesomeValidation;
     public ChangePassword() {
         // Required empty public constructor
     }
@@ -146,6 +150,62 @@ public class ChangePassword extends Fragment {
 
 
                 }
+        });
+        //validacion
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+        ownerOldPassword.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                awesomeValidation.addValidation(getActivity(),R.id.edit_old_pwd,"(^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,40}$", R.string.invalid_name);
+                if(!awesomeValidation.validate()){
+                    ownerOldPassword.setError(getContext().getResources().getString(R.string.invalid_name));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        newPassword.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                awesomeValidation.addValidation(getActivity(),R.id.edit_new_passwords,"^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,40}$", R.string.invalid_name);
+                if(!awesomeValidation.validate()){
+                    newPassword.setError(getContext().getResources().getString(R.string.invalid_name));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        confirmNewPassword.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                awesomeValidation.addValidation(getActivity(),R.id.edit_repeat_passwords,"^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,40}$", R.string.invalid_password);
+                if(!awesomeValidation.validate()){
+                    confirmNewPassword.setError(getContext().getResources().getString(R.string.invalid_password) );
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
         });
         return root;
     }

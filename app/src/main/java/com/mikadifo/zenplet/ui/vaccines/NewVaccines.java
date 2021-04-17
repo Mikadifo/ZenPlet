@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.mikadifo.zenplet.API.CallWithToken;
 import com.mikadifo.zenplet.API.model.Pet;
 import com.mikadifo.zenplet.API.model.PetVaccine;
@@ -52,6 +56,7 @@ public class NewVaccines extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    AwesomeValidation awesomeValidation;
 
     public NewVaccines() {
         // Required empty public constructor
@@ -208,6 +213,44 @@ public class NewVaccines extends Fragment {
 
                     }
                 });
+            }
+        });
+        //validacion
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+        nameVaccines.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                awesomeValidation.addValidation(getActivity(),R.id.new_name_vaccines,"(^[ÁÉÍÓÚA-Za-záéíóú ]{3,30}$)", R.string.invalid_name);
+                if(!awesomeValidation.validate()){
+                    nameVaccines.setError(getContext().getResources().getString(R.string.invalid_name));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        nameDescription.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                awesomeValidation.addValidation(getActivity(),R.id.new_description_vaccines,"(^[ÁÉÍÓÚA-Za-záéíóú ]{3,300}$)", R.string.invalid_info);
+                if(!awesomeValidation.validate()){
+                    nameDescription.setError(getContext().getResources().getString(R.string.invalid_info));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
         return root;

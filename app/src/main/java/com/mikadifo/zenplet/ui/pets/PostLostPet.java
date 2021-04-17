@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
@@ -51,7 +55,7 @@ public class PostLostPet extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    AwesomeValidation awesomeValidation;
 
 
     // TODO: Rename and change types of parameters
@@ -166,7 +170,26 @@ public class PostLostPet extends Fragment {
 
                     }
                 });
+        //validacion
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+        additionalInfo.addTextChangedListener(new TextWatcher() {
 
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                awesomeValidation.addValidation(getActivity(),R.id.texteditAdditionalInfo,"(^[ÁÉÍÓÚA-Za-záéíóú ]{10,300}$)", R.string.invalid_info);
+                if(!awesomeValidation.validate()){
+                    additionalInfo.setError(getContext().getResources().getString(R.string.invalid_info));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
         return root;
     }
 }

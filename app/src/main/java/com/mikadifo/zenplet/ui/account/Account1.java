@@ -10,6 +10,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +20,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.mikadifo.zenplet.API.CallWithToken;
 import com.mikadifo.zenplet.API.model.Owner;
 import com.mikadifo.zenplet.API.service.OwnerService;
@@ -45,7 +50,7 @@ public class Account1 extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    AwesomeValidation awesomeValidation;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -208,6 +213,65 @@ public class Account1 extends Fragment {
                         .setNegativeButton("No",null).show();
             }
         });
+
+        //validacion
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+        username.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                awesomeValidation.addValidation(getActivity(),R.id.edit_username,"(^\\w{3,20}$)", R.string.invalid_username);
+                if(!awesomeValidation.validate()){
+                    username.setError(getContext().getResources().getString(R.string.invalid_username));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        email.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                awesomeValidation.addValidation(getActivity(),R.id.edit_email, Patterns.EMAIL_ADDRESS, R.string.invalid_email);
+                if(!awesomeValidation.validate()){
+                    email.setError(getContext().getResources().getString(R.string.invalid_email));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        phone.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                awesomeValidation.addValidation(getActivity(),R.id.edit_phone, "(^[\\d]{4,15}$)", R.string.invalid_phone);
+                if(!awesomeValidation.validate()){
+                    phone.setError(getContext().getResources().getString(R.string.invalid_phone));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+
         return root;
     }
 

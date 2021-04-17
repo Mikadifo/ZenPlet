@@ -12,6 +12,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.mikadifo.zenplet.API.CallWithToken;
 import com.mikadifo.zenplet.API.model.Owner;
 import com.mikadifo.zenplet.API.model.Pet;
@@ -35,8 +39,6 @@ import com.mikadifo.zenplet.ui.SignUpActivity;
 import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,9 +53,6 @@ public class NewPet extends Fragment {
     private Pet pet = new Pet();
     //private EditText birthdate;
 
-
-
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -62,6 +61,7 @@ public class NewPet extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    AwesomeValidation awesomeValidation;
 
     private ImageView imageView;
 
@@ -98,7 +98,6 @@ public class NewPet extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -135,9 +134,7 @@ public class NewPet extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               if (name.getText().toString().isEmpty() || size.getText().toString().isEmpty() ||
-                            genre.getText().toString().isEmpty() || breed.getText().toString().isEmpty() ||
-                            birthdate.getText().toString().isEmpty()||imageView.getDrawable() == null) {
+               if (imageView.getDrawable() == null|| !awesomeValidation.validate()) {
                         Toast.makeText(view.getContext(),
                                 getContext().getResources().getString(R.string.toast_you_must_complete_the_fields),
                                 Toast.LENGTH_LONG).show();
@@ -201,10 +198,50 @@ public class NewPet extends Fragment {
                         });
                     }
                 }
+
+
         });
+        //validacion
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+        name.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                awesomeValidation.addValidation(getActivity(),R.id.edit_new_name,"(^[ÁÉÍÓÚA-Za-záéíóú ]{3,30}$)", R.string.invalid_name);
+                if(!awesomeValidation.validate()){
+                    name.setError(getContext().getResources().getString(R.string.invalid_name));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        breed.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                awesomeValidation.addValidation(getActivity(),R.id.edit_new_breed,"(^[ÁÉÍÓÚA-Za-záéíóú ]{3,30}$)", R.string.invalid_name);
+                if(!awesomeValidation.validate()){
+                    breed.setError(getContext().getResources().getString(R.string.invalid_name));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
         openCameraBtn.setOnClickListener(this::cameraAccess);
         openGalleryBtn.setOnClickListener(this::loadImage);
-
         return root;
     }
     public void cameraAccess(View view){

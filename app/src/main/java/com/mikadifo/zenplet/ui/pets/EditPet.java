@@ -16,6 +16,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +28,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.mikadifo.zenplet.API.CallWithToken;
 import com.mikadifo.zenplet.API.model.LostPet;
 import com.mikadifo.zenplet.API.model.Pet;
@@ -53,6 +57,7 @@ public class EditPet extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    AwesomeValidation awesomeValidation;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -100,7 +105,7 @@ public class EditPet extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_edit_pet, container, false);
         //Mostrar los datos para editar en los campos de texto
-        imageView=(ImageView)root.findViewById(R.id.foto);
+        imageView = (ImageView) root.findViewById(R.id.foto);
         EditText name = root.findViewById(R.id.edit_name);
         EditText size = root.findViewById(R.id.edit_size);
         EditText genre = root.findViewById(R.id.edit_genre);
@@ -110,18 +115,18 @@ public class EditPet extends Fragment {
             @Override
             public void onClick(View v) {
 
-                int day,month,year;
+                int day, month, year;
                 Calendar calendar = Calendar.getInstance();
-                day=calendar.get(Calendar.DAY_OF_MONTH);
-                month=calendar.get(Calendar.MONTH);
-                year=calendar.get(Calendar.YEAR);
+                day = calendar.get(Calendar.DAY_OF_MONTH);
+                month = calendar.get(Calendar.MONTH);
+                year = calendar.get(Calendar.YEAR);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        birthdate.setText(dayOfMonth+"/"+(month+1)+"/"+year);
+                        birthdate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
                     }
-                },day,month,year);
+                }, day, month, year);
                 datePickerDialog.show();
             }
         });
@@ -134,7 +139,7 @@ public class EditPet extends Fragment {
         genre.setText(FragmentPets.selectedPet.getPetGenre());
         birthdate.setText(FragmentPets.selectedPet.getPetBirthdate());
         //llamada a token, retrofit y pestService
-        CallWithToken callWithToken= new CallWithToken();
+        CallWithToken callWithToken = new CallWithToken();
         Retrofit retrofit = callWithToken.getCallToken();
         PetService petService = retrofit.create(PetService.class);
         //Guardar datos editados
@@ -143,9 +148,8 @@ public class EditPet extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if (name.getText().toString().isEmpty()||size.getText().toString().isEmpty()||
-                        breed.getText().toString().isEmpty()||genre.getText().toString().isEmpty()||
-                        birthdate.getText().toString().isEmpty()||imageView.getDrawable()==null) {
+                if (name.getText().toString().isEmpty() || breed.getText().toString().isEmpty()
+                        || imageView.getDrawable() == null||awesomeValidation.validate()) {
                     Toast.makeText(view.getContext(),
                             getContext().getResources().getString(R.string.toast_you_must_complete_the_fields),
                             Toast.LENGTH_LONG).show();
@@ -197,35 +201,35 @@ public class EditPet extends Fragment {
         //abrir el fragment post lost
         Button btnlo = root.findViewById(R.id.btnLost);
 
-            btnlo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    CallWithToken callWithToken= new CallWithToken();
-                    Retrofit retrofit = callWithToken.getCallToken();
-                    LostPetService  lostPetService = retrofit.create(LostPetService.class);
-                    Call<LostPet> call = lostPetService.getLostPetByPetId(FragmentPets.selectedPet.getPetId());
-                    call.enqueue(new Callback<LostPet>() {
-                        @Override
-                        public void onResponse(Call<LostPet> call, Response<LostPet> response) {
-                            System.out.println(response.body());
-                            FragmentManager fragmentManager = getFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager
-                                    .beginTransaction()
-                                    .replace(R.id.nav_host_fragment, new EditLostPet(response.body()));
-                            fragmentTransaction.commit();
-                        }
+        btnlo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CallWithToken callWithToken = new CallWithToken();
+                Retrofit retrofit = callWithToken.getCallToken();
+                LostPetService lostPetService = retrofit.create(LostPetService.class);
+                Call<LostPet> call = lostPetService.getLostPetByPetId(FragmentPets.selectedPet.getPetId());
+                call.enqueue(new Callback<LostPet>() {
+                    @Override
+                    public void onResponse(Call<LostPet> call, Response<LostPet> response) {
+                        System.out.println(response.body());
+                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager
+                                .beginTransaction()
+                                .replace(R.id.nav_host_fragment, new EditLostPet(response.body()));
+                        fragmentTransaction.commit();
+                    }
 
-                        @Override
-                        public void onFailure(Call<LostPet> call, Throwable t) {
-                            FragmentManager fragmentManager = getFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager
-                                    .beginTransaction()
-                                    .replace(R.id.nav_host_fragment, new PostLostPet());
-                            fragmentTransaction.commit();
-                        }
-                    });
-                }
-            });
+                    @Override
+                    public void onFailure(Call<LostPet> call, Throwable t) {
+                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager
+                                .beginTransaction()
+                                .replace(R.id.nav_host_fragment, new PostLostPet());
+                        fragmentTransaction.commit();
+                    }
+                });
+            }
+        });
         openGalleryBtn.setOnClickListener(this::cargarImagen);
         openCameraBtn.setOnClickListener(this::AbrirCamara);
 
@@ -234,7 +238,7 @@ public class EditPet extends Fragment {
 
             @Override
             public void onClick(View view) {
-                CallWithToken callWithToken= new CallWithToken();
+                CallWithToken callWithToken = new CallWithToken();
                 Retrofit retrofit = callWithToken.getCallToken();
                 PetService petService = retrofit.create(PetService.class);
                 AlertDialog.Builder dialogo1 = new AlertDialog.Builder(getContext());
@@ -271,12 +275,48 @@ public class EditPet extends Fragment {
                     }
 
                 })
-                 .setNegativeButton("No",null).show();
+                        .setNegativeButton("No", null).show();
+            }
+        });
+
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+        name.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                awesomeValidation.addValidation(getActivity(),R.id.edit_name,"(^[ÁÉÍÓÚA-Za-záéíóú ]{3,30}$)", R.string.invalid_name);
+                if (!awesomeValidation.validate()) {
+                    name.setError(getContext().getResources().getString(R.string.invalid_name));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        breed.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                awesomeValidation.addValidation(getActivity(),R.id.edit_breed,"(^[ÁÉÍÓÚA-Za-záéíóú ]{3,30}$)", R.string.invalid_name);
+                if (!awesomeValidation.validate()) {
+                    breed.setError(getContext().getResources().getString(R.string.invalid_name));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
         return root;
-
-
     }
     public void AbrirCamara(View view){
         //llamar a un recurso desde el intent - recurso para la camara
