@@ -21,6 +21,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.Spinner;
 
 
 import com.mikadifo.zenplet.API.CallWithToken;
@@ -109,8 +111,8 @@ public class NewPet extends Fragment {
         Button openGalleryBtn = root.findViewById(R.id.btnGaleria);
         Button btn = root.findViewById(R.id.btnCreatPet);
         EditText name = root.findViewById(R.id.edit_new_name);
-        EditText size = root.findViewById(R.id.edit_new_sizze);
-        EditText genre = root.findViewById(R.id.edit_new_genre);
+        Spinner spinnerSizeNewPet =root.findViewById(R.id.spinnerSizeNewPet);
+        RadioButton radioButtonGenreNewPetMale =root.findViewById(R.id.ratioMale);
         EditText breed = root.findViewById(R.id.edit_new_breed);
         EditText birthdate = root.findViewById(R.id.edit_new_birthdate);
         birthdate.setOnClickListener(new View.OnClickListener() {
@@ -146,12 +148,12 @@ public class NewPet extends Fragment {
                 byte[] imageInByte = baos.toByteArray();
 
                 String fotoEnBase64 ="data:image/jpeg;base64,"+Base64.encodeToString(imageInByte, Base64.NO_WRAP);
-
                 pet.setPetName(name.getText().toString());
-                pet.setPetSize(size.getText().toString());
-                pet.setPetGenre(genre.getText().toString());
+                pet.setPetSize(spinnerSizeNewPet.getSelectedItem().toString());
+                if (radioButtonGenreNewPetMale.isChecked()){
+                    pet.setPetGenre("Male");
+                }else pet.setPetGenre("Female");
                 pet.setPetBreed(breed.getText().toString());
-
                 pet.setPetBirthdate(birthdate.getText().toString());
                 pet.setPetImage(fotoEnBase64);
                 // falta el cumpleaños pet.se

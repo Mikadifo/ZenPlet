@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.res.TypedArrayUtils;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -24,6 +25,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.mikadifo.zenplet.API.CallWithToken;
@@ -35,6 +38,7 @@ import com.mikadifo.zenplet.R;
 import com.mikadifo.zenplet.ui.SignUpActivity;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
 import java.util.Calendar;
 
 import retrofit2.Call;
@@ -102,8 +106,9 @@ public class EditPet extends Fragment {
         //Mostrar los datos para editar en los campos de texto
         imageView=(ImageView)root.findViewById(R.id.foto);
         EditText name = root.findViewById(R.id.edit_name);
-        EditText size = root.findViewById(R.id.edit_size);
-        EditText genre = root.findViewById(R.id.edit_genre);
+        Spinner spinnerSizeEditPet =root.findViewById(R.id.spinnerSizeEditPet);
+        RadioButton radioButtonGenreEditPetMale =root.findViewById(R.id.ratioMaleEditPet);
+        RadioButton radioButtonGenreEditPetFemale =root.findViewById(R.id.ratioFemaleEditPet);
         EditText breed = root.findViewById(R.id.edit_breed);
         EditText birthdate = root.findViewById(R.id.edit_birthdate);
         birthdate.setOnClickListener(new View.OnClickListener() {
@@ -128,9 +133,13 @@ public class EditPet extends Fragment {
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         imageView.setImageBitmap(decodedByte);
         name.setText(FragmentPets.selectedPet.getPetName());
-        size.setText(FragmentPets.selectedPet.getPetSize());
+        String [] arraySpinner = root.getContext().getResources().getStringArray(R.array.Size);
+        int itemList = Arrays.asList(arraySpinner).indexOf(FragmentPets.selectedPet.getPetSize());
+        spinnerSizeEditPet.setSelection(itemList);
         breed.setText(FragmentPets.selectedPet.getPetBreed());
-        genre.setText(FragmentPets.selectedPet.getPetGenre());
+        if (FragmentPets.selectedPet.getPetGenre().equals("Male")){
+            radioButtonGenreEditPetMale.setChecked(true);
+        }else radioButtonGenreEditPetFemale.setChecked(true);
         birthdate.setText(FragmentPets.selectedPet.getPetBirthdate());
         //llamada a token, retrofit y pestService
         CallWithToken callWithToken= new CallWithToken();
@@ -145,13 +154,15 @@ public class EditPet extends Fragment {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] imageInByte = baos.toByteArray();
-                String fotoEnBase64 = Base64.encodeToString(imageInByte, Base64.NO_WRAP);
+                String fotoEnBase64 = "data:image/jpeg;base64,"+Base64.encodeToString(imageInByte, Base64.NO_WRAP);
 
                 FragmentPets.selectedPet.setPetName(name.getText().toString());
                 FragmentPets.selectedPet.setPetOwner(SignUpActivity.ownerNew);
-                FragmentPets.selectedPet.setPetSize(size.getText().toString());
+                FragmentPets.selectedPet.setPetSize(spinnerSizeEditPet.getSelectedItem().toString());
                 FragmentPets.selectedPet.setPetBreed(breed.getText().toString());
-                FragmentPets.selectedPet.setPetGenre(genre.getText().toString());
+                if (radioButtonGenreEditPetMale.isChecked()){
+                    FragmentPets.selectedPet.setPetGenre("Female");
+                }else FragmentPets.selectedPet.setPetGenre("Male");
                 FragmentPets.selectedPet.setPetBirthdate(birthdate.getText().toString());
                 FragmentPets.selectedPet.setPetImage(fotoEnBase64);
                 Call<Pet> callupdate = petService.updatePet(FragmentPets.selectedPet.getPetId(), FragmentPets.selectedPet);

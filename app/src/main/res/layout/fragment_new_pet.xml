@@ -153,22 +153,20 @@
                                     app:layout_constraintHorizontal_bias="0.212"
                                     app:layout_constraintStart_toStartOf="parent" />
 
-                                <EditText
-                                    android:id="@+id/edit_new_sizze"
+                                <Spinner
+                                    android:id="@+id/spinnerSizeNewPet"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginBottom="8dp"
+                                    android:layout_height="40dp"
                                     android:layout_marginStart="80dp"
                                     android:layout_marginEnd="80dp"
+                                    android:layout_marginBottom="8dp"
                                     android:backgroundTint="@color/colorPrimaryDark"
                                     android:ems="10"
+                                    android:entries="@array/Size"
                                     android:fontFamily="@font/ptsans"
-                                    android:hint="@string/hint_size"
                                     android:importantForAutofill="no"
-                                    android:inputType="textPersonName"
                                     android:textColor="@color/colorPrimaryDark"
                                     android:textColorHint="#99363537"
-                                    app:layout_constraintBottom_toTopOf="@+id/dateText"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -189,25 +187,38 @@
                                     app:layout_constraintHorizontal_bias="0.223"
                                     app:layout_constraintStart_toStartOf="parent" />
 
-
-                                <EditText
-                                    android:id="@+id/edit_new_genre"
+                                <RadioGroup
+                                    android:id="@+id/RatioGenre"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal"
                                     android:layout_marginBottom="8dp"
                                     android:layout_marginStart="80dp"
-                                    android:layout_marginEnd="80dp"
-                                    android:backgroundTint="@color/colorPrimaryDark"
-                                    android:ems="10"
-                                    android:fontFamily="@font/ptsans"
-                                    android:hint="@string/hint_genre"
-                                    android:importantForAutofill="no"
-                                    android:inputType="textPersonName"
-                                    android:textColor="@color/colorPrimaryDark"
-                                    android:textColorHint="#99363537"
-                                    app:layout_constraintBottom_toTopOf="@+id/textView8"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent" />
+                                    android:layout_marginEnd="80dp">
+
+                                        <RadioButton
+                                            android:id="@+id/ratioMale"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginEnd="16dp"
+                                            android:buttonTint="@color/colorPrimaryDark"
+                                            android:fontFamily="@font/ptsans"
+                                            android:importantForAutofill="no"
+                                            android:text="@string/stringMaleRatio"
+                                            android:textColor="@color/colorPrimaryDark" />
+
+                                        <RadioButton
+                                            android:id="@+id/ratioFemale"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:backgroundTint="@color/colorPrimaryDark"
+                                            android:buttonTint="@color/colorPrimaryDark"
+                                            android:fontFamily="@font/ptsans"
+                                            android:importantForAutofill="no"
+                                            android:text="@string/stringFemaleRatio"
+                                            android:textColor="@color/colorPrimaryDark" />
+                                </RadioGroup>
 
                                 <TextView
                                     android:id="@+id/dateText"
