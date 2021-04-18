@@ -12,6 +12,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +25,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.mikadifo.zenplet.API.CallWithToken;
 import com.mikadifo.zenplet.API.model.Owner;
 import com.mikadifo.zenplet.API.model.Pet;
@@ -37,8 +42,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,9 +56,6 @@ public class NewPet extends Fragment {
     private Pet pet = new Pet();
     //private EditText birthdate;
 
-
-
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -64,6 +64,7 @@ public class NewPet extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    AwesomeValidation awesomeValidation;
 
     private ImageView imageView;
 
@@ -100,7 +101,6 @@ public class NewPet extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -133,52 +133,68 @@ public class NewPet extends Fragment {
                 datePickerDialog.show();
             }
         });
-
-
-
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CallWithToken callWithToken = new CallWithToken();
-                Retrofit retrofit = callWithToken.getCallToken();
-
-                Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] imageInByte = baos.toByteArray();
-
+               if (imageView.getDrawable() == null|| !awesomeValidation.validate()) {
+                        Toast.makeText(view.getContext(),
+                                getContext().getResources().getString(R.string.toast_you_must_complete_the_fields),
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        byte[] imageInByte = baos.toByteArray();
                 String fotoEnBase64 ="data:image/jpeg;base64,"+Base64.encodeToString(imageInByte, Base64.NO_WRAP);
-                pet.setPetName(name.getText().toString());
+                        CallWithToken callWithToken = new CallWithToken();
+                        Retrofit retrofit = callWithToken.getCallToken();
+                        pet.setPetName(name.getText().toString());
+                        pet.setPetSize(size.getText().toString());
                 pet.setPetSize(spinnerSizeNewPet.getSelectedItem().toString());
-                if (radioButtonGenreNewPetMale.isChecked()){
+if (radioButtonGenreNewPetMale.isChecked()){
                     pet.setPetGenre("Male");
                 }else pet.setPetGenre("Female");
-                pet.setPetBreed(breed.getText().toString());
-                pet.setPetBirthdate(birthdate.getText().toString());
-                pet.setPetImage(fotoEnBase64);
-                // falta el cumpleaños pet.se
-                pet.setPetOwner(SignUpActivity.ownerNew);
-                PetService petService = retrofit.create(PetService.class);
+
+                        pet.setPetBreed(breed.getText().toString());
+                        pet.setPetBirthdate(birthdate.getText().toString());
+                        pet.setPetImage(fotoEnBase64);
+                        pet.setPetOwner(SignUpActivity.ownerNew);
                 RequestBody nombre = RequestBody.create(MediaType.parse("text/plain"),"petImage");
-                Call<Pet> call = petService.savePet(pet);
-                call.enqueue(new Callback<Pet>() {
-                    @Override
-                    public void onResponse(Call<Pet> call, Response<Pet> response) {
-                        pet=response.body();
-                        SignUpActivity.ownerNew.getOwnerPets().add(pet);
-                        OwnerService ownerService = retrofit.create(OwnerService.class);
-                        Call<Owner> callUpdateFirstOwner = ownerService.updateOwner(SignUpActivity.ownerNew.getOwnerId(), SignUpActivity.ownerNew);
-                        callUpdateFirstOwner.enqueue(new Callback<Owner>() {
+                        PetService petService = retrofit.create(PetService.class);
+                        Call<Pet> call = petService.savePet(pet);
+                        call.enqueue(new Callback<Pet>() {
                             @Override
-                            public void onResponse(Call<Owner> call, Response<Owner> response) {
-                                SignUpActivity.ownerNew = response.body();
-                                System.out.println("Este es el response"+response.body());
-                                System.out.println("Se creo el primero ");
+                            public void onResponse(Call<Pet> call, Response<Pet> response) {
+                                pet = response.body();
+                                SignUpActivity.ownerNew.getOwnerPets().add(pet);
+                                OwnerService ownerService = retrofit.create(OwnerService.class);
+                                Call<Owner> callUpdateFirstOwner = ownerService.updateOwner(SignUpActivity.ownerNew.getOwnerId(), SignUpActivity.ownerNew);
+                                callUpdateFirstOwner.enqueue(new Callback<Owner>() {
+                                    @Override
+                                    public void onResponse(Call<Owner> call, Response<Owner> response) {
+                                        SignUpActivity.ownerNew = response.body();
+                                        System.out.println("foto en base ultimo" + fotoEnBase64.toString());
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Owner> call, Throwable t) {
+                                        try {
+                                            throw t;
+                                        } catch (Throwable throwable) {
+                                            throwable.printStackTrace();
+                                        }
+                                    }
+                                });
+                                FragmentManager fragmentManager = getFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager
+                                        .beginTransaction()
+                                        .replace(R.id.nav_host_fragment, new FragmentPets());
+                                fragmentTransaction.commit();
 
                             }
 
                             @Override
-                            public void onFailure(Call<Owner> call, Throwable t) {
+                            public void onFailure(Call<Pet> call, Throwable t) {
                                 try {
                                     throw t;
                                 } catch (Throwable throwable) {
@@ -186,33 +202,54 @@ public class NewPet extends Fragment {
                                 }
                             }
                         });
-                        FragmentManager fragmentManager = getFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager
-                                .beginTransaction()
-                                .replace(R.id.nav_host_fragment, new FragmentPets());
-                        fragmentTransaction.commit();
-
                     }
+                }
 
-                    @Override
-                    public void onFailure(Call<Pet> call, Throwable t) {
-                        try {
-                            throw t;
-                        } catch (Throwable throwable) {
-                            throwable.printStackTrace();
-                        }
-                    }
-                });
+
+        });
+        //validacion
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+        name.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                awesomeValidation.addValidation(getActivity(),R.id.edit_new_name,"(^[ÁÉÍÓÚA-Za-záéíóú ]{3,30}$)", R.string.invalid_name);
+                if(!awesomeValidation.validate()){
+                    name.setError(getContext().getResources().getString(R.string.invalid_name));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
+        breed.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                awesomeValidation.addValidation(getActivity(),R.id.edit_new_breed,"(^[ÁÉÍÓÚA-Za-záéíóú ]{3,30}$)", R.string.invalid_name);
+                if(!awesomeValidation.validate()){
+                    breed.setError(getContext().getResources().getString(R.string.invalid_name));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
         openCameraBtn.setOnClickListener(this::cameraAccess);
         openGalleryBtn.setOnClickListener(this::loadImage);
-
         return root;
     }
-
-
-
     public void cameraAccess(View view){
         Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(intent.resolveActivity(getActivity().getPackageManager())!=null){

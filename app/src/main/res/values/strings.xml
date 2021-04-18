@@ -67,7 +67,7 @@
     <string name="btnCancelar">Cancel</string>
     <string name="mapbox_access_token">pk.eyJ1IjoiZG9ybWFtdWQwMyIsImEiOiJja243djU4YzgwcmZ3Mm9xbmpsc2pnc2FsIn0.eZI3kr1WDuRrtuhP5ZgDhQ</string>
     <string name="StrVaccineForPet">Vaccine For:</string>
-    <string name="pet_image_description">Pet Image</string>
+    <string name="pet_image">Pet Image</string>
     <string name="last_location">Last Location:</string>
     <string name="StrgInfoLostPet">Info:</string>
     <string name="StringBtnInfo">Back</string>
@@ -103,5 +103,13 @@
         <item>large breed</item>
         <item>giant breed</item>
     </string-array>
-
+    <string name="toast_you_must_complete_the_fields">You must complete all fields</string>
+    <string name="Text_pets_found_using_our_app.">pets found using our app.</string>
+    <string name="invalid_name">Enter only characters. Minimum 3 characters and maximum 30</string>
+    <string name="invalid_username">Enter only numbers>Enter only numbers, characters, or _. Minimum 3 characters and maximum 30</string>
+    <string name="invalid_email">Email incorrect</string>
+    <string name="invalid_phone">Enter only numbers. Minimum 4 digits and maximum 1</string>
+    <string name="invalid_login"> Incorrect email or username</string>
+    <string name="invalid_info"> Enter only caracters. Minimum 10 characters and maximum 300</string>
+    <string name="invalid_password"> The password must be between 8 and 16 characters long, at least one digit, at least one lowercase and at least one uppercase.</string>
 </resources>

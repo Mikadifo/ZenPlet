@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
@@ -54,6 +58,7 @@ public class EditLostPet extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    AwesomeValidation awesomeValidation;
 
     public EditLostPet(LostPet editingLostPet) {
         this.editingLostPet = editingLostPet;
@@ -133,41 +138,46 @@ public class EditLostPet extends Fragment {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LostPet lostPetEdit = new LostPet(
-                        new Pet(),
-                        new Owner(),
-                        lostPetLocation,
-                        additionalInfo.getText().toString()
-                );
-                CallWithToken callWithToken = new CallWithToken();
-                Retrofit retrofit = callWithToken.getCallToken();
-                LostPetService lostPetService = retrofit.create(LostPetService.class);
-                Call<LostPet> call = lostPetService.updateLostPet(FragmentPets.selectedPet.getPetId(), lostPetEdit);
-                call.enqueue(new Callback<LostPet>() {
-                    @Override
-                    public void onResponse(Call<LostPet> call, Response<LostPet> response) {
-                        System.out.println(response.body());
-                        if (response.body().getLostPetAdditionalInfo().equals(lostPetEdit.getLostPetAdditionalInfo())) {
-                            Toast.makeText(root.getContext(), getContext().getResources().getString(R.string.toast_Lost_Pet_Updated), Toast.LENGTH_LONG).show();
-                            FragmentManager fragmentManager = getFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager
-                                    .beginTransaction()
-                                    .replace(R.id.nav_host_fragment, new EditPet());
-                            fragmentTransaction.commit();
-                        } else {
-                            Toast.makeText(root.getContext(), getContext().getResources().getString(R.string.toast_Error_updating_lost_petd), Toast.LENGTH_LONG).show();
+                if(additionalInfo.getText().toString().isEmpty()||lostPetLocation.isEmpty()){
+                    Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_cannot_be_changed), Toast.LENGTH_LONG).show();
+                }else{
+                    LostPet lostPetEdit = new LostPet(
+                            new Pet(),
+                            new Owner(),
+                            lostPetLocation,
+                            additionalInfo.getText().toString()
+                    );
+                    CallWithToken callWithToken = new CallWithToken();
+                    Retrofit retrofit = callWithToken.getCallToken();
+                    LostPetService lostPetService = retrofit.create(LostPetService.class);
+                    Call<LostPet> call = lostPetService.updateLostPet(FragmentPets.selectedPet.getPetId(), lostPetEdit);
+                    call.enqueue(new Callback<LostPet>() {
+                        @Override
+                        public void onResponse(Call<LostPet> call, Response<LostPet> response) {
+                            System.out.println(response.body());
+                            if (response.body().getLostPetAdditionalInfo().equals(lostPetEdit.getLostPetAdditionalInfo())) {
+                                Toast.makeText(root.getContext(), getContext().getResources().getString(R.string.toast_Lost_Pet_Updated), Toast.LENGTH_LONG).show();
+                                FragmentManager fragmentManager = getFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager
+                                        .beginTransaction()
+                                        .replace(R.id.nav_host_fragment, new EditPet());
+                                fragmentTransaction.commit();
+                            } else {
+                                Toast.makeText(root.getContext(), getContext().getResources().getString(R.string.toast_Error_updating_lost_petd), Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<LostPet> call, Throwable t) {
-                        try {
-                            throw t;
-                        } catch (Throwable throwable) {
-                            throwable.printStackTrace();
+                        @Override
+                        public void onFailure(Call<LostPet> call, Throwable t) {
+                            try {
+                                throw t;
+                            } catch (Throwable throwable) {
+                                throwable.printStackTrace();
+                            }
                         }
-                    }
-                });
+                    });
+                }
+
             }
         });
         buttonPetFound.setOnClickListener(new View.OnClickListener() {
@@ -224,7 +234,26 @@ public class EditLostPet extends Fragment {
             }
         });
 
+        //validacion
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+        additionalInfo.addTextChangedListener(new TextWatcher() {
 
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                awesomeValidation.addValidation(getActivity(),R.id.editTextTextMultiLine,"(^[ÁÉÍÓÚA-Za-záéíóú ]{10,300}$)", R.string.invalid_name);
+                if(!awesomeValidation.validate()){
+                    additionalInfo.setError(getContext().getResources().getString(R.string.invalid_info));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
         return root;
     }
 }

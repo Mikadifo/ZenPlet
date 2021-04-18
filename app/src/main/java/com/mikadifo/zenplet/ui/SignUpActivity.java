@@ -3,6 +3,8 @@ package com.mikadifo.zenplet.ui;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mikadifo.zenplet.AES;
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.mikadifo.zenplet.API.CallWithToken;
 import com.mikadifo.zenplet.API.model.Owner;
 import com.mikadifo.zenplet.API.service.OwnerService;
@@ -10,6 +12,9 @@ import com.mikadifo.zenplet.R;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 
@@ -20,6 +25,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SignUpActivity extends AppCompatActivity {
+    AwesomeValidation awesomeValidation;
     public static Owner ownerNew = new Owner();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +33,7 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
     }
 
-    public void registerOwner(View view){
+    public void registerOwner(View view) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(CallWithToken.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
@@ -61,6 +67,86 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
-    }
+        //validacion
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+        ownerName.addTextChangedListener(new TextWatcher() {
 
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                awesomeValidation.addValidation(SignUpActivity.this, R.id.edit_name_from_signup, "(^\\w{3,20}$)", R.string.invalid_username);
+                if (!awesomeValidation.validate()) {
+                    ownerName.setError(getBaseContext().getResources().getString(R.string.invalid_login));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        ownerEmail.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                awesomeValidation.addValidation(SignUpActivity.this, R.id.edit_email_from_signup, Patterns.EMAIL_ADDRESS, R.string.invalid_email);
+                if (!awesomeValidation.validate()) {
+                    ownerEmail.setError(getBaseContext().getResources().getString(R.string.invalid_login));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        ownerPassword.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                awesomeValidation.addValidation(SignUpActivity.this,R.id.edit_password_from_signup,"^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,40}$", R.string.invalid_password);
+                if (!awesomeValidation.validate()) {
+                    ownerPassword.setError(getBaseContext().getResources().getString(R.string.invalid_login));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        ownerPhoneNumber.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                awesomeValidation.addValidation(SignUpActivity.this, R.id.editTextPhone, Patterns.PHONE, R.string.invalid_login);
+
+                if (!awesomeValidation.validate()) {
+                    ownerPhoneNumber.setError(getBaseContext().getResources().getString(R.string.invalid_phone));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+    }
 }

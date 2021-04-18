@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.mikadifo.zenplet.API.CallWithToken;
 import com.mikadifo.zenplet.API.model.Pet;
 import com.mikadifo.zenplet.API.model.PetVaccine;
@@ -54,6 +58,7 @@ public class EditVaccines extends Fragment {
     private Pet petForVaccine = new Pet();
     private Pet petVaccineSelected = new Pet();
     private Vaccine vaccineToUpdate;
+    AwesomeValidation awesomeValidation;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -156,84 +161,87 @@ public class EditVaccines extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CallWithToken callWithToken = new CallWithToken();
-                Retrofit retrofit = callWithToken.getCallToken();
-                vaccineToUpdate = Vaccines.selectedPetVaccine.getVaccine();
-                vaccineToUpdate.setVaccinesName(nameVaccines.getText().toString());
-                vaccineToUpdate.setVaccinesDescription(nameDescription.getText().toString());
-                VaccineService vaccineService = retrofit.create(VaccineService.class);
-                Call<Vaccine> call = vaccineService.updateVaccine(vaccineToUpdate.getVaccinesId(), vaccineToUpdate);
-                call.enqueue(new Callback<Vaccine>() {
-                    @Override
-                    public void onResponse(Call<Vaccine> call, Response<Vaccine> response) {
-                        System.out.println(response.body());
-                        vaccineToUpdate = response.body();
-                        petVaccine.setId(new PetVaccinesId(petVaccineSelected.getPetId(), 0L));
-                        petVaccine.setPetVaccineDate(date.getText().toString());
-                        petVaccine.setPetVaccineNext(dateNext.getText().toString());
-                        petVaccine.setVaccine(vaccineToUpdate);
+                if (nameVaccines.getText().toString().isEmpty()||nameDescription.getText().toString().isEmpty()||date.getText().toString().isEmpty()||dateNext.getText().toString().isEmpty()){
+                    Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_you_must_complete_the_fields), Toast.LENGTH_LONG).show();
+                }else {
+                    CallWithToken callWithToken = new CallWithToken();
+                    Retrofit retrofit = callWithToken.getCallToken();
+                    vaccineToUpdate = Vaccines.selectedPetVaccine.getVaccine();
+                    vaccineToUpdate.setVaccinesName(nameVaccines.getText().toString());
+                    vaccineToUpdate.setVaccinesDescription(nameDescription.getText().toString());
+                    VaccineService vaccineService = retrofit.create(VaccineService.class);
+                    Call<Vaccine> call = vaccineService.updateVaccine(vaccineToUpdate.getVaccinesId(), vaccineToUpdate);
+                    call.enqueue(new Callback<Vaccine>() {
+                        @Override
+                        public void onResponse(Call<Vaccine> call, Response<Vaccine> response) {
+                            System.out.println(response.body());
+                            vaccineToUpdate = response.body();
+                            petVaccine.setId(new PetVaccinesId(petVaccineSelected.getPetId(), 0L));
+                            petVaccine.setPetVaccineDate(date.getText().toString());
+                            petVaccine.setPetVaccineNext(dateNext.getText().toString());
+                            petVaccine.setVaccine(vaccineToUpdate);
 
-                        CallWithToken callWithToken = new CallWithToken();
-                        Retrofit retrofit = callWithToken.getCallToken();
-                        PetVaccineService petVaccineService = retrofit.create(PetVaccineService.class);
-                        Call<PetVaccine> petVaccineCall
-                                = petVaccineService.updatePetVaccines(
-                                        petVaccine.getId().getPetId(),
-                                        petVaccine.getVaccine().
-                                        getVaccinesId(),
-                                        petVaccine
-                        );
-                        petVaccineCall.enqueue(new Callback<PetVaccine>() {
-                            @Override
-                            public void onResponse(Call<PetVaccine> call, Response<PetVaccine> response) {
-                                System.out.println(response.body() + "body response de pet vaccine updated");
-                                petVaccine = response.body();
+                            CallWithToken callWithToken = new CallWithToken();
+                            Retrofit retrofit = callWithToken.getCallToken();
+                            PetVaccineService petVaccineService = retrofit.create(PetVaccineService.class);
+                            Call<PetVaccine> petVaccineCall
+                                    = petVaccineService.updatePetVaccines(
+                                    petVaccine.getId().getPetId(),
+                                    petVaccine.getVaccine().
+                                            getVaccinesId(),
+                                    petVaccine
+                            );
+                            petVaccineCall.enqueue(new Callback<PetVaccine>() {
+                                @Override
+                                public void onResponse(Call<PetVaccine> call, Response<PetVaccine> response) {
+                                    System.out.println(response.body() + "body response de pet vaccine updated");
+                                    petVaccine = response.body();
 
-                                PetVaccine beforePetVaccine = new PetVaccine();
-                                for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()) {
-                                    if (pet.getPetId() == response.body().getId().getPetId()) {
-                                        for (PetVaccine currentPetVaccine : pet.getPetVaccines()) {
-                                            if (currentPetVaccine.getVaccine().getVaccinesId() == response.body().getId().getVaccineId()) {
-                                                beforePetVaccine = currentPetVaccine;
+                                    PetVaccine beforePetVaccine = new PetVaccine();
+                                    for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()) {
+                                        if (pet.getPetId() == response.body().getId().getPetId()) {
+                                            for (PetVaccine currentPetVaccine : pet.getPetVaccines()) {
+                                                if (currentPetVaccine.getVaccine().getVaccinesId() == response.body().getId().getVaccineId()) {
+                                                    beforePetVaccine = currentPetVaccine;
+                                                }
                                             }
+                                            pet.getPetVaccines().remove(beforePetVaccine);
+                                            pet.getPetVaccines().add(response.body());
                                         }
-                                        pet.getPetVaccines().remove(beforePetVaccine);
-                                        pet.getPetVaccines().add(response.body());
+                                    }
+
+                                    Toast.makeText(view.getContext(),
+                                            getContext().getResources().getString(R.string.toast_The_vaccine_has_been_updated_successfully),
+                                            Toast.LENGTH_LONG).show();
+                                    //llevar al fragmento vaccines
+                                    FragmentManager fragmentManager = getFragmentManager();
+                                    FragmentTransaction fragmentTransaction = fragmentManager
+                                            .beginTransaction()
+                                            .replace(R.id.nav_host_fragment, new Vaccines());
+                                    fragmentTransaction.commit();
+                                }
+
+                                @Override
+                                public void onFailure(Call<PetVaccine> call, Throwable t) {
+                                    try {
+                                        throw t;
+                                    } catch (Throwable throwable) {
+                                        throwable.printStackTrace();
                                     }
                                 }
-
-                                Toast.makeText(view.getContext(),
-                                        getContext().getResources().getString(R.string.toast_The_vaccine_has_been_updated_successfully),
-                                        Toast.LENGTH_LONG).show();
-                                //llevar al fragmento vaccines
-                                FragmentManager fragmentManager = getFragmentManager();
-                                FragmentTransaction fragmentTransaction = fragmentManager
-                                        .beginTransaction()
-                                        .replace(R.id.nav_host_fragment, new Vaccines());
-                                fragmentTransaction.commit();
-                            }
-
-                            @Override
-                            public void onFailure(Call<PetVaccine> call, Throwable t) {
-                                try {
-                                    throw t;
-                                } catch (Throwable throwable) {
-                                    throwable.printStackTrace();
-                                }
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onFailure(Call<Vaccine> call, Throwable t) {
-                        try {
-                            throw t;
-                        } catch (Throwable throwable) {
-                            throwable.printStackTrace();
+                            });
                         }
-                    }
-                });
 
+                        @Override
+                        public void onFailure(Call<Vaccine> call, Throwable t) {
+                            try {
+                                throw t;
+                            } catch (Throwable throwable) {
+                                throwable.printStackTrace();
+                            }
+                        }
+                    });
+                }
             }
         });
 
@@ -275,8 +283,48 @@ public class EditVaccines extends Fragment {
                 });
             }
         });
+        //validacion
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+        nameVaccines.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                awesomeValidation.addValidation(getActivity(),R.id.edit_name_vaccines,"(^[ÁÉÍÓÚA-Za-záéíóú ]{3,30}$)", R.string.invalid_name);
+                if(!awesomeValidation.validate()){
+                    nameVaccines.setError(getContext().getResources().getString(R.string.invalid_name));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        nameDescription.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                awesomeValidation.addValidation(getActivity(),R.id.edit_description_vaccines,"(^[ÁÉÍÓÚA-Za-záéíóú ]{3,300}$)", R.string.invalid_info);
+                if(!awesomeValidation.validate()){
+                    nameDescription.setError(getContext().getResources().getString(R.string.invalid_info));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
 
         return root;
+
 
     }
 }
