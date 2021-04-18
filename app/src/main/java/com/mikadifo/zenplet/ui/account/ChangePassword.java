@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.internal.bind.util.ISO8601Utils;
+import com.mikadifo.zenplet.AES;
 import com.mikadifo.zenplet.API.CallWithToken;
 import com.mikadifo.zenplet.API.model.Owner;
 import com.mikadifo.zenplet.API.service.OwnerService;
@@ -85,7 +86,6 @@ public class ChangePassword extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 EditText ownerOldPassword = root.findViewById(R.id.edit_old_pwd);
                 EditText newPassword = root.findViewById(R.id.edit_new_passwords);
                 EditText confirmNewPassword = root.findViewById(R.id.edit_repeat_passwords);
@@ -101,9 +101,11 @@ public class ChangePassword extends Fragment {
                     public void onResponse(Call<Owner> call, Response<Owner> response) {
                         System.out.println(response.body());
                         System.out.println(SignUpActivity.ownerNew);
-                        if (ownerOldPassword.getText().toString().equals(SignUpActivity.ownerNew.getOwnerPassword())){
+                        String encryptedOldPassword = AES.encrypt(ownerOldPassword.getText().toString());
+                        if (encryptedOldPassword.equals(SignUpActivity.ownerNew.getOwnerPassword())){
                             if (newPassword.getText().toString().equals(confirmNewPassword.getText().toString())){
-                                SignUpActivity.ownerNew.setOwnerPassword(newPassword.getText().toString());
+                                String encryptedNewPassword = AES.encrypt(newPassword.getText().toString());
+                                SignUpActivity.ownerNew.setOwnerPassword(encryptedNewPassword);
                                 Call<Owner> callUpdate = ownerService.updateOwner(SignUpActivity
                                         .ownerNew.getOwnerId(), SignUpActivity.ownerNew);
                                 callUpdate.enqueue(new Callback<Owner>() {

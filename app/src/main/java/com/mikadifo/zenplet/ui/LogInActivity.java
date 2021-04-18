@@ -17,12 +17,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.Base64;
-
-import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.spec.SecretKeySpec;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
