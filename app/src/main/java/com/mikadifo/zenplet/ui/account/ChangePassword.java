@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.google.gson.internal.bind.util.ISO8601Utils;
+import com.mikadifo.zenplet.AES;
 import com.mikadifo.zenplet.API.CallWithToken;
 import com.mikadifo.zenplet.API.model.Owner;
 import com.mikadifo.zenplet.API.service.OwnerService;
@@ -108,25 +109,26 @@ public class ChangePassword extends Fragment {
                         public void onResponse(Call<Owner> call, Response<Owner> response) {
                             System.out.println(response.body());
                             System.out.println(SignUpActivity.ownerNew);
-                            if (ownerOldPassword.getText().toString().equals(SignUpActivity.ownerNew.getOwnerPassword())){
-                                if (newPassword.getText().toString().equals(confirmNewPassword.getText().toString())){
-                                    SignUpActivity.ownerNew.setOwnerPassword(newPassword.getText().toString());
-                                    Call<Owner> callUpdate = ownerService.updateOwner(SignUpActivity
-                                            .ownerNew.getOwnerId(), SignUpActivity.ownerNew);
-                                    callUpdate.enqueue(new Callback<Owner>() {
-                                        @Override
-                                        public void onResponse(Call<Owner> call, Response<Owner> response) {
+                        String encryptedOldPassword = AES.encrypt(ownerOldPassword.getText().toString());
+                        if (encryptedOldPassword.equals(SignUpActivity.ownerNew.getOwnerPassword())){
+                            if (newPassword.getText().toString().equals(confirmNewPassword.getText().toString())){
+                                String encryptedNewPassword = AES.encrypt(newPassword.getText().toString());
+                                SignUpActivity.ownerNew.setOwnerPassword(encryptedNewPassword);
+                                Call<Owner> callUpdate = ownerService.updateOwner(SignUpActivity
+                                        .ownerNew.getOwnerId(), SignUpActivity.ownerNew);
+                                callUpdate.enqueue(new Callback<Owner>() {
+                                    @Override
+                                    public void onResponse(Call<Owner> call, Response<Owner> response) {
 
-                                            Toast.makeText(v.getContext(), getContext().getResources().getString(R.string.toast_changed_password_successfully), Toast.LENGTH_LONG).show();
-                                        }
+                                        Toast.makeText(v.getContext(), getContext().getResources().getString(R.string.toast_changed_password_successfully), Toast.LENGTH_LONG).show();
+                                    }
 
-                                        @Override
-                                        public void onFailure(Call<Owner> call, Throwable t) {
-                                            try {
-                                                throw t;
-                                            } catch (Throwable throwable) {
-                                                throwable.printStackTrace();
-                                            }
+                                    @Override
+                                    public void onFailure(Call<Owner> call, Throwable t) {
+                                        try {
+                                            throw t;
+                                        } catch (Throwable throwable) {
+                                            throwable.printStackTrace();
                                         }
                                     });
                                 }else{
