@@ -13,12 +13,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.mikadifo.zenplet.API.model.LostPet;
 import com.mikadifo.zenplet.API.model.Pet;
 import com.mikadifo.zenplet.API.model.PetVaccine;
-import com.mikadifo.zenplet.API.model.Vaccine;
-import com.mikadifo.zenplet.API.service.LosPetAdapter;
-import com.mikadifo.zenplet.API.service.PetAdapter;
 import com.mikadifo.zenplet.API.service.VaccinesAdapter;
 import com.mikadifo.zenplet.R;
 import com.mikadifo.zenplet.ui.SignUpActivity;

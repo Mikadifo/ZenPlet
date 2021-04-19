@@ -27,6 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SignUpActivity extends AppCompatActivity {
     AwesomeValidation awesomeValidation;
     public static Owner ownerNew = new Owner();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +68,6 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
-        //validacion
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
         ownerName.addTextChangedListener(new TextWatcher() {
 
@@ -115,7 +115,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                awesomeValidation.addValidation(SignUpActivity.this,R.id.edit_password_from_signup,"^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,40}$", R.string.invalid_password);
+                awesomeValidation.addValidation(SignUpActivity.this, R.id.edit_password_from_signup, "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,40}$", R.string.invalid_password);
                 if (!awesomeValidation.validate()) {
                     ownerPassword.setError(getBaseContext().getResources().getString(R.string.invalid_login));
                 }

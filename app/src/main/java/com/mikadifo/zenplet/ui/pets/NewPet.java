@@ -42,6 +42,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,7 +56,6 @@ import retrofit2.Retrofit;
  */
 public class NewPet extends Fragment {
     private Pet pet = new Pet();
-    //private EditText birthdate;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -101,109 +102,108 @@ public class NewPet extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View root = inflater.inflate(R.layout.fragment_new_pet, container, false);
-        imageView = (ImageView)root.findViewById(R.id.imgFoto);
+        imageView = (ImageView) root.findViewById(R.id.imgFoto);
         Button openCameraBtn = root.findViewById(R.id.btnCamara);
         Button openGalleryBtn = root.findViewById(R.id.btnGaleria);
         Button btn = root.findViewById(R.id.btnCreatPet);
         EditText name = root.findViewById(R.id.edit_new_name);
-        Spinner spinnerSizeNewPet =root.findViewById(R.id.spinnerSizeNewPet);
-        RadioButton radioButtonGenreNewPetMale =root.findViewById(R.id.ratioMale);
+        Spinner spinnerSizeNewPet = root.findViewById(R.id.spinnerSizeNewPet);
+        RadioButton radioButtonGenreNewPetMale = root.findViewById(R.id.ratioMale);
         EditText breed = root.findViewById(R.id.edit_new_breed);
         EditText birthdate = root.findViewById(R.id.edit_new_birthdate);
         birthdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int day,month,year;
+                int day, month, year;
                 Calendar calendar = Calendar.getInstance();
-                day=calendar.get(Calendar.DAY_OF_MONTH);
-                month=calendar.get(Calendar.MONTH);
-                year=calendar.get(Calendar.YEAR);
+                day = calendar.get(Calendar.DAY_OF_MONTH);
+                month = calendar.get(Calendar.MONTH);
+                year = calendar.get(Calendar.YEAR);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        birthdate.setText(year+"-"+(month+1)+"-"+dayOfMonth);
+                        birthdate.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
                     }
-                },day,month,year);
+                }, day, month, year);
                 datePickerDialog.show();
             }
         });
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               if (imageView.getDrawable() == null|| !awesomeValidation.validate()) {
-                        Toast.makeText(view.getContext(),
-                                getContext().getResources().getString(R.string.toast_you_must_complete_the_fields),
-                                Toast.LENGTH_LONG).show();
-                    } else {
-                        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                        byte[] imageInByte = baos.toByteArray();
-                String fotoEnBase64 ="data:image/jpeg;base64,"+Base64.encodeToString(imageInByte, Base64.NO_WRAP);
-                        CallWithToken callWithToken = new CallWithToken();
-                        Retrofit retrofit = callWithToken.getCallToken();
-                        pet.setPetName(name.getText().toString());
-                        pet.setPetSize(size.getText().toString());
-                pet.setPetSize(spinnerSizeNewPet.getSelectedItem().toString());
-if (radioButtonGenreNewPetMale.isChecked()){
-                    pet.setPetGenre("Male");
-                }else pet.setPetGenre("Female");
-
-                        pet.setPetBreed(breed.getText().toString());
-                        pet.setPetBirthdate(birthdate.getText().toString());
-                        pet.setPetImage(fotoEnBase64);
-                        pet.setPetOwner(SignUpActivity.ownerNew);
-                RequestBody nombre = RequestBody.create(MediaType.parse("text/plain"),"petImage");
-                        PetService petService = retrofit.create(PetService.class);
-                        Call<Pet> call = petService.savePet(pet);
-                        call.enqueue(new Callback<Pet>() {
-                            @Override
-                            public void onResponse(Call<Pet> call, Response<Pet> response) {
-                                pet = response.body();
-                                SignUpActivity.ownerNew.getOwnerPets().add(pet);
-                                OwnerService ownerService = retrofit.create(OwnerService.class);
-                                Call<Owner> callUpdateFirstOwner = ownerService.updateOwner(SignUpActivity.ownerNew.getOwnerId(), SignUpActivity.ownerNew);
-                                callUpdateFirstOwner.enqueue(new Callback<Owner>() {
-                                    @Override
-                                    public void onResponse(Call<Owner> call, Response<Owner> response) {
-                                        SignUpActivity.ownerNew = response.body();
-                                        System.out.println("foto en base ultimo" + fotoEnBase64.toString());
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<Owner> call, Throwable t) {
-                                        try {
-                                            throw t;
-                                        } catch (Throwable throwable) {
-                                            throwable.printStackTrace();
-                                        }
-                                    }
-                                });
-                                FragmentManager fragmentManager = getFragmentManager();
-                                FragmentTransaction fragmentTransaction = fragmentManager
-                                        .beginTransaction()
-                                        .replace(R.id.nav_host_fragment, new FragmentPets());
-                                fragmentTransaction.commit();
-
-                            }
-
-                            @Override
-                            public void onFailure(Call<Pet> call, Throwable t) {
-                                try {
-                                    throw t;
-                                } catch (Throwable throwable) {
-                                    throwable.printStackTrace();
+                if (imageView.getDrawable() == null || !awesomeValidation.validate()) {
+                    Toast.makeText(view.getContext(),
+                            getContext().getResources().getString(R.string.toast_you_must_complete_the_fields),
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    byte[] imageInByte = baos.toByteArray();
+                    String fotoEnBase64 = "data:image/jpeg;base64," + Base64.encodeToString(imageInByte, Base64.NO_WRAP);
+                    CallWithToken callWithToken = new CallWithToken();
+                    Retrofit retrofit = callWithToken.getCallToken();
+                    pet.setPetName(name.getText().toString());
+                    pet.setPetSize(spinnerSizeNewPet.getSelectedItem().toString());
+                    pet.setPetSize(spinnerSizeNewPet.getSelectedItem().toString());
+                    if (radioButtonGenreNewPetMale.isChecked())
+                        pet.setPetGenre("Male");
+                    else
+                        pet.setPetGenre("Female");
+                    pet.setPetBreed(breed.getText().toString());
+                    pet.setPetBirthdate(birthdate.getText().toString());
+                    pet.setPetImage(fotoEnBase64);
+                    pet.setPetOwner(SignUpActivity.ownerNew);
+                    PetService petService = retrofit.create(PetService.class);
+                    Call<Pet> call = petService.savePet(pet);
+                    call.enqueue(new Callback<Pet>() {
+                        @Override
+                        public void onResponse(Call<Pet> call, Response<Pet> response) {
+                            pet = response.body();
+                            SignUpActivity.ownerNew.getOwnerPets().add(pet);
+                            OwnerService ownerService = retrofit.create(OwnerService.class);
+                            Call<Owner> callUpdateFirstOwner = ownerService.updateOwner(SignUpActivity.ownerNew.getOwnerId(), SignUpActivity.ownerNew);
+                            callUpdateFirstOwner.enqueue(new Callback<Owner>() {
+                                @Override
+                                public void onResponse(Call<Owner> call, Response<Owner> response) {
+                                    SignUpActivity.ownerNew = response.body();
+                                    System.out.println("foto en base ultimo" + fotoEnBase64.toString());
                                 }
+
+                                @Override
+                                public void onFailure(Call<Owner> call, Throwable t) {
+                                    try {
+                                        throw t;
+                                    } catch (Throwable throwable) {
+                                        throwable.printStackTrace();
+                                    }
+                                }
+                            });
+                            FragmentManager fragmentManager = getFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager
+                                    .beginTransaction()
+                                    .replace(R.id.nav_host_fragment, new FragmentPets());
+                            fragmentTransaction.commit();
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<Pet> call, Throwable t) {
+                            try {
+                                throw t;
+                            } catch (Throwable throwable) {
+                                throwable.printStackTrace();
                             }
-                        });
-                    }
+                        }
+                    });
                 }
+            }
 
 
         });
@@ -217,8 +217,8 @@ if (radioButtonGenreNewPetMale.isChecked()){
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                awesomeValidation.addValidation(getActivity(),R.id.edit_new_name,"(^[ÁÉÍÓÚA-Za-záéíóú ]{3,30}$)", R.string.invalid_name);
-                if(!awesomeValidation.validate()){
+                awesomeValidation.addValidation(getActivity(), R.id.edit_new_name, "(^[ÁÉÍÓÚA-Za-záéíóú ]{3,30}$)", R.string.invalid_name);
+                if (!awesomeValidation.validate()) {
                     name.setError(getContext().getResources().getString(R.string.invalid_name));
                 }
             }
@@ -235,8 +235,8 @@ if (radioButtonGenreNewPetMale.isChecked()){
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                awesomeValidation.addValidation(getActivity(),R.id.edit_new_breed,"(^[ÁÉÍÓÚA-Za-záéíóú ]{3,30}$)", R.string.invalid_name);
-                if(!awesomeValidation.validate()){
+                awesomeValidation.addValidation(getActivity(), R.id.edit_new_breed, "(^[ÁÉÍÓÚA-Za-záéíóú ]{3,30}$)", R.string.invalid_name);
+                if (!awesomeValidation.validate()) {
                     breed.setError(getContext().getResources().getString(R.string.invalid_name));
                 }
             }
@@ -250,10 +250,11 @@ if (radioButtonGenreNewPetMale.isChecked()){
         openGalleryBtn.setOnClickListener(this::loadImage);
         return root;
     }
-    public void cameraAccess(View view){
-        Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if(intent.resolveActivity(getActivity().getPackageManager())!=null){
-            startActivityForResult(intent,1);
+
+    public void cameraAccess(View view) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(intent, 1);
         }
     }
 
@@ -270,16 +271,17 @@ if (radioButtonGenreNewPetMale.isChecked()){
             Bitmap bitmap = Bitmap.createScaledBitmap(image, newWidth, newHeight, true);
             imageView.setImageBitmap(bitmap);
         }
-        if(resultCode == -1) {
+        if (resultCode == -1) {
             Uri path = data.getData();
             imageView.setImageURI(path);
         }
     }
-    public void loadImage(View view){
+
+    public void loadImage(View view) {
         Intent intent
                 = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/");
-        startActivityForResult(Intent.createChooser(intent,getContext().getResources().getString(R.string.toast_Select_the_app)), 10);
+        startActivityForResult(Intent.createChooser(intent, getContext().getResources().getString(R.string.toast_Select_the_app)), 10);
     }
 
 

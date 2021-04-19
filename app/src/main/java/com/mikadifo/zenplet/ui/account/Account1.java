@@ -1,6 +1,5 @@
 package com.mikadifo.zenplet.ui.account;
 
-import android.accounts.Account;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,19 +24,14 @@ import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.mikadifo.zenplet.API.CallWithToken;
 import com.mikadifo.zenplet.API.model.Owner;
 import com.mikadifo.zenplet.API.service.OwnerService;
-import com.mikadifo.zenplet.API.service.PetService;
 import com.mikadifo.zenplet.MainActivity;
 import com.mikadifo.zenplet.R;
-import com.mikadifo.zenplet.nav.BottomNavActivity;
-import com.mikadifo.zenplet.ui.LogInActivity;
 import com.mikadifo.zenplet.ui.SignUpActivity;
-import com.mikadifo.zenplet.ui.pets.FragmentPets;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -97,8 +91,8 @@ public class Account1 extends Fragment {
         EditText username = root.findViewById(R.id.edit_username);
         EditText email = root.findViewById(R.id.edit_email);
         EditText phone = root.findViewById(R.id.edit_phone);
-       //
-        username.setText( SignUpActivity.ownerNew.getOwnerName());
+        //
+        username.setText(SignUpActivity.ownerNew.getOwnerName());
         email.setText(SignUpActivity.ownerNew.getOwnerEmail());
         phone.setText(SignUpActivity.ownerNew.getOwnerPhoneNumber());
         Button btns = root.findViewById(R.id.btnSave);
@@ -116,10 +110,10 @@ public class Account1 extends Fragment {
         btns.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(username.getText().toString().isEmpty()||email.getText().toString().isEmpty()||phone.getText().toString().isEmpty()){
+                if (username.getText().toString().isEmpty() || email.getText().toString().isEmpty() || phone.getText().toString().isEmpty()) {
                     Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_you_must_complete_the_fields), Toast.LENGTH_LONG).show();
-                }else{
-                    CallWithToken callWithToken= new CallWithToken();
+                } else {
+                    CallWithToken callWithToken = new CallWithToken();
                     Retrofit retrofit = callWithToken.getCallToken();
                     OwnerService ownerService = retrofit.create(OwnerService.class);
                     Call<Owner> call = ownerService.getOwnerById(SignUpActivity.ownerNew.getOwnerId());
@@ -128,17 +122,17 @@ public class Account1 extends Fragment {
                         public void onResponse(Call<Owner> call, Response<Owner> response) {
                             SignUpActivity.ownerNew = response.body();
 
-                            if(SignUpActivity.ownerNew.getOwnerName().equals(username.getText().toString())&&
-                                    SignUpActivity.ownerNew.getOwnerEmail().equals(email.getText().toString())&&
+                            if (SignUpActivity.ownerNew.getOwnerName().equals(username.getText().toString()) &&
+                                    SignUpActivity.ownerNew.getOwnerEmail().equals(email.getText().toString()) &&
                                     SignUpActivity.ownerNew.getOwnerPhoneNumber().equals(phone.getText().toString())
-                            ){
+                            ) {
                                 Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_cannot_be_changed), Toast.LENGTH_LONG).show();
 
-                            }else {
+                            } else {
                                 SignUpActivity.ownerNew.setOwnerName(username.getText().toString());
                                 SignUpActivity.ownerNew.setOwnerEmail(email.getText().toString());
                                 SignUpActivity.ownerNew.setOwnerPhoneNumber(phone.getText().toString());
-                                Call<Owner> callupdate = ownerService.updateOwner(SignUpActivity.ownerNew.getOwnerId(),SignUpActivity.ownerNew);
+                                Call<Owner> callupdate = ownerService.updateOwner(SignUpActivity.ownerNew.getOwnerId(), SignUpActivity.ownerNew);
                                 callupdate.enqueue(new Callback<Owner>() {
                                     @Override
                                     public void onResponse(Call<Owner> call, Response<Owner> response) {
@@ -157,24 +151,24 @@ public class Account1 extends Fragment {
                             }
                         }
 
-                    @Override
-                    public void onFailure(Call<Owner> call, Throwable t) {
-                        try {
-                            throw t;
-                        } catch (Throwable throwable) {
-                            throwable.printStackTrace();
+                        @Override
+                        public void onFailure(Call<Owner> call, Throwable t) {
+                            try {
+                                throw t;
+                            } catch (Throwable throwable) {
+                                throwable.printStackTrace();
+                            }
                         }
-                    }
-                });
-            }
+                    });
+                }
             }
         });
         Button btnd = root.findViewById(R.id.btnDeleteAccount);
-        btnd.setOnClickListener(new View.OnClickListener(){
+        btnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("id "+ SignUpActivity.ownerNew.getOwnerId());
-                CallWithToken callWithToken= new CallWithToken();
+                System.out.println("id " + SignUpActivity.ownerNew.getOwnerId());
+                CallWithToken callWithToken = new CallWithToken();
                 Retrofit retrofit = callWithToken.getCallToken();
                 OwnerService ownerService = retrofit.create(OwnerService.class);
                 AlertDialog.Builder dialogo1 = new AlertDialog.Builder(getContext());
@@ -188,7 +182,7 @@ public class Account1 extends Fragment {
                         call.enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
-                                SignUpActivity.ownerNew= new Owner();
+                                SignUpActivity.ownerNew = new Owner();
                                 dialogo1.dismiss();
                                 Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toas_successfully_delete), Toast.LENGTH_LONG).show();
                                 startActivity(
@@ -210,7 +204,7 @@ public class Account1 extends Fragment {
                         });
                     }
                 })
-                        .setNegativeButton("No",null).show();
+                        .setNegativeButton("No", null).show();
             }
         });
 
@@ -224,8 +218,8 @@ public class Account1 extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                awesomeValidation.addValidation(getActivity(),R.id.edit_username,"(^\\w{3,20}$)", R.string.invalid_username);
-                if(!awesomeValidation.validate()){
+                awesomeValidation.addValidation(getActivity(), R.id.edit_username, "(^\\w{3,20}$)", R.string.invalid_username);
+                if (!awesomeValidation.validate()) {
                     username.setError(getContext().getResources().getString(R.string.invalid_username));
                 }
             }
@@ -242,8 +236,8 @@ public class Account1 extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                awesomeValidation.addValidation(getActivity(),R.id.edit_email, Patterns.EMAIL_ADDRESS, R.string.invalid_email);
-                if(!awesomeValidation.validate()){
+                awesomeValidation.addValidation(getActivity(), R.id.edit_email, Patterns.EMAIL_ADDRESS, R.string.invalid_email);
+                if (!awesomeValidation.validate()) {
                     email.setError(getContext().getResources().getString(R.string.invalid_email));
                 }
             }
@@ -260,8 +254,8 @@ public class Account1 extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                awesomeValidation.addValidation(getActivity(),R.id.edit_phone, "(^[\\d]{4,15}$)", R.string.invalid_phone);
-                if(!awesomeValidation.validate()){
+                awesomeValidation.addValidation(getActivity(), R.id.edit_phone, "(^[\\d]{4,15}$)", R.string.invalid_phone);
+                if (!awesomeValidation.validate()) {
                     phone.setError(getContext().getResources().getString(R.string.invalid_phone));
                 }
             }

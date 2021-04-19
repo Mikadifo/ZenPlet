@@ -1,8 +1,5 @@
 package com.mikadifo.zenplet.ui.pets;
 
-import android.content.ClipData;
-import android.database.Cursor;
-import android.database.MatrixCursor;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,34 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CursorAdapter;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 
-import com.mikadifo.zenplet.API.CallWithToken;
-import com.mikadifo.zenplet.API.model.Owner;
 import com.mikadifo.zenplet.API.model.Pet;
-import com.mikadifo.zenplet.API.service.OwnerService;
 import com.mikadifo.zenplet.API.service.PetAdapter;
-import com.mikadifo.zenplet.API.service.PetService;
-import com.mikadifo.zenplet.MainActivity;
 import com.mikadifo.zenplet.R;
 import com.mikadifo.zenplet.ui.SignUpActivity;
-import com.mikadifo.zenplet.ui.vaccines.NewVaccines;
-import com.mikadifo.zenplet.ui.vaccines.Vaccines;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.

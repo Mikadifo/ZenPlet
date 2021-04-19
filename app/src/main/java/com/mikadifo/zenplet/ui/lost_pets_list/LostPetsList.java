@@ -14,16 +14,9 @@ import android.widget.ListView;
 
 import com.mikadifo.zenplet.API.CallWithToken;
 import com.mikadifo.zenplet.API.model.LostPet;
-import com.mikadifo.zenplet.API.model.Pet;
-import com.mikadifo.zenplet.API.model.PetVaccine;
 import com.mikadifo.zenplet.API.service.LosPetAdapter;
 import com.mikadifo.zenplet.API.service.LostPetService;
-import com.mikadifo.zenplet.API.service.PetAdapter;
 import com.mikadifo.zenplet.R;
-import com.mikadifo.zenplet.ui.SignUpActivity;
-import com.mikadifo.zenplet.ui.pets.EditLostPet;
-import com.mikadifo.zenplet.ui.pets.EditPet;
-import com.mikadifo.zenplet.ui.vaccines.EditVaccines;
 
 import java.util.ArrayList;
 import java.util.List;

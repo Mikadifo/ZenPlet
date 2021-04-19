@@ -12,12 +12,9 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,12 +25,10 @@ import com.mikadifo.zenplet.API.model.Pet;
 import com.mikadifo.zenplet.API.model.PetVaccine;
 import com.mikadifo.zenplet.API.model.PetVaccinesId;
 import com.mikadifo.zenplet.API.model.Vaccine;
-import com.mikadifo.zenplet.API.service.PetService;
 import com.mikadifo.zenplet.API.service.PetVaccineService;
 import com.mikadifo.zenplet.API.service.VaccineService;
 import com.mikadifo.zenplet.R;
 import com.mikadifo.zenplet.ui.SignUpActivity;
-import com.mikadifo.zenplet.ui.pets.FragmentPets;
 
 import java.util.Calendar;
 
@@ -161,9 +156,9 @@ public class EditVaccines extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (nameVaccines.getText().toString().isEmpty()||nameDescription.getText().toString().isEmpty()||date.getText().toString().isEmpty()||dateNext.getText().toString().isEmpty()){
+                if (nameVaccines.getText().toString().isEmpty() || nameDescription.getText().toString().isEmpty() || date.getText().toString().isEmpty() || dateNext.getText().toString().isEmpty()) {
                     Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_you_must_complete_the_fields), Toast.LENGTH_LONG).show();
-                }else {
+                } else {
                     CallWithToken callWithToken = new CallWithToken();
                     Retrofit retrofit = callWithToken.getCallToken();
                     vaccineToUpdate = Vaccines.selectedPetVaccine.getVaccine();
@@ -293,8 +288,8 @@ public class EditVaccines extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                awesomeValidation.addValidation(getActivity(),R.id.edit_name_vaccines,"(^[ÁÉÍÓÚA-Za-záéíóú ]{3,30}$)", R.string.invalid_name);
-                if(!awesomeValidation.validate()){
+                awesomeValidation.addValidation(getActivity(), R.id.edit_name_vaccines, "(^[ÁÉÍÓÚA-Za-záéíóú ]{3,30}$)", R.string.invalid_name);
+                if (!awesomeValidation.validate()) {
                     nameVaccines.setError(getContext().getResources().getString(R.string.invalid_name));
                 }
             }
@@ -311,8 +306,8 @@ public class EditVaccines extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                awesomeValidation.addValidation(getActivity(),R.id.edit_description_vaccines,"(^[ÁÉÍÓÚA-Za-záéíóú ]{3,300}$)", R.string.invalid_info);
-                if(!awesomeValidation.validate()){
+                awesomeValidation.addValidation(getActivity(), R.id.edit_description_vaccines, "(^[ÁÉÍÓÚA-Za-záéíóú ]{3,300}$)", R.string.invalid_info);
+                if (!awesomeValidation.validate()) {
                     nameDescription.setError(getContext().getResources().getString(R.string.invalid_info));
                 }
             }

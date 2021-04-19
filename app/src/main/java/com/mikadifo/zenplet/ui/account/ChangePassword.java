@@ -1,6 +1,5 @@
 package com.mikadifo.zenplet.ui.account;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -16,23 +15,17 @@ import android.widget.Toast;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
-import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.mikadifo.zenplet.AES;
 import com.mikadifo.zenplet.API.CallWithToken;
 import com.mikadifo.zenplet.API.model.Owner;
 import com.mikadifo.zenplet.API.service.OwnerService;
 import com.mikadifo.zenplet.R;
-import com.mikadifo.zenplet.nav.BottomNavActivity;
-import com.mikadifo.zenplet.ui.ForgotPasswordActivity;
 import com.mikadifo.zenplet.ui.SignUpActivity;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,6 +43,7 @@ public class ChangePassword extends Fragment {
     private String mParam1;
     private String mParam2;
     AwesomeValidation awesomeValidation;
+
     public ChangePassword() {
         // Required empty public constructor
     }
@@ -84,7 +78,6 @@ public class ChangePassword extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_change_password, container, false);
         Button btn = root.findViewById(R.id.btnSaveNewPassword);
         EditText ownerOldPassword = root.findViewById(R.id.edit_old_pwd);
@@ -93,48 +86,45 @@ public class ChangePassword extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ownerOldPassword.getText().toString().isEmpty()||newPassword.getText().toString().isEmpty()||confirmNewPassword.getText().toString().isEmpty()){
+                if (ownerOldPassword.getText().toString().isEmpty() || newPassword.getText().toString().isEmpty() || confirmNewPassword.getText().toString().isEmpty()) {
                     Toast.makeText(v.getContext(), getContext().getResources().getString(R.string.toast_cannot_be_changed), Toast.LENGTH_LONG).show();
-                }else{
-
-
+                } else {
                     CallWithToken callWithTokentoken = new CallWithToken();
                     Retrofit retrofit = callWithTokentoken.getCallToken();
-
                     OwnerService ownerService = retrofit.create(OwnerService.class);
                     Call<Owner> call = ownerService.getOwnerById(SignUpActivity.ownerNew.getOwnerId());
-                    System.out.println(call.request().toString());
                     call.enqueue(new Callback<Owner>() {
                         @Override
                         public void onResponse(Call<Owner> call, Response<Owner> response) {
                             System.out.println(response.body());
                             System.out.println(SignUpActivity.ownerNew);
-                        String encryptedOldPassword = AES.encrypt(ownerOldPassword.getText().toString());
-                        if (encryptedOldPassword.equals(SignUpActivity.ownerNew.getOwnerPassword())){
-                            if (newPassword.getText().toString().equals(confirmNewPassword.getText().toString())){
-                                String encryptedNewPassword = AES.encrypt(newPassword.getText().toString());
-                                SignUpActivity.ownerNew.setOwnerPassword(encryptedNewPassword);
-                                Call<Owner> callUpdate = ownerService.updateOwner(SignUpActivity
-                                        .ownerNew.getOwnerId(), SignUpActivity.ownerNew);
-                                callUpdate.enqueue(new Callback<Owner>() {
-                                    @Override
-                                    public void onResponse(Call<Owner> call, Response<Owner> response) {
+                            String encryptedOldPassword = AES.encrypt(ownerOldPassword.getText().toString());
+                            if (encryptedOldPassword.equals(SignUpActivity.ownerNew.getOwnerPassword())) {
+                                if (newPassword.getText().toString().equals(confirmNewPassword.getText().toString())) {
+                                    String encryptedNewPassword = AES.encrypt(newPassword.getText().toString());
+                                    SignUpActivity.ownerNew.setOwnerPassword(encryptedNewPassword);
+                                    Call<Owner> callUpdate = ownerService.updateOwner(SignUpActivity
+                                            .ownerNew.getOwnerId(), SignUpActivity.ownerNew);
+                                    callUpdate.enqueue(new Callback<Owner>() {
+                                        @Override
+                                        public void onResponse(Call<Owner> call, Response<Owner> response) {
 
-                                        Toast.makeText(v.getContext(), getContext().getResources().getString(R.string.toast_changed_password_successfully), Toast.LENGTH_LONG).show();
-                                    }
+                                            Toast.makeText(v.getContext(), getContext().getResources().getString(R.string.toast_changed_password_successfully), Toast.LENGTH_LONG).show();
+                                        }
 
-                                    @Override
-                                    public void onFailure(Call<Owner> call, Throwable t) {
-                                        try {
-                                            throw t;
-                                        } catch (Throwable throwable) {
-                                            throwable.printStackTrace();
+                                        @Override
+                                        public void onFailure(Call<Owner> call, Throwable t) {
+                                            try {
+                                                throw t;
+                                            } catch (Throwable throwable) {
+                                                throwable.printStackTrace();
+                                            }
                                         }
                                     });
-                                }else{
+                                } else {
                                     Toast.makeText(v.getContext(), getContext().getResources().getString(R.string.toast_new_passwords_do_not_match), Toast.LENGTH_LONG).show();
                                 }
-                            }else{
+                            } else {
                                 Toast.makeText(v.getContext(), getContext().getResources().getString(R.string.toast_the_password_is_not_correct), Toast.LENGTH_LONG).show();
                             }
                         }
@@ -149,23 +139,21 @@ public class ChangePassword extends Fragment {
                         }
                     });
                 }
+            }
 
-
-                }
         });
-        //validacion
+
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
         ownerOldPassword.addTextChangedListener(new TextWatcher() {
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                awesomeValidation.addValidation(getActivity(),R.id.edit_old_pwd,"(^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,40}$", R.string.invalid_name);
-                if(!awesomeValidation.validate()){
-                    ownerOldPassword.setError(getContext().getResources().getString(R.string.invalid_name));
+                awesomeValidation.addValidation(getActivity(), R.id.edit_old_pwd, "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,40}$", R.string.invalid_password);
+                if (!awesomeValidation.validate()) {
+                    ownerOldPassword.setError(getContext().getResources().getString(R.string.invalid_password));
                 }
             }
 
@@ -181,9 +169,9 @@ public class ChangePassword extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                awesomeValidation.addValidation(getActivity(),R.id.edit_new_passwords,"^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,40}$", R.string.invalid_name);
-                if(!awesomeValidation.validate()){
-                    newPassword.setError(getContext().getResources().getString(R.string.invalid_name));
+                awesomeValidation.addValidation(getActivity(), R.id.edit_new_passwords, "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,40}$", R.string.invalid_password);
+                if (!awesomeValidation.validate()) {
+                    newPassword.setError(getContext().getResources().getString(R.string.invalid_password));
                 }
             }
 
@@ -199,9 +187,9 @@ public class ChangePassword extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                awesomeValidation.addValidation(getActivity(),R.id.edit_repeat_passwords,"^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,40}$", R.string.invalid_password);
-                if(!awesomeValidation.validate()){
-                    confirmNewPassword.setError(getContext().getResources().getString(R.string.invalid_password) );
+                awesomeValidation.addValidation(getActivity(), R.id.edit_repeat_passwords, "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,40}$", R.string.invalid_password);
+                if (!awesomeValidation.validate()) {
+                    confirmNewPassword.setError(getContext().getResources().getString(R.string.invalid_password));
                 }
             }
 
@@ -209,6 +197,7 @@ public class ChangePassword extends Fragment {
             public void afterTextChanged(Editable s) {
             }
         });
+
         return root;
     }
 

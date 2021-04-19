@@ -156,7 +156,7 @@ public class NewVaccines extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (nameVaccines.getText().toString().isEmpty()||nameDescription.getText().toString().isEmpty()||date.getText().toString().isEmpty()||dateNext.getText().toString().isEmpty()){
+                if (nameVaccines.getText().toString().isEmpty() || nameDescription.getText().toString().isEmpty() || date.getText().toString().isEmpty() || dateNext.getText().toString().isEmpty()) {
                     Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_you_must_complete_the_fields), Toast.LENGTH_LONG).show();
                 }
                 CallWithToken callWithToken = new CallWithToken();
@@ -227,8 +227,8 @@ public class NewVaccines extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                awesomeValidation.addValidation(getActivity(),R.id.new_name_vaccines,"(^[ÁÉÍÓÚA-Za-záéíóú ]{3,30}$)", R.string.invalid_name);
-                if(!awesomeValidation.validate()){
+                awesomeValidation.addValidation(getActivity(), R.id.new_name_vaccines, "(^[ÁÉÍÓÚA-Za-záéíóú ]{3,30}$)", R.string.invalid_name);
+                if (!awesomeValidation.validate()) {
                     nameVaccines.setError(getContext().getResources().getString(R.string.invalid_name));
                 }
             }
@@ -245,8 +245,8 @@ public class NewVaccines extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                awesomeValidation.addValidation(getActivity(),R.id.new_description_vaccines,"(^[ÁÉÍÓÚA-Za-záéíóú ]{3,300}$)", R.string.invalid_info);
-                if(!awesomeValidation.validate()){
+                awesomeValidation.addValidation(getActivity(), R.id.new_description_vaccines, "(^[ÁÉÍÓÚA-Za-záéíóú ]{3,300}$)", R.string.invalid_info);
+                if (!awesomeValidation.validate()) {
                     nameDescription.setError(getContext().getResources().getString(R.string.invalid_info));
                 }
             }

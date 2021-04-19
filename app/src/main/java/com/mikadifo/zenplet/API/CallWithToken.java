@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CallWithToken {
     public static String token = "";
-     public static final String BASE_URL = "http://192.168.1.10:8080/"; //MIKA
+     public static final String BASE_URL = "http://192.168.2.102:8080/"; //MIKA
 //    public static final String BASE_URL = "http://192.168.0.108:8080/"; //FERNANDA
 //     public static final String BASE_URL = "http://192.168.1.100:8080/"; //Paul
 

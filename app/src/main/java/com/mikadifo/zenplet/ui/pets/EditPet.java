@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.core.content.res.TypedArrayUtils;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -24,7 +23,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -105,53 +103,48 @@ public class EditPet extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_edit_pet, container, false);
-        //Mostrar los datos para editar en los campos de texto
         imageView = (ImageView) root.findViewById(R.id.foto);
         EditText name = root.findViewById(R.id.edit_name);
-        Spinner spinnerSizeEditPet =root.findViewById(R.id.spinnerSizeEditPet);
-        RadioButton radioButtonGenreEditPetMale =root.findViewById(R.id.ratioMaleEditPet);
-        RadioButton radioButtonGenreEditPetFemale =root.findViewById(R.id.ratioFemaleEditPet);
+        Spinner spinnerSizeEditPet = root.findViewById(R.id.spinnerSizeEditPet);
+        RadioButton radioButtonGenreEditPetMale = root.findViewById(R.id.ratioMaleEditPet);
+        RadioButton radioButtonGenreEditPetFemale = root.findViewById(R.id.ratioFemaleEditPet);
         EditText breed = root.findViewById(R.id.edit_breed);
         EditText birthdate = root.findViewById(R.id.edit_birthdate);
-        birthdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        EditText size = root.findViewById(R.id.edit_size);
+        EditText genre = root.findViewById(R.id.edit_genre);
 
-                int day, month, year;
-                Calendar calendar = Calendar.getInstance();
-                day = calendar.get(Calendar.DAY_OF_MONTH);
-                month = calendar.get(Calendar.MONTH);
-                year = calendar.get(Calendar.YEAR);
+        birthdate.setOnClickListener(view -> {
+            int day, month, year;
+            Calendar calendar = Calendar.getInstance();
+            day = calendar.get(Calendar.DAY_OF_MONTH);
+            month = calendar.get(Calendar.MONTH);
+            year = calendar.get(Calendar.YEAR);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        birthdate.setText(year+"-"+(month+1)+"-"+dayOfMonth);
-                    }
-                }, day, month, year);
-                datePickerDialog.show();
-            }
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (viewDate, dateYear, dateMonth, dayOfMonth)
+                    -> birthdate.setText(dateYear + "-" + (dateMonth + 1) + "-" + dayOfMonth), day, month, year);
+
+            datePickerDialog.show();
         });
+
         byte[] decodedString = Base64.decode(FragmentPets.selectedPet.getPetImage().split(",")[1], Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         imageView.setImageBitmap(decodedByte);
+
         name.setText(FragmentPets.selectedPet.getPetName());
-        String [] arraySpinner = root.getContext().getResources().getStringArray(R.array.Size);
+        String[] arraySpinner = root.getContext().getResources().getStringArray(R.array.Size);
         int itemList = Arrays.asList(arraySpinner).indexOf(FragmentPets.selectedPet.getPetSize());
         spinnerSizeEditPet.setSelection(itemList);
         breed.setText(FragmentPets.selectedPet.getPetBreed());
-        if (FragmentPets.selectedPet.getPetGenre().equals("Male")){
+        if (FragmentPets.selectedPet.getPetGenre().equals("Male")) {
             radioButtonGenreEditPetMale.setChecked(true);
-        }else radioButtonGenreEditPetFemale.setChecked(true);
+        } else radioButtonGenreEditPetFemale.setChecked(true);
         birthdate.setText(FragmentPets.selectedPet.getPetBirthdate());
-        //llamada a token, retrofit y pestService
+
         CallWithToken callWithToken = new CallWithToken();
         Retrofit retrofit = callWithToken.getCallToken();
         PetService petService = retrofit.create(PetService.class);
-        //Guardar datos editados
+
         Button btnSave = root.findViewById(R.id.btnSaveEditPet);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,15 +153,16 @@ public class EditPet extends Fragment {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] imageInByte = baos.toByteArray();
-                String fotoEnBase64 = "data:image/jpeg;base64,"+Base64.encodeToString(imageInByte, Base64.NO_WRAP);
+                String fotoEnBase64 = "data:image/jpeg;base64," + Base64.encodeToString(imageInByte, Base64.NO_WRAP);
 
                 FragmentPets.selectedPet.setPetName(name.getText().toString());
                 FragmentPets.selectedPet.setPetOwner(SignUpActivity.ownerNew);
                 FragmentPets.selectedPet.setPetSize(spinnerSizeEditPet.getSelectedItem().toString());
                 FragmentPets.selectedPet.setPetBreed(breed.getText().toString());
-                if (radioButtonGenreEditPetMale.isChecked()){
+                if (radioButtonGenreEditPetMale.isChecked())
                     FragmentPets.selectedPet.setPetGenre("Female");
-                }else FragmentPets.selectedPet.setPetGenre("Male");
+                else
+                    FragmentPets.selectedPet.setPetGenre("Male");
                 FragmentPets.selectedPet.setPetBirthdate(birthdate.getText().toString());
                 FragmentPets.selectedPet.setPetImage(fotoEnBase64);
                 Call<Pet> callupdate = petService.updatePet(FragmentPets.selectedPet.getPetId(), FragmentPets.selectedPet);
@@ -197,65 +191,13 @@ public class EditPet extends Fragment {
                 });
             }
         });
-        //Asignar metodos a los botones
+
         Button openCameraBtn = root.findViewById(R.id.btnAbrirCamara);
         Button openGalleryBtn = root.findViewById(R.id.btnAbrirGaleria);
-
-        //abrir el fragment post lost
+        openGalleryBtn.setOnClickListener(this::loadImage);
+        openCameraBtn.setOnClickListener(this::openCamera);
         Button btnlo = root.findViewById(R.id.btnLost);
-
-                if (name.getText().toString().isEmpty() || breed.getText().toString().isEmpty()
-                        || imageView.getDrawable() == null||awesomeValidation.validate()) {
-                    Toast.makeText(view.getContext(),
-                            getContext().getResources().getString(R.string.toast_you_must_complete_the_fields),
-                            Toast.LENGTH_LONG).show();
-
-                } else {
-                    Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                    byte[] imageInByte = baos.toByteArray();
-                    String fotoEnBase64 = Base64.encodeToString(imageInByte, Base64.DEFAULT);
-                    FragmentPets.selectedPet.setPetName(name.getText().toString());
-                    FragmentPets.selectedPet.setPetOwner(SignUpActivity.ownerNew);
-                    FragmentPets.selectedPet.setPetSize(size.getText().toString());
-                    FragmentPets.selectedPet.setPetBreed(breed.getText().toString());
-                    FragmentPets.selectedPet.setPetGenre(genre.getText().toString());
-                    FragmentPets.selectedPet.setPetBirthdate(birthdate.getText().toString());
-                    FragmentPets.selectedPet.setPetImage(fotoEnBase64);
-                    Call<Pet> callupdate = petService.updatePet(FragmentPets.selectedPet.getPetId(), FragmentPets.selectedPet);
-                    callupdate.enqueue(new Callback<Pet>() {
-                        @Override
-                        public void onResponse(Call<Pet> call, Response<Pet> response) {
-                            Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_The_data_has_been_save_successfully), Toast.LENGTH_LONG).show();
-                            System.out.println(response.body());
-
-                            FragmentManager fragmentManager = getFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager
-                                    .beginTransaction()
-                                    .replace(R.id.nav_host_fragment, new FragmentPets());
-                            fragmentTransaction.commit();
-                            Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_updated_pet), Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onFailure(Call<Pet> call, Throwable t) {
-                            try {
-                                throw t;
-                            } catch (Throwable throwable) {
-                                throwable.printStackTrace();
-                            }
-                        }
-                    });
-                }
-            }
-        });
-        //Asignar metodos a los botones
-        Button openCameraBtn = root.findViewById(R.id.btnAbrirCamara);
-        Button openGalleryBtn = root.findViewById(R.id.btnAbrirGaleria);
-
-        //abrir el fragment post lost
-        Button btnlo = root.findViewById(R.id.btnLost);
+        Button btnd = root.findViewById(R.id.btnDelete);
 
         btnlo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -286,12 +228,8 @@ public class EditPet extends Fragment {
                 });
             }
         });
-        openGalleryBtn.setOnClickListener(this::cargarImagen);
-        openCameraBtn.setOnClickListener(this::AbrirCamara);
 
-        Button btnd = root.findViewById(R.id.btnDelete);
         btnd.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 CallWithToken callWithToken = new CallWithToken();
@@ -299,39 +237,37 @@ public class EditPet extends Fragment {
                 PetService petService = retrofit.create(PetService.class);
                 AlertDialog.Builder dialogo1 = new AlertDialog.Builder(getContext());
                 dialogo1.setTitle(getContext().getResources().getString(R.string.dialog_Important));
-                dialogo1.setMessage(getContext().getResources().getString(R.string.dialog_Are_you_sure_to_remove_this_pet));
+                dialogo1.setMessage(
+                        getContext().getResources().getString(R.string.dialog_Are_you_sure_to_remove_this_pet));
                 dialogo1.setCancelable(false);
-                dialogo1.setPositiveButton(getContext().getResources().getString(R.string.option_yes), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialogo1, int id) {
+                dialogo1.setPositiveButton(getContext().getResources().getString(R.string.option_yes),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogo1, int id) {
+                                Call<Void> call = petService.deletePet(FragmentPets.selectedPet.getPetId());
+                                call.enqueue(new Callback<Void>() {
+                                    @Override
+                                    public void onResponse(Call<Void> call, Response<Void> response) {
+                                        SignUpActivity.ownerNew.getOwnerPets().remove(FragmentPets.selectedPet);
+                                        dialogo1.dismiss();
+                                        FragmentManager fragmentManager = getFragmentManager();
+                                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
+                                                .replace(R.id.nav_host_fragment, new FragmentPets());
+                                        fragmentTransaction.commit();
+                                    }
 
-                        Call<Void> call = petService.deletePet(FragmentPets.selectedPet.getPetId());
-                        call.enqueue(new Callback<Void>() {
-                            @Override
-                            public void onResponse(Call<Void> call, Response<Void> response) {
-                                SignUpActivity.ownerNew.getOwnerPets().remove(FragmentPets.selectedPet);
-                                dialogo1.dismiss();
-                                FragmentManager fragmentManager = getFragmentManager();
-                                FragmentTransaction fragmentTransaction = fragmentManager
-                                        .beginTransaction()
-                                        .replace(R.id.nav_host_fragment, new FragmentPets());
-                                fragmentTransaction.commit();
+                                    @Override
+                                    public void onFailure(Call<Void> call, Throwable t) {
+                                        try {
+                                            throw t;
+                                        } catch (Throwable throwable) {
+                                            throwable.printStackTrace();
+                                        }
+                                    }
+                                });
+
                             }
 
-                            @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
-                                try {
-                                    throw t;
-                                } catch (Throwable throwable) {
-                                    throwable.printStackTrace();
-                                }
-                            }
-                        });
-
-
-                    }
-
-                })
-                        .setNegativeButton("No", null).show();
+                        }).setNegativeButton("No", null).show();
             }
         });
 
@@ -344,7 +280,8 @@ public class EditPet extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                awesomeValidation.addValidation(getActivity(),R.id.edit_name,"(^[ÁÉÍÓÚA-Za-záéíóú ]{3,30}$)", R.string.invalid_name);
+                awesomeValidation.addValidation(getActivity(), R.id.edit_name, "(^[√Å√â√ç√ì√öA-Za-z√°√©√≠√≥√∫ ]{3,30}$)",
+                        R.string.invalid_name);
                 if (!awesomeValidation.validate()) {
                     name.setError(getContext().getResources().getString(R.string.invalid_name));
                 }
@@ -362,7 +299,8 @@ public class EditPet extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                awesomeValidation.addValidation(getActivity(),R.id.edit_breed,"(^[ÁÉÍÓÚA-Za-záéíóú ]{3,30}$)", R.string.invalid_name);
+                awesomeValidation.addValidation(getActivity(), R.id.edit_breed, "(^[√Å√â√ç√ì√öA-Za-z√°√©√≠√≥√∫ ]{3,30}$)",
+                        R.string.invalid_name);
                 if (!awesomeValidation.validate()) {
                     breed.setError(getContext().getResources().getString(R.string.invalid_name));
                 }
@@ -372,46 +310,43 @@ public class EditPet extends Fragment {
             public void afterTextChanged(Editable s) {
             }
         });
+
         return root;
     }
-    public void AbrirCamara(View view){
-        //llamar a un recurso desde el intent - recurso para la camara
-        Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if(intent.resolveActivity(getActivity().getPackageManager())!=null){
-            //manejar el resultado
+
+    public void openCamera(View view) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
             System.out.println("Camara");
-            startActivityForResult(intent,1);
+            startActivityForResult(intent, 1);
         }
 
     }
+
+    public void loadImage(View view) {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/");
+        startActivityForResult(Intent.createChooser(intent, getContext().getResources().getString(R.string.toast_Select_the_app)), 10);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //comprobar si hay respuesta y resultado
-        if (requestCode==1&& resultCode==-1){
-            //Recibir imagen
+        if (requestCode == 1 && resultCode == -1) {
             Bitmap image = (Bitmap) data.getExtras().get("data");
             int currentBitMapWidth = image.getWidth();
             int currentBitMapHeight = image.getHeight();
             int newWidth = imageView.getWidth();
-            int newHeight = (int)
-                    Math.floor((double) currentBitMapHeight * (double) newWidth / (double) currentBitMapWidth);
+            int newHeight = (int) Math
+                    .floor((double) currentBitMapHeight * (double) newWidth / (double) currentBitMapWidth);
             Bitmap bitmap = Bitmap.createScaledBitmap(image, newWidth, newHeight, true);
-            //mostrar imagen en la pantalla
             imageView.setImageBitmap(image);
         }
-        if(resultCode==-1){
-            Uri path=data.getData();
+        if (resultCode == -1) {
+            Uri path = data.getData();
             imageView.setImageURI(path);
         }
 
-    }
-    public void cargarImagen(View view){
-        //Acceder al contenido de la galeria
-        Intent intent= new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        intent.setType("image/");
-        //recibir el resultado de la foto
-        startActivityForResult(Intent.createChooser(intent,getContext().getResources().getString(R.string.toast_Select_the_app)), 10);
     }
 
 }
