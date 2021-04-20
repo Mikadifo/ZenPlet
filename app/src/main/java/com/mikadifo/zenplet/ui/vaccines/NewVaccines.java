@@ -31,7 +31,9 @@ import com.mikadifo.zenplet.API.service.VaccineService;
 import com.mikadifo.zenplet.R;
 import com.mikadifo.zenplet.ui.SignUpActivity;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -193,6 +195,9 @@ public class NewVaccines extends Fragment {
                                 petVaccine = response.body();
                                 for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()) {
                                     if (pet.getPetId() == response.body().getId().getPetId()) {
+                                        if (pet.getPetVaccines() == null) {
+                                            pet.setPetVaccines(new ArrayList<>());
+                                        }
                                         pet.getPetVaccines().add(petVaccine);
                                     }
                                 }

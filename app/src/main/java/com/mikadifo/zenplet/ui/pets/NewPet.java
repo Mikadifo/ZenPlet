@@ -2,6 +2,7 @@ package com.mikadifo.zenplet.ui.pets;
 
 import android.app.DatePickerDialog;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,19 +32,15 @@ import android.widget.Toast;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.mikadifo.zenplet.API.CallWithToken;
-import com.mikadifo.zenplet.API.model.Owner;
 import com.mikadifo.zenplet.API.model.Pet;
-import com.mikadifo.zenplet.API.service.OwnerService;
 import com.mikadifo.zenplet.API.service.PetService;
 import com.mikadifo.zenplet.R;
 import com.mikadifo.zenplet.ui.SignUpActivity;
 
 import java.io.ByteArrayOutputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 import java.util.Calendar;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -142,10 +139,16 @@ public class NewPet extends Fragment {
                             getContext().getResources().getString(R.string.toast_you_must_complete_the_fields),
                             Toast.LENGTH_LONG).show();
                 } else {
-                    Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                    byte[] imageInByte = baos.toByteArray();
+                    byte[] imageInByte = {};
+                    try {
+                        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+                        imageInByte = baos.toByteArray();
+                        baos.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     String fotoEnBase64 = "data:image/jpeg;base64," + Base64.encodeToString(imageInByte, Base64.NO_WRAP);
                     CallWithToken callWithToken = new CallWithToken();
                     Retrofit retrofit = callWithToken.getCallToken();
@@ -166,25 +169,7 @@ public class NewPet extends Fragment {
                         @Override
                         public void onResponse(Call<Pet> call, Response<Pet> response) {
                             pet = response.body();
-//                            SignUpActivity.ownerNew.getOwnerPets().add(pet);
-//                            OwnerService ownerService = retrofit.create(OwnerService.class);
-//                            Call<Owner> callUpdateFirstOwner = ownerService.updateOwner(SignUpActivity.ownerNew.getOwnerId(), SignUpActivity.ownerNew);
-//                            callUpdateFirstOwner.enqueue(new Callback<Owner>() {
-//                                @Override
-//                                public void onResponse(Call<Owner> call, Response<Owner> response) {
-//                                    SignUpActivity.ownerNew = response.body();
-//                                    System.out.println("foto en base ultimo" + fotoEnBase64.toString());
-//                                }
-//
-//                                @Override
-//                                public void onFailure(Call<Owner> call, Throwable t) {
-//                                    try {
-//                                        throw t;
-//                                    } catch (Throwable throwable) {
-//                                        throwable.printStackTrace();
-//                                    }
-//                                }
-//                            });
+                            SignUpActivity.ownerNew.getOwnerPets().add(pet);
                             FragmentManager fragmentManager = getFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager
                                     .beginTransaction()
@@ -261,13 +246,16 @@ public class NewPet extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        System.out.println(requestCode);
         if (requestCode == 1 && resultCode == -1) {
             Bitmap image = (Bitmap) data.getExtras().get("data");
             int currentBitMapWidth = image.getWidth();
             int currentBitMapHeight = image.getHeight();
-            int newWidth = imageView.getWidth();
-            int newHeight = (int)
-                    Math.floor((double) currentBitMapHeight * (double) newWidth / (double) currentBitMapWidth);
+            int newWidth = image.getWidth() / 4;
+            int newHeight = image.getHeight() / 4;
+//            int newWidth = imageView.getWidth();
+//            int newHeight = (int)
+//                    Math.floor((double) currentBitMapHeight * (double) newWidth / (double) currentBitMapWidth);
             Bitmap bitmap = Bitmap.createScaledBitmap(image, newWidth, newHeight, true);
             imageView.setImageBitmap(bitmap);
         }
