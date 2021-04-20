@@ -95,7 +95,6 @@ public class EditPet extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-
         }
     }
 
@@ -110,8 +109,6 @@ public class EditPet extends Fragment {
         RadioButton radioButtonGenreEditPetFemale = root.findViewById(R.id.ratioFemaleEditPet);
         EditText breed = root.findViewById(R.id.edit_breed);
         EditText birthdate = root.findViewById(R.id.edit_birthdate);
-        EditText size = root.findViewById(R.id.edit_size);
-        EditText genre = root.findViewById(R.id.edit_genre);
 
         birthdate.setOnClickListener(view -> {
             int day, month, year;
@@ -148,7 +145,7 @@ public class EditPet extends Fragment {
         btnSave.setOnClickListener(view -> {
             Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
             byte[] imageInByte = baos.toByteArray();
             String fotoEnBase64 = "data:image/jpeg;base64," + Base64.encodeToString(imageInByte, Base64.NO_WRAP);
 

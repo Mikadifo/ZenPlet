@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<Long>() {
             @Override
             public void onResponse(Call<Long> call, Response<Long> response) {
-                System.out.println(response.body());
                 System.out.println(response.body().longValue());
                 TextView petsFound = findViewById(R.id.text_pets_found);
                 petsFound.setText(response.body().longValue() + " " + getBaseContext().getResources().getString(R.string.Text_pets_found_using_our_app_));

@@ -166,25 +166,25 @@ public class NewPet extends Fragment {
                         @Override
                         public void onResponse(Call<Pet> call, Response<Pet> response) {
                             pet = response.body();
-                            SignUpActivity.ownerNew.getOwnerPets().add(pet);
-                            OwnerService ownerService = retrofit.create(OwnerService.class);
-                            Call<Owner> callUpdateFirstOwner = ownerService.updateOwner(SignUpActivity.ownerNew.getOwnerId(), SignUpActivity.ownerNew);
-                            callUpdateFirstOwner.enqueue(new Callback<Owner>() {
-                                @Override
-                                public void onResponse(Call<Owner> call, Response<Owner> response) {
-                                    SignUpActivity.ownerNew = response.body();
-                                    System.out.println("foto en base ultimo" + fotoEnBase64.toString());
-                                }
-
-                                @Override
-                                public void onFailure(Call<Owner> call, Throwable t) {
-                                    try {
-                                        throw t;
-                                    } catch (Throwable throwable) {
-                                        throwable.printStackTrace();
-                                    }
-                                }
-                            });
+//                            SignUpActivity.ownerNew.getOwnerPets().add(pet);
+//                            OwnerService ownerService = retrofit.create(OwnerService.class);
+//                            Call<Owner> callUpdateFirstOwner = ownerService.updateOwner(SignUpActivity.ownerNew.getOwnerId(), SignUpActivity.ownerNew);
+//                            callUpdateFirstOwner.enqueue(new Callback<Owner>() {
+//                                @Override
+//                                public void onResponse(Call<Owner> call, Response<Owner> response) {
+//                                    SignUpActivity.ownerNew = response.body();
+//                                    System.out.println("foto en base ultimo" + fotoEnBase64.toString());
+//                                }
+//
+//                                @Override
+//                                public void onFailure(Call<Owner> call, Throwable t) {
+//                                    try {
+//                                        throw t;
+//                                    } catch (Throwable throwable) {
+//                                        throwable.printStackTrace();
+//                                    }
+//                                }
+//                            });
                             FragmentManager fragmentManager = getFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager
                                     .beginTransaction()
