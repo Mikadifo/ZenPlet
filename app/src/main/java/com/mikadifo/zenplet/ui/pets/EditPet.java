@@ -2,7 +2,6 @@ package com.mikadifo.zenplet.ui.pets;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -104,7 +103,7 @@ public class EditPet extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_edit_pet, container, false);
-        imageView = (ImageView) root.findViewById(R.id.foto);
+        imageView = root.findViewById(R.id.foto);
         EditText name = root.findViewById(R.id.edit_name);
         Spinner spinnerSizeEditPet = root.findViewById(R.id.spinnerSizeEditPet);
         RadioButton radioButtonGenreEditPetMale = root.findViewById(R.id.ratioMaleEditPet);
@@ -146,50 +145,49 @@ public class EditPet extends Fragment {
         PetService petService = retrofit.create(PetService.class);
 
         Button btnSave = root.findViewById(R.id.btnSaveEditPet);
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] imageInByte = baos.toByteArray();
-                String fotoEnBase64 = "data:image/jpeg;base64," + Base64.encodeToString(imageInByte, Base64.NO_WRAP);
+        btnSave.setOnClickListener(view -> {
+            Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] imageInByte = baos.toByteArray();
+            String fotoEnBase64 = "data:image/jpeg;base64," + Base64.encodeToString(imageInByte, Base64.NO_WRAP);
 
-                FragmentPets.selectedPet.setPetName(name.getText().toString());
-                FragmentPets.selectedPet.setPetOwner(SignUpActivity.ownerNew);
-                FragmentPets.selectedPet.setPetSize(spinnerSizeEditPet.getSelectedItem().toString());
-                FragmentPets.selectedPet.setPetBreed(breed.getText().toString());
-                if (radioButtonGenreEditPetMale.isChecked())
-                    FragmentPets.selectedPet.setPetGenre("Female");
-                else
-                    FragmentPets.selectedPet.setPetGenre("Male");
-                FragmentPets.selectedPet.setPetBirthdate(birthdate.getText().toString());
-                FragmentPets.selectedPet.setPetImage(fotoEnBase64);
-                Call<Pet> callupdate = petService.updatePet(FragmentPets.selectedPet.getPetId(), FragmentPets.selectedPet);
-                callupdate.enqueue(new Callback<Pet>() {
-                    @Override
-                    public void onResponse(Call<Pet> call, Response<Pet> response) {
-                        Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_The_data_has_been_save_successfully), Toast.LENGTH_LONG).show();
-                        System.out.println(response.body());
+            FragmentPets.selectedPet.setPetName(name.getText().toString());
+            FragmentPets.selectedPet.setPetOwner(SignUpActivity.ownerNew);
+            FragmentPets.selectedPet.setPetSize(spinnerSizeEditPet.getSelectedItem().toString());
+            FragmentPets.selectedPet.setPetBreed(breed.getText().toString());
+            if (radioButtonGenreEditPetMale.isChecked())
+                FragmentPets.selectedPet.setPetGenre("Female");
+            else
+                FragmentPets.selectedPet.setPetGenre("Male");
+            FragmentPets.selectedPet.setPetBirthdate(birthdate.getText().toString());
+            FragmentPets.selectedPet.setPetImage(fotoEnBase64);
+            FragmentPets.selectedPet.getPetVaccines().clear();
+            Call<Pet> callupdate = petService.updatePet(FragmentPets.selectedPet.getPetId(), FragmentPets.selectedPet);
+            callupdate.enqueue(new Callback<Pet>() {
+                @Override
+                public void onResponse(Call<Pet> call, Response<Pet> response) {
+                    Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_The_data_has_been_save_successfully), Toast.LENGTH_LONG).show();
+                    System.out.println(response.body());
+                    FragmentPets.selectedPet = response.body();
 
-                        FragmentManager fragmentManager = getFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager
-                                .beginTransaction()
-                                .replace(R.id.nav_host_fragment, new FragmentPets());
-                        fragmentTransaction.commit();
-                        Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_updated_pet), Toast.LENGTH_SHORT).show();
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager
+                            .beginTransaction()
+                            .replace(R.id.nav_host_fragment, new FragmentPets());
+                    fragmentTransaction.commit();
+                    Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_updated_pet), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<Pet> call, Throwable t) {
+                    try {
+                        throw t;
+                    } catch (Throwable throwable) {
+                        throwable.printStackTrace();
                     }
-
-                    @Override
-                    public void onFailure(Call<Pet> call, Throwable t) {
-                        try {
-                            throw t;
-                        } catch (Throwable throwable) {
-                            throwable.printStackTrace();
-                        }
-                    }
-                });
-            }
+                }
+            });
         });
 
         Button openCameraBtn = root.findViewById(R.id.btnAbrirCamara);
@@ -199,76 +197,67 @@ public class EditPet extends Fragment {
         Button btnlo = root.findViewById(R.id.btnLost);
         Button btnd = root.findViewById(R.id.btnDelete);
 
-        btnlo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CallWithToken callWithToken = new CallWithToken();
-                Retrofit retrofit = callWithToken.getCallToken();
-                LostPetService lostPetService = retrofit.create(LostPetService.class);
-                Call<LostPet> call = lostPetService.getLostPetByPetId(FragmentPets.selectedPet.getPetId());
-                call.enqueue(new Callback<LostPet>() {
-                    @Override
-                    public void onResponse(Call<LostPet> call, Response<LostPet> response) {
-                        System.out.println(response.body());
-                        FragmentManager fragmentManager = getFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager
-                                .beginTransaction()
-                                .replace(R.id.nav_host_fragment, new EditLostPet(response.body()));
-                        fragmentTransaction.commit();
-                    }
+        btnlo.setOnClickListener(view -> {
+            CallWithToken callWithToken1 = new CallWithToken();
+            Retrofit retrofit1 = callWithToken1.getCallToken();
+            LostPetService lostPetService = retrofit1.create(LostPetService.class);
+            Call<LostPet> call = lostPetService.getLostPetByPetId(FragmentPets.selectedPet.getPetId());
+            call.enqueue(new Callback<LostPet>() {
+                @Override
+                public void onResponse(Call<LostPet> call, Response<LostPet> response) {
+                    System.out.println(response.body());
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager
+                            .beginTransaction()
+                            .replace(R.id.nav_host_fragment, new EditLostPet(response.body()));
+                    fragmentTransaction.commit();
+                }
 
-                    @Override
-                    public void onFailure(Call<LostPet> call, Throwable t) {
-                        FragmentManager fragmentManager = getFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager
-                                .beginTransaction()
-                                .replace(R.id.nav_host_fragment, new PostLostPet());
-                        fragmentTransaction.commit();
-                    }
-                });
-            }
+                @Override
+                public void onFailure(Call<LostPet> call, Throwable t) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager
+                            .beginTransaction()
+                            .replace(R.id.nav_host_fragment, new PostLostPet());
+                    fragmentTransaction.commit();
+                }
+            });
         });
 
-        btnd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CallWithToken callWithToken = new CallWithToken();
-                Retrofit retrofit = callWithToken.getCallToken();
-                PetService petService = retrofit.create(PetService.class);
-                AlertDialog.Builder dialogo1 = new AlertDialog.Builder(getContext());
-                dialogo1.setTitle(getContext().getResources().getString(R.string.dialog_Important));
-                dialogo1.setMessage(
-                        getContext().getResources().getString(R.string.dialog_Are_you_sure_to_remove_this_pet));
-                dialogo1.setCancelable(false);
-                dialogo1.setPositiveButton(getContext().getResources().getString(R.string.option_yes),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialogo1, int id) {
-                                Call<Void> call = petService.deletePet(FragmentPets.selectedPet.getPetId());
-                                call.enqueue(new Callback<Void>() {
-                                    @Override
-                                    public void onResponse(Call<Void> call, Response<Void> response) {
-                                        SignUpActivity.ownerNew.getOwnerPets().remove(FragmentPets.selectedPet);
-                                        dialogo1.dismiss();
-                                        FragmentManager fragmentManager = getFragmentManager();
-                                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
-                                                .replace(R.id.nav_host_fragment, new FragmentPets());
-                                        fragmentTransaction.commit();
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<Void> call, Throwable t) {
-                                        try {
-                                            throw t;
-                                        } catch (Throwable throwable) {
-                                            throwable.printStackTrace();
-                                        }
-                                    }
-                                });
-
+        btnd.setOnClickListener(view -> {
+            CallWithToken callWithToken12 = new CallWithToken();
+            Retrofit retrofit12 = callWithToken12.getCallToken();
+            PetService petService1 = retrofit12.create(PetService.class);
+            AlertDialog.Builder dialogo1 = new AlertDialog.Builder(getContext());
+            dialogo1.setTitle(getContext().getResources().getString(R.string.dialog_Important));
+            dialogo1.setMessage(
+                    getContext().getResources().getString(R.string.dialog_Are_you_sure_to_remove_this_pet));
+            dialogo1.setCancelable(false);
+            dialogo1.setPositiveButton(getContext().getResources().getString(R.string.option_yes),
+                    (dialogo11, id) -> {
+                        Call<Void> call = petService1.deletePet(FragmentPets.selectedPet.getPetId());
+                        call.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                SignUpActivity.ownerNew.getOwnerPets().remove(FragmentPets.selectedPet);
+                                dialogo11.dismiss();
+                                FragmentManager fragmentManager = getFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
+                                        .replace(R.id.nav_host_fragment, new FragmentPets());
+                                fragmentTransaction.commit();
                             }
 
-                        }).setNegativeButton("No", null).show();
-            }
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                try {
+                                    throw t;
+                                } catch (Throwable throwable) {
+                                    throwable.printStackTrace();
+                                }
+                            }
+                        });
+
+                    }).setNegativeButton("No", null).show();
         });
 
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
@@ -320,7 +309,6 @@ public class EditPet extends Fragment {
             System.out.println("Camara");
             startActivityForResult(intent, 1);
         }
-
     }
 
     public void loadImage(View view) {
