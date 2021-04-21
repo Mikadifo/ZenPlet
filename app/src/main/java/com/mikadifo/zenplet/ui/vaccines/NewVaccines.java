@@ -31,8 +31,11 @@ import com.mikadifo.zenplet.API.service.VaccineService;
 import com.mikadifo.zenplet.R;
 import com.mikadifo.zenplet.ui.SignUpActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -116,10 +119,10 @@ public class NewVaccines extends Fragment {
             }
         });
         EditText nameVaccines = root.findViewById(R.id.new_name_vaccines);
-        EditText date = root.findViewById(R.id.new_date_vaccine);
+        EditText dateText = root.findViewById(R.id.new_date_vaccine);
         EditText dateNext = root.findViewById(R.id.new_next_vaccines);
         EditText nameDescription = root.findViewById(R.id.new_description_vaccines);
-        date.setOnClickListener(new View.OnClickListener() {
+        dateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int day, month, year;
@@ -131,7 +134,40 @@ public class NewVaccines extends Fragment {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        date.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+                        String birthdateS = year + "-" + (month+1) + "-" + dayOfMonth;
+                        Date date=null;
+                        try {
+                            date = new SimpleDateFormat("yyyy-MM-dd").parse(birthdateS);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        Calendar fechaNacimiento = Calendar.getInstance();
+                        Calendar fechaActual = Calendar.getInstance();
+                        fechaNacimiento.setTime(date);
+                        int yearCalculated = fechaActual.get(Calendar.YEAR)- fechaNacimiento.get(Calendar.YEAR);
+                        int monthCalculated =fechaActual.get(Calendar.MONTH)- fechaNacimiento.get(Calendar.MONTH);
+                        int dayCalculated = fechaActual.get(Calendar.DATE)- fechaNacimiento.get(Calendar.DATE);
+                        if(monthCalculated<0 || (monthCalculated==0 && dayCalculated<0)){
+                            yearCalculated--;
+
+                        }
+                        if (yearCalculated>50 || yearCalculated<0){
+                            Toast.makeText(view.getContext(),"La fecha no es la indicada",
+                                    Toast.LENGTH_LONG).show();
+                        }else if(yearCalculated==0){
+                            if (monthCalculated==0){
+                                if (dayCalculated<0){
+                                    Toast.makeText(view.getContext(),"La fecha no es la indicada",
+                                            Toast.LENGTH_LONG).show();
+                                }else{
+                                    dateText.setText(birthdateS);
+                                }
+                            }else{
+                                dateText.setText(birthdateS);
+                            }
+                        }else{
+                            dateText.setText(birthdateS);
+                        }
                     }
                 }, day, month, year);
                 datePickerDialog.show();
@@ -149,7 +185,40 @@ public class NewVaccines extends Fragment {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        dateNext.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+                        String birthdateS = year + "-" + (month+1) + "-" + dayOfMonth;
+                        Date date=null;
+                        try {
+                            date = new SimpleDateFormat("yyyy-MM-dd").parse(birthdateS);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        Calendar fechaNacimiento = Calendar.getInstance();
+                        Calendar fechaActual = Calendar.getInstance();
+                        fechaNacimiento.setTime(date);
+                        int yearCalculated = fechaActual.get(Calendar.YEAR)- fechaNacimiento.get(Calendar.YEAR);
+                        int monthCalculated =fechaActual.get(Calendar.MONTH)- fechaNacimiento.get(Calendar.MONTH);
+                        int dayCalculated = fechaActual.get(Calendar.DATE)- fechaNacimiento.get(Calendar.DATE);
+                        if(monthCalculated<0 || (monthCalculated==0 && dayCalculated<0)){
+                            yearCalculated--;
+
+                        }
+                        if (yearCalculated<-5 || yearCalculated>0){
+                            Toast.makeText(view.getContext(),"La fecha no es la indicada",
+                                    Toast.LENGTH_LONG).show();
+                        }else if(yearCalculated==0){
+                            if (monthCalculated==0){
+                                if (dayCalculated>0){
+                                    Toast.makeText(view.getContext(),"La fecha no es la indicada",
+                                            Toast.LENGTH_LONG).show();
+                                }else{
+                                    dateNext.setText(birthdateS);
+                                }
+                            }else{
+                                dateNext.setText(birthdateS);
+                            }
+                        }else{
+                            dateNext.setText(birthdateS);
+                        }
                     }
                 }, day, month, year);
                 datePickerDialog.show();
@@ -159,7 +228,7 @@ public class NewVaccines extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (nameVaccines.getText().toString().isEmpty() || nameDescription.getText().toString().isEmpty() || date.getText().toString().isEmpty() || dateNext.getText().toString().isEmpty()) {
+                if (nameVaccines.getText().toString().isEmpty() || nameDescription.getText().toString().isEmpty() || dateText.getText().toString().isEmpty() || dateNext.getText().toString().isEmpty()) {
                     Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_you_must_complete_the_fields), Toast.LENGTH_LONG).show();
                 }
                 CallWithToken callWithToken = new CallWithToken();
@@ -183,7 +252,7 @@ public class NewVaccines extends Fragment {
                         }
                         //secondayrlist efect
 
-                        petVaccine.setPetVaccineDate(date.getText().toString());
+                        petVaccine.setPetVaccineDate(dateText.getText().toString());
                         petVaccine.setPetVaccineNext(dateNext.getText().toString());
                         petVaccine.setVaccine(vaccine);
                         petVaccine.setPet(petForVaccine);
