@@ -50,7 +50,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 awesomeValidation.addValidation(SignUpActivity.this, R.id.edit_name_from_signup, "(^\\w{3,20}$)", R.string.invalid_username);
                 if (!awesomeValidation.validate()) {
-                    ownerName.setError(getBaseContext().getResources().getString(R.string.invalid_login));
+                    ownerName.setError(getBaseContext().getResources().getString(R.string.invalid_username));
                 }
             }
 
@@ -69,7 +69,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 awesomeValidation.addValidation(SignUpActivity.this, R.id.edit_email_from_signup, Patterns.EMAIL_ADDRESS, R.string.invalid_email);
                 if (!awesomeValidation.validate()) {
-                    ownerEmail.setError(getBaseContext().getResources().getString(R.string.invalid_login));
+                    ownerEmail.setError(getBaseContext().getResources().getString(R.string.invalid_email));
                 }
             }
 
@@ -88,7 +88,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 awesomeValidation.addValidation(SignUpActivity.this, R.id.edit_password_from_signup, "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,40}$", R.string.invalid_password);
                 if (!awesomeValidation.validate()) {
-                    ownerPassword.setError(getBaseContext().getResources().getString(R.string.invalid_login));
+                    ownerPassword.setError(getBaseContext().getResources().getString(R.string.invalid_password));
                 }
             }
 

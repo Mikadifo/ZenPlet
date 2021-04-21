@@ -100,7 +100,7 @@ public class LogInActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 awesomeValidation.addValidation(LogInActivity.this, R.id.edit_name_from_login, "(^\\w{3,20}$)", R.string.invalid_login);
                 if (!awesomeValidation.validate()) {
-                    login.setError(getBaseContext().getResources().getString(R.string.invalid_username));
+                    login.setError(getBaseContext().getResources().getString(R.string.invalid_login));
                 }
             }
 
