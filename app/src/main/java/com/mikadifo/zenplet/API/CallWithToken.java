@@ -12,8 +12,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class CallWithToken {
     public static String token = "";
 //    public static final String BASE_URL = "https://zenplet.herokuapp.com/";
-    //public static final String BASE_URL = "http://192.168.2.102:8080/";
-    public static final String BASE_URL = "http://192.168.1.100:8080/";
+    public static final String BASE_URL = "http://192.168.2.102:8080/"; //mika
+//    public static final String BASE_URL = "http://192.168.1.100:8080/"; //tito
 
 
     public Retrofit getCallToken() {
