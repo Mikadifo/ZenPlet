@@ -162,7 +162,6 @@ public class NewPet extends Fragment {
                     pet.setPetBreed(breed.getText().toString());
                     pet.setPetBirthdate(birthdate.getText().toString());
                     pet.setPetImage(fotoEnBase64);
-                    //fn
                     Set<Pet> ownerPets = SignUpActivity.ownerNew.getOwnerPets();
                     SignUpActivity.ownerNew.setOwnerPets(null);
                     pet.setPetOwner(SignUpActivity.ownerNew);
