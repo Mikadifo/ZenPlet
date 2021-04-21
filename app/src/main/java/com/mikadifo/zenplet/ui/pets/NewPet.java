@@ -289,13 +289,8 @@ public class NewPet extends Fragment {
         System.out.println(requestCode);
         if (requestCode == 1 && resultCode == -1) {
             Bitmap image = (Bitmap) data.getExtras().get("data");
-            int currentBitMapWidth = image.getWidth();
-            int currentBitMapHeight = image.getHeight();
-            int newWidth = image.getWidth() / 4;
-            int newHeight = image.getHeight() / 4;
-//            int newWidth = imageView.getWidth();
-//            int newHeight = (int)
-//                    Math.floor((double) currentBitMapHeight * (double) newWidth / (double) currentBitMapWidth);
+            int newWidth = image.getWidth() / 3;
+            int newHeight = image.getHeight() / 3;
             Bitmap bitmap = Bitmap.createScaledBitmap(image, newWidth, newHeight, true);
             imageView.setImageBitmap(bitmap);
         }
