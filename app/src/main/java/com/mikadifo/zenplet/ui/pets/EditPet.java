@@ -125,8 +125,8 @@ public class EditPet extends Fragment {
 
             DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (viewDate, dateYear, dateMonth, dayOfMonth)
                     -> {
-                String birthdateS = year + "-" + (month+1) + "-" + dayOfMonth;
-                Date date=null;
+                String birthdateS = year + "-" + (month + 1) + "-" + dayOfMonth;
+                Date date = null;
                 try {
                     date = new SimpleDateFormat("yyyy-MM-dd").parse(birthdateS);
                 } catch (ParseException e) {
@@ -135,31 +135,31 @@ public class EditPet extends Fragment {
                 Calendar fechaNacimiento = Calendar.getInstance();
                 Calendar fechaActual = Calendar.getInstance();
                 fechaNacimiento.setTime(date);
-                int yearCalculated = fechaActual.get(Calendar.YEAR)- fechaNacimiento.get(Calendar.YEAR);
-                int monthCalculated =fechaActual.get(Calendar.MONTH)- fechaNacimiento.get(Calendar.MONTH);
-                int dayCalculated = fechaActual.get(Calendar.DATE)- fechaNacimiento.get(Calendar.DATE);
-                if(monthCalculated<0 || (monthCalculated==0 && dayCalculated<0)){
+                int yearCalculated = fechaActual.get(Calendar.YEAR) - fechaNacimiento.get(Calendar.YEAR);
+                int monthCalculated = fechaActual.get(Calendar.MONTH) - fechaNacimiento.get(Calendar.MONTH);
+                int dayCalculated = fechaActual.get(Calendar.DATE) - fechaNacimiento.get(Calendar.DATE);
+                if (monthCalculated < 0 || (monthCalculated == 0 && dayCalculated < 0)) {
                     yearCalculated--;
 
                 }
-                if (yearCalculated>50 || yearCalculated<0){
-                    Toast.makeText(view.getContext(),"La fecha no es la indicada",
+                if (yearCalculated > 50 || yearCalculated < 0) {
+                    Toast.makeText(view.getContext(), "La fecha no es la indicada",
                             Toast.LENGTH_LONG).show();
-                }else if(yearCalculated==0){
-                    if (monthCalculated==0){
-                        if (dayCalculated<0){
-                            Toast.makeText(view.getContext(),"La fecha no es la indicada",
+                } else if (yearCalculated == 0) {
+                    if (monthCalculated == 0) {
+                        if (dayCalculated < 0) {
+                            Toast.makeText(view.getContext(), "La fecha no es la indicada",
                                     Toast.LENGTH_LONG).show();
-                        }else{
+                        } else {
                             birthdate.setText(birthdateS);
                         }
-                    }else{
+                    } else {
                         birthdate.setText(birthdateS);
                     }
-                }else{
+                } else {
                     birthdate.setText(birthdateS);
                 }
-            }, day, month, year);
+            }, year, month, day);
 
             datePickerDialog.show();
         });
@@ -203,10 +203,12 @@ public class EditPet extends Fragment {
             FragmentPets.selectedPet.setPetOwner(SignUpActivity.ownerNew);
             FragmentPets.selectedPet.setPetSize(spinnerSizeEditPet.getSelectedItem().toString());
             FragmentPets.selectedPet.setPetBreed(breed.getText().toString());
+
+            FragmentPets.selectedPet.setPetGenre("Male");
             if (radioButtonGenreEditPetMale.isChecked())
-                FragmentPets.selectedPet.setPetGenre("Female");
+                FragmentPets.selectedPet.setPetGenre("Male");
             else
-                FragmentPets.selectedPet.setPetGenre("Male");//ahora vemos
+                FragmentPets.selectedPet.setPetGenre("Female");
             FragmentPets.selectedPet.setPetBirthdate(birthdate.getText().toString());
             FragmentPets.selectedPet.setPetImage(fotoEnBase64);
             FragmentPets.selectedPet.setPetVaccines(null);
