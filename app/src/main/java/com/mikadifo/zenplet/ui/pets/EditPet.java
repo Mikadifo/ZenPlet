@@ -40,9 +40,12 @@ import com.mikadifo.zenplet.ui.SignUpActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Set;
 
 import retrofit2.Call;
@@ -121,7 +124,42 @@ public class EditPet extends Fragment {
             year = calendar.get(Calendar.YEAR);
 
             DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (viewDate, dateYear, dateMonth, dayOfMonth)
-                    -> birthdate.setText(dateYear + "-" + (dateMonth + 1) + "-" + dayOfMonth), day, month, year);
+                    -> {
+                String birthdateS = year + "-" + (month+1) + "-" + dayOfMonth;
+                Date date=null;
+                try {
+                    date = new SimpleDateFormat("yyyy-MM-dd").parse(birthdateS);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Calendar fechaNacimiento = Calendar.getInstance();
+                Calendar fechaActual = Calendar.getInstance();
+                fechaNacimiento.setTime(date);
+                int yearCalculated = fechaActual.get(Calendar.YEAR)- fechaNacimiento.get(Calendar.YEAR);
+                int monthCalculated =fechaActual.get(Calendar.MONTH)- fechaNacimiento.get(Calendar.MONTH);
+                int dayCalculated = fechaActual.get(Calendar.DATE)- fechaNacimiento.get(Calendar.DATE);
+                if(monthCalculated<0 || (monthCalculated==0 && dayCalculated<0)){
+                    yearCalculated--;
+
+                }
+                if (yearCalculated>50 || yearCalculated<0){
+                    Toast.makeText(view.getContext(),"La fecha no es la indicada",
+                            Toast.LENGTH_LONG).show();
+                }else if(yearCalculated==0){
+                    if (monthCalculated==0){
+                        if (dayCalculated<0){
+                            Toast.makeText(view.getContext(),"La fecha no es la indicada",
+                                    Toast.LENGTH_LONG).show();
+                        }else{
+                            birthdate.setText(birthdateS);
+                        }
+                    }else{
+                        birthdate.setText(birthdateS);
+                    }
+                }else{
+                    birthdate.setText(birthdateS);
+                }
+            }, day, month, year);
 
             datePickerDialog.show();
         });
