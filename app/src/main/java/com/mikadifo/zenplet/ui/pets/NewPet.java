@@ -39,6 +39,7 @@ import com.mikadifo.zenplet.ui.SignUpActivity;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -67,7 +68,7 @@ public class NewPet extends Fragment {
 
     public NewPet() {
         pet = new Pet();
-        // Required empty public constructor
+        // Required emptgnUpActivity.ownerNepublic constructor
     }
 
     /**
@@ -161,6 +162,9 @@ public class NewPet extends Fragment {
                     pet.setPetBreed(breed.getText().toString());
                     pet.setPetBirthdate(birthdate.getText().toString());
                     pet.setPetImage(fotoEnBase64);
+                    //fn
+                    Set<Pet> ownerPets = SignUpActivity.ownerNew.getOwnerPets();
+                    SignUpActivity.ownerNew.setOwnerPets(null);
                     pet.setPetOwner(SignUpActivity.ownerNew);
                     PetService petService = retrofit.create(PetService.class);
                     Call<Pet> call = petService.savePet(pet);
@@ -168,6 +172,7 @@ public class NewPet extends Fragment {
                         @Override
                         public void onResponse(Call<Pet> call, Response<Pet> response) {
                             pet = response.body();
+                            SignUpActivity.ownerNew.setOwnerPets(ownerPets);
                             SignUpActivity.ownerNew.getOwnerPets().add(pet);
                             FragmentManager fragmentManager = getFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager
