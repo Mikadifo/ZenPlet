@@ -61,7 +61,7 @@ public class PetAdapter extends ArrayAdapter<Pet> {
         ImageView imageView = (ImageView) rowView.findViewById(R.id.imgPet);
         Date date=null;
         try {
-            date = new SimpleDateFormat("yyyy-mm-dd").parse(pets.get(pos).getPetBirthdate());
+            date = new SimpleDateFormat("yyyy-MM-dd").parse(pets.get(pos).getPetBirthdate());
         } catch (ParseException e) {
             System.out.println("Error:"+e);
         }
@@ -75,7 +75,7 @@ public class PetAdapter extends ArrayAdapter<Pet> {
             year--;
 
         }
-        txtPetAge.setText(Integer.toString(year)+" Year "+Integer.toString(mes)+" Month ");
+        txtPetAge.setText(Integer.toString(year)+" Year "+Integer.toString(mes)+" Month "+Integer.toString(dia)+" Dia");
         txtPetName.setText(pets.get(pos).getPetName());
         txtPetType.setText(pets.get(pos).getPetBreed());
         txtPetGenre.setText(pets.get(pos).getPetGenre());
