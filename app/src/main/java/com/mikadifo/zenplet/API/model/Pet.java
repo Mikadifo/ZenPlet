@@ -1,8 +1,5 @@
 package com.mikadifo.zenplet.API.model;
 
-import android.widget.TextView;
-
-import java.util.Arrays;
 import java.util.List;
 
 public class Pet {

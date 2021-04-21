@@ -53,6 +53,7 @@ public class LogInActivity extends AppCompatActivity {
         call.enqueue(new Callback<Owner>() {
             @Override
             public void onResponse(Call<Owner> call, Response<Owner> response) {
+                System.out.println(response.body());
                 if (response.body().getOwnerId() != 0) {
                     CallWithToken.token = response.body().getToken();
                     System.out.println("este dice nulo?" + SignUpActivity.ownerNew.getOwnerPets());

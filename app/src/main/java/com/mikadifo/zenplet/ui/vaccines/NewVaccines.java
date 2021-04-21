@@ -33,7 +33,7 @@ import com.mikadifo.zenplet.ui.SignUpActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Set;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,6 +50,7 @@ public class NewVaccines extends Fragment {
     private PetVaccine petVaccine = new PetVaccine();
     public Pet petForVaccine = new Pet();
     private Pet selectedPet;
+    private List<PetVaccine> petVaccinesList;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -165,7 +166,6 @@ public class NewVaccines extends Fragment {
                 Retrofit retrofit = callWithToken.getCallToken();
                 vaccine.setVaccinesName(nameVaccines.getText().toString());
                 vaccine.setVaccinesDescription(nameDescription.getText().toString());
-                //petVaccine.setPet(FragmentPets.selectedPet);
                 VaccineService vaccineService = retrofit.create(VaccineService.class);
                 Call<Vaccine> call = vaccineService.saveVaccines(vaccine);
                 call.enqueue(new Callback<Vaccine>() {
@@ -176,14 +176,17 @@ public class NewVaccines extends Fragment {
                         for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()) {
                             if (pet.getPetId() == selectedPet.getPetId()) {
                                 petForVaccine = pet;
+                                petVaccinesList = petForVaccine.getPetVaccines();
+                                petForVaccine.setPetOwner(null);
+                                petForVaccine.setPetVaccines(null);
                             }
                         }
+                        //secondayrlist efect
 
                         petVaccine.setPetVaccineDate(date.getText().toString());
                         petVaccine.setPetVaccineNext(dateNext.getText().toString());
                         petVaccine.setVaccine(vaccine);
                         petVaccine.setPet(petForVaccine);
-                        System.out.println(petVaccine);
                         CallWithToken callWithToken = new CallWithToken();
                         Retrofit retrofit = callWithToken.getCallToken();
                         PetVaccineService petVaccineService = retrofit.create(PetVaccineService.class);
@@ -195,6 +198,8 @@ public class NewVaccines extends Fragment {
                                 petVaccine = response.body();
                                 for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()) {
                                     if (pet.getPetId() == response.body().getId().getPetId()) {
+                                        pet.setPetVaccines(petVaccinesList);
+                                        pet.setPetOwner(SignUpActivity.ownerNew);
                                         if (pet.getPetVaccines() == null) {
                                             pet.setPetVaccines(new ArrayList<>());
                                         }

@@ -2,7 +2,6 @@ package com.mikadifo.zenplet.ui.pets;
 
 import android.app.DatePickerDialog;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;

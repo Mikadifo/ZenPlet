@@ -39,8 +39,11 @@ import com.mikadifo.zenplet.R;
 import com.mikadifo.zenplet.ui.SignUpActivity;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -144,30 +147,40 @@ public class EditPet extends Fragment {
         Button btnSave = root.findViewById(R.id.btnSaveEditPet);
         btnSave.setOnClickListener(view -> {
             Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
-            byte[] imageInByte = baos.toByteArray();
+            byte[] imageInByte = {};
+            try {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+                imageInByte = baos.toByteArray();
+                baos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             String fotoEnBase64 = "data:image/jpeg;base64," + Base64.encodeToString(imageInByte, Base64.NO_WRAP);
 
             FragmentPets.selectedPet.setPetName(name.getText().toString());
+            Set<Pet> ownerPets = SignUpActivity.ownerNew.getOwnerPets();
+            SignUpActivity.ownerNew.setOwnerPets(null);
             FragmentPets.selectedPet.setPetOwner(SignUpActivity.ownerNew);
             FragmentPets.selectedPet.setPetSize(spinnerSizeEditPet.getSelectedItem().toString());
             FragmentPets.selectedPet.setPetBreed(breed.getText().toString());
             if (radioButtonGenreEditPetMale.isChecked())
                 FragmentPets.selectedPet.setPetGenre("Female");
             else
-                FragmentPets.selectedPet.setPetGenre("Male");
+                FragmentPets.selectedPet.setPetGenre("Male");//ahora vemos
             FragmentPets.selectedPet.setPetBirthdate(birthdate.getText().toString());
             FragmentPets.selectedPet.setPetImage(fotoEnBase64);
-            FragmentPets.selectedPet.getPetVaccines().clear();
+            FragmentPets.selectedPet.setPetVaccines(null);
             Call<Pet> callupdate = petService.updatePet(FragmentPets.selectedPet.getPetId(), FragmentPets.selectedPet);
             callupdate.enqueue(new Callback<Pet>() {
                 @Override
                 public void onResponse(Call<Pet> call, Response<Pet> response) {
-                    Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_The_data_has_been_save_successfully), Toast.LENGTH_LONG).show();
                     System.out.println(response.body());
                     FragmentPets.selectedPet = response.body();
+                    SignUpActivity.ownerNew.setOwnerPets(ownerPets);
 
+                    Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_The_data_has_been_save_successfully), Toast.LENGTH_LONG).show();
                     FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager
                             .beginTransaction()

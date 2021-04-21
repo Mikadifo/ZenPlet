@@ -28,6 +28,4 @@ public class CallWithToken {
         return retrofit;
     }
 
-
-
 }
