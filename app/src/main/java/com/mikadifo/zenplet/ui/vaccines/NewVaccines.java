@@ -120,6 +120,9 @@ public class NewVaccines extends Fragment {
         EditText dateText = root.findViewById(R.id.new_date_vaccine);
         EditText dateNext = root.findViewById(R.id.new_next_vaccines);
         EditText nameDescription = root.findViewById(R.id.new_description_vaccines);
+
+        dateText.setText(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
+        dateNext.setText(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
         dateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,8 +135,8 @@ public class NewVaccines extends Fragment {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        String birthdateS = year + "-" + (month+1) + "-" + dayOfMonth;
-                        Date date=null;
+                        String birthdateS = year + "-" + (month + 1) + "-" + dayOfMonth;
+                        Date date = null;
                         try {
                             date = new SimpleDateFormat("yyyy-MM-dd").parse(birthdateS);
                         } catch (ParseException e) {
@@ -142,32 +145,32 @@ public class NewVaccines extends Fragment {
                         Calendar fechaNacimiento = Calendar.getInstance();
                         Calendar fechaActual = Calendar.getInstance();
                         fechaNacimiento.setTime(date);
-                        int yearCalculated = fechaActual.get(Calendar.YEAR)- fechaNacimiento.get(Calendar.YEAR);
-                        int monthCalculated =fechaActual.get(Calendar.MONTH)- fechaNacimiento.get(Calendar.MONTH);
-                        int dayCalculated = fechaActual.get(Calendar.DATE)- fechaNacimiento.get(Calendar.DATE);
-                        if(monthCalculated<0 || (monthCalculated==0 && dayCalculated<0)){
+                        int yearCalculated = fechaActual.get(Calendar.YEAR) - fechaNacimiento.get(Calendar.YEAR);
+                        int monthCalculated = fechaActual.get(Calendar.MONTH) - fechaNacimiento.get(Calendar.MONTH);
+                        int dayCalculated = fechaActual.get(Calendar.DATE) - fechaNacimiento.get(Calendar.DATE);
+                        if (monthCalculated < 0 || (monthCalculated == 0 && dayCalculated < 0)) {
                             yearCalculated--;
 
                         }
-                        if (yearCalculated>50 || yearCalculated<0){
-                            Toast.makeText(view.getContext(),"La fecha no es la indicada",
+                        if (yearCalculated > 50 || yearCalculated < 0) {
+                            Toast.makeText(view.getContext(), "La fecha no es la indicada",
                                     Toast.LENGTH_LONG).show();
-                        }else if(yearCalculated==0){
-                            if (monthCalculated==0){
-                                if (dayCalculated<0){
-                                    Toast.makeText(view.getContext(),"La fecha no es la indicada",
+                        } else if (yearCalculated == 0) {
+                            if (monthCalculated == 0) {
+                                if (dayCalculated < 0) {
+                                    Toast.makeText(view.getContext(), "La fecha no es la indicada",
                                             Toast.LENGTH_LONG).show();
-                                }else{
+                                } else {
                                     dateText.setText(birthdateS);
                                 }
-                            }else{
+                            } else {
                                 dateText.setText(birthdateS);
                             }
-                        }else{
+                        } else {
                             dateText.setText(birthdateS);
                         }
                     }
-                }, day, month, year);
+                }, year, month, day);
                 datePickerDialog.show();
             }
         });
@@ -183,8 +186,8 @@ public class NewVaccines extends Fragment {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        String birthdateS = year + "-" + (month+1) + "-" + dayOfMonth;
-                        Date date=null;
+                        String birthdateS = year + "-" + (month + 1) + "-" + dayOfMonth;
+                        Date date = null;
                         try {
                             date = new SimpleDateFormat("yyyy-MM-dd").parse(birthdateS);
                         } catch (ParseException e) {
@@ -193,32 +196,32 @@ public class NewVaccines extends Fragment {
                         Calendar fechaNacimiento = Calendar.getInstance();
                         Calendar fechaActual = Calendar.getInstance();
                         fechaNacimiento.setTime(date);
-                        int yearCalculated = fechaActual.get(Calendar.YEAR)- fechaNacimiento.get(Calendar.YEAR);
-                        int monthCalculated =fechaActual.get(Calendar.MONTH)- fechaNacimiento.get(Calendar.MONTH);
-                        int dayCalculated = fechaActual.get(Calendar.DATE)- fechaNacimiento.get(Calendar.DATE);
-                        if(monthCalculated<0 || (monthCalculated==0 && dayCalculated<0)){
+                        int yearCalculated = fechaActual.get(Calendar.YEAR) - fechaNacimiento.get(Calendar.YEAR);
+                        int monthCalculated = fechaActual.get(Calendar.MONTH) - fechaNacimiento.get(Calendar.MONTH);
+                        int dayCalculated = fechaActual.get(Calendar.DATE) - fechaNacimiento.get(Calendar.DATE);
+                        if (monthCalculated < 0 || (monthCalculated == 0 && dayCalculated < 0)) {
                             yearCalculated--;
 
                         }
-                        if (yearCalculated<-5 || yearCalculated>0){
-                            Toast.makeText(view.getContext(),"La fecha no es la indicada",
+                        if (yearCalculated < -5 || yearCalculated > 0) {
+                            Toast.makeText(view.getContext(), "La fecha no es la indicada",
                                     Toast.LENGTH_LONG).show();
-                        }else if(yearCalculated==0){
-                            if (monthCalculated==0){
-                                if (dayCalculated>0){
-                                    Toast.makeText(view.getContext(),"La fecha no es la indicada",
+                        } else if (yearCalculated == 0) {
+                            if (monthCalculated == 0) {
+                                if (dayCalculated > 0) {
+                                    Toast.makeText(view.getContext(), "La fecha no es la indicada",
                                             Toast.LENGTH_LONG).show();
-                                }else{
+                                } else {
                                     dateNext.setText(birthdateS);
                                 }
-                            }else{
+                            } else {
                                 dateNext.setText(birthdateS);
                             }
-                        }else{
+                        } else {
                             dateNext.setText(birthdateS);
                         }
                     }
-                }, day, month, year);
+                }, year, month, day);
                 datePickerDialog.show();
             }
         });

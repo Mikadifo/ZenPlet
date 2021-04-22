@@ -9,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -33,6 +34,7 @@ import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.mikadifo.zenplet.API.CallWithToken;
 import com.mikadifo.zenplet.API.model.LostPet;
 import com.mikadifo.zenplet.API.model.Pet;
+import com.mikadifo.zenplet.API.model.PetVaccine;
 import com.mikadifo.zenplet.API.service.LostPetService;
 import com.mikadifo.zenplet.API.service.PetService;
 import com.mikadifo.zenplet.R;
@@ -45,7 +47,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import retrofit2.Call;
@@ -202,13 +208,13 @@ public class EditPet extends Fragment {
 
                 String fotoEnBase64 = "data:image/jpeg;base64," + Base64.encodeToString(imageInByte, Base64.NO_WRAP);
 
-                FragmentPets.selectedPet.setPetName(name.getText().toString());
-                Set<Pet> ownerPets = SignUpActivity.ownerNew.getOwnerPets();
+                Set<Pet> ownerPets = new HashSet<>(SignUpActivity.ownerNew.getOwnerPets());
+                List<PetVaccine> petVaccinesList = new ArrayList<>(FragmentPets.selectedPet.getPetVaccines());
                 SignUpActivity.ownerNew.setOwnerPets(null);
+                FragmentPets.selectedPet.setPetName(name.getText().toString());
                 FragmentPets.selectedPet.setPetOwner(SignUpActivity.ownerNew);
                 FragmentPets.selectedPet.setPetSize(spinnerSizeEditPet.getSelectedItem().toString());
                 FragmentPets.selectedPet.setPetBreed(breed.getText().toString());
-
                 FragmentPets.selectedPet.setPetGenre("Male");
                 if (radioButtonGenreEditPetMale.isChecked())
                     FragmentPets.selectedPet.setPetGenre("Male");
@@ -222,8 +228,13 @@ public class EditPet extends Fragment {
                     @Override
                     public void onResponse(Call<Pet> call, Response<Pet> response) {
                         FragmentPets.selectedPet = response.body();
+                        FragmentPets.selectedPet.setPetVaccines(petVaccinesList);
+                        for (Pet pet : ownerPets) {
+                            if (pet.getPetId() == FragmentPets.selectedPet.getPetId()) {
+                                pet.setPetVaccines(petVaccinesList);
+                            }
+                        }
                         SignUpActivity.ownerNew.setOwnerPets(ownerPets);
-
                         Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_The_data_has_been_save_successfully), Toast.LENGTH_LONG).show();
                         FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager

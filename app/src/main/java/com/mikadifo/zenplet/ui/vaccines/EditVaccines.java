@@ -30,6 +30,7 @@ import com.mikadifo.zenplet.API.service.VaccineService;
 import com.mikadifo.zenplet.R;
 import com.mikadifo.zenplet.ui.SignUpActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import retrofit2.Call;
@@ -101,6 +102,8 @@ public class EditVaccines extends Fragment {
         EditText dateNext = root.findViewById(R.id.edit_next_vaccines);
         EditText nameDescription = root.findViewById(R.id.edit_description_vaccines);
 
+        date.setText(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
+        dateNext.setText(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,7 +119,7 @@ public class EditVaccines extends Fragment {
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                                 date.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
                             }
-                        }, day, month, year);
+                        }, year, month, day);
                 datePickerDialog.show();
             }
         });
@@ -135,7 +138,7 @@ public class EditVaccines extends Fragment {
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                                 dateNext.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
                             }
-                        }, day, month, year);
+                        }, year, month, day);
                 datePickerDialog.show();
             }
         });
