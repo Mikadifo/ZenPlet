@@ -47,6 +47,7 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Owner> call, Response<Owner> response) {
                 System.out.println(response.body());
+
                 if (response.body().getOwnerId() != 0) {
                     CallWithToken.token = response.body().getToken();
                     SignUpActivity.ownerNew = response.body();

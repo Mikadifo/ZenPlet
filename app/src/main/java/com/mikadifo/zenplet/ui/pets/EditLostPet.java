@@ -137,7 +137,7 @@ public class EditLostPet extends Fragment {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(additionalInfo.getText().toString().isEmpty()||lostPetLocation.isEmpty()){
+                if(!awesomeValidation.validate()){
                     Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_cannot_be_changed), Toast.LENGTH_LONG).show();
                 }else{
                     LostPet lostPetEdit = new LostPet(
@@ -176,7 +176,6 @@ public class EditLostPet extends Fragment {
                         }
                     });
                 }
-
             }
         });
         buttonPetFound.setOnClickListener(new View.OnClickListener() {

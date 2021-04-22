@@ -17,6 +17,7 @@ import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -120,39 +121,44 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void registerOwner(View view) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(CallWithToken.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create()).build();
+        if (!awesomeValidation.validate()) {
+            Toast.makeText(view.getContext(),
+                    getBaseContext().getResources().getString(R.string.toast_you_must_complete_the_fields),
+                    Toast.LENGTH_LONG).show();
+        } else {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(CallWithToken.BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create()).build();
 
-        EditText ownerName = this.findViewById(R.id.edit_name_from_signup);
-        EditText ownerEmail = this.findViewById(R.id.edit_email_from_signup);
-        EditText ownerPassword = this.findViewById(R.id.edit_password_from_signup);
-        EditText ownerPhoneNumber = this.findViewById(R.id.editTextPhone);
+            EditText ownerName = this.findViewById(R.id.edit_name_from_signup);
+            EditText ownerEmail = this.findViewById(R.id.edit_email_from_signup);
+            EditText ownerPassword = this.findViewById(R.id.edit_password_from_signup);
+            EditText ownerPhoneNumber = this.findViewById(R.id.editTextPhone);
 
-        ownerNew.setOwnerName(ownerName.getText().toString());
-        ownerNew.setOwnerEmail(ownerEmail.getText().toString());
-        ownerNew.setOwnerPassword(AES.encrypt(ownerPassword.getText().toString()));
-        ownerNew.setOwnerPhoneNumber(ownerPhoneNumber.getText().toString());
+            ownerNew.setOwnerName(ownerName.getText().toString());
+            ownerNew.setOwnerEmail(ownerEmail.getText().toString());
+            ownerNew.setOwnerPassword(AES.encrypt(ownerPassword.getText().toString()));
+            ownerNew.setOwnerPhoneNumber(ownerPhoneNumber.getText().toString());
 
-        OwnerService ownerService = retrofit.create(OwnerService.class);
-        Call<Owner> call = ownerService.saveOwner(ownerNew);
-        call.enqueue(new Callback<Owner>() {
-            @Override
-            public void onResponse(Call<Owner> call, Response<Owner> response) {
-                startActivity(
-                        new Intent(SignUpActivity.this, LogInActivity.class)
-                );
-            }
-
-            @Override
-            public void onFailure(Call<Owner> call, Throwable t) {
-                try {
-                    throw t;
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
+            OwnerService ownerService = retrofit.create(OwnerService.class);
+            Call<Owner> call = ownerService.saveOwner(ownerNew);
+            call.enqueue(new Callback<Owner>() {
+                @Override
+                public void onResponse(Call<Owner> call, Response<Owner> response) {
+                    startActivity(
+                            new Intent(SignUpActivity.this, LogInActivity.class)
+                    );
                 }
-            }
-        });
 
+                @Override
+                public void onFailure(Call<Owner> call, Throwable t) {
+                    try {
+                        throw t;
+                    } catch (Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+                }
+            });
+        }
     }
 }

@@ -131,43 +131,48 @@ public class PostLostPet extends Fragment {
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        LostPet lostPet = new LostPet(
-                                FragmentPets.selectedPet,
-                                SignUpActivity.ownerNew,
-                                lostPetLocation,
-                                additionalInfo.getText().toString()
-                        );
-                        CallWithToken callWithToken = new CallWithToken();
-                        Retrofit retrofit = callWithToken.getCallToken();
-                        LostPetService lostPetService = retrofit.create(LostPetService.class);
-                        Call<LostPet> call = lostPetService.saveLostPet(lostPet);
-                        call.enqueue(new Callback<LostPet>() {
-                            @Override
-                            public void onResponse(Call<LostPet> call, Response<LostPet> response) {
-                                System.out.println(response.body());
-                                if (response.body().getOwner().getOwnerId() == 0) {
-                                    System.out.println(getContext().getResources().getString(R.string.toast_An_error_has_been_ocurred_while_saving_lost_pet));
-                                    Toast.makeText(root.getContext(), getContext().getResources().getString(R.string.toast_An_error_has_been_ocurred_while_saving_lost_pet), Toast.LENGTH_LONG).show();
-                                } else {
-                                    Toast.makeText(root.getContext(), getContext().getResources().getString(R.string.toast_The_data_has_been_save_successfully), Toast.LENGTH_LONG).show();
-                                    FragmentManager fragmentManager = getFragmentManager();
-                                    FragmentTransaction fragmentTransaction = fragmentManager
-                                            .beginTransaction()
-                                            .replace(R.id.nav_host_fragment, new LostPetsList());
-                                    fragmentTransaction.commit();
+                        if (!awesomeValidation.validate()){
+                            Toast.makeText(view.getContext(),
+                                    getContext().getResources().getString(R.string.toast_you_must_complete_the_fields),
+                                    Toast.LENGTH_LONG).show();
+                        } else {
+                            LostPet lostPet = new LostPet(
+                                    FragmentPets.selectedPet,
+                                    SignUpActivity.ownerNew,
+                                    lostPetLocation,
+                                    additionalInfo.getText().toString()
+                            );
+                            CallWithToken callWithToken = new CallWithToken();
+                            Retrofit retrofit = callWithToken.getCallToken();
+                            LostPetService lostPetService = retrofit.create(LostPetService.class);
+                            Call<LostPet> call = lostPetService.saveLostPet(lostPet);
+                            call.enqueue(new Callback<LostPet>() {
+                                @Override
+                                public void onResponse(Call<LostPet> call, Response<LostPet> response) {
+                                    System.out.println(response.body());
+                                    if (response.body().getOwner().getOwnerId() == 0) {
+                                        System.out.println(getContext().getResources().getString(R.string.toast_An_error_has_been_ocurred_while_saving_lost_pet));
+                                        Toast.makeText(root.getContext(), getContext().getResources().getString(R.string.toast_An_error_has_been_ocurred_while_saving_lost_pet), Toast.LENGTH_LONG).show();
+                                    } else {
+                                        Toast.makeText(root.getContext(), getContext().getResources().getString(R.string.toast_The_data_has_been_save_successfully), Toast.LENGTH_LONG).show();
+                                        FragmentManager fragmentManager = getFragmentManager();
+                                        FragmentTransaction fragmentTransaction = fragmentManager
+                                                .beginTransaction()
+                                                .replace(R.id.nav_host_fragment, new LostPetsList());
+                                        fragmentTransaction.commit();
+                                    }
                                 }
-                            }
 
-                            @Override
-                            public void onFailure(Call<LostPet> call, Throwable t) {
-                                try {
-                                    throw t;
-                                } catch (Throwable throwable) {
-                                    throwable.printStackTrace();
+                                @Override
+                                public void onFailure(Call<LostPet> call, Throwable t) {
+                                    try {
+                                        throw t;
+                                    } catch (Throwable throwable) {
+                                        throwable.printStackTrace();
+                                    }
                                 }
-                            }
-                        });
-
+                            });
+                        }
                     }
                 });
         //validacion

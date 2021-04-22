@@ -228,7 +228,7 @@ public class NewVaccines extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (nameVaccines.getText().toString().isEmpty() || nameDescription.getText().toString().isEmpty() || dateText.getText().toString().isEmpty() || dateNext.getText().toString().isEmpty()) {
+                if (!awesomeValidation.validate()) {
                     Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_you_must_complete_the_fields), Toast.LENGTH_LONG).show();
                 }
                 CallWithToken callWithToken = new CallWithToken();
