@@ -122,7 +122,7 @@ public class EditLostPet extends Fragment {
                                 marcadorPost = mapboxMap.addMarker(new MarkerOptions()
                                         .position(point));
 
-                                lostPetLocation = point.getLatitude()+","+point.getLongitude();
+                                lostPetLocation = point.getLongitude()+","+point.getLatitude();
 
                                 return true;
                             }
@@ -143,7 +143,7 @@ public class EditLostPet extends Fragment {
                     LostPet lostPetEdit = new LostPet(
                             new Pet(),
                             new Owner(),
-                            lostPetLocation,
+                            lostPetLocation==null?editingLostPet.getLostPetLocation():lostPetLocation,
                             additionalInfo.getText().toString()
                     );
                     CallWithToken callWithToken = new CallWithToken();
@@ -153,7 +153,6 @@ public class EditLostPet extends Fragment {
                     call.enqueue(new Callback<LostPet>() {
                         @Override
                         public void onResponse(Call<LostPet> call, Response<LostPet> response) {
-                            System.out.println(response.body());
                             if (response.body().getLostPetAdditionalInfo().equals(lostPetEdit.getLostPetAdditionalInfo())) {
                                 Toast.makeText(root.getContext(), getContext().getResources().getString(R.string.toast_Lost_Pet_Updated), Toast.LENGTH_LONG).show();
                                 FragmentManager fragmentManager = getFragmentManager();
@@ -189,7 +188,6 @@ public class EditLostPet extends Fragment {
                 call.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
-                        System.out.println(response.body());
                         if (response.body() == null) {
                             CallWithToken callTokenPetFound = new CallWithToken();
                             Retrofit retrofitPetFound = callTokenPetFound.getCallToken();
@@ -198,7 +196,6 @@ public class EditLostPet extends Fragment {
                             callPetFound.enqueue(new Callback<Long>() {
                                 @Override
                                 public void onResponse(Call<Long> call, Response<Long> response) {
-                                    System.out.println(response.body());
                                     Toast.makeText(root.getContext(), getContext().getResources().getString(R.string.toast_We_are_happy_to_help_you_to_find_your_pet), Toast.LENGTH_LONG).show();
                                     editingLostPet = null;
                                     FragmentManager fragmentManager = getFragmentManager();
@@ -242,7 +239,7 @@ public class EditLostPet extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                awesomeValidation.addValidation(getActivity(),R.id.editTextTextMultiLine,"(^[ÁÉÍÓÚA-Za-záéíóú ]{10,300}$)", R.string.invalid_name);
+                awesomeValidation.addValidation(getActivity(),R.id.editTextTextMultiLine,"(^[ÁÉÍÓÚA-Za-záéíóú ]{10,250}$)", R.string.invalid_name);
                 if(!awesomeValidation.validate()){
                     additionalInfo.setError(getContext().getResources().getString(R.string.invalid_info));
                 }

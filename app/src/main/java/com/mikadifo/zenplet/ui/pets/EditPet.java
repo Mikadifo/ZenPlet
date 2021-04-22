@@ -221,7 +221,6 @@ public class EditPet extends Fragment {
                 callupdate.enqueue(new Callback<Pet>() {
                     @Override
                     public void onResponse(Call<Pet> call, Response<Pet> response) {
-                        System.out.println(response.body());
                         FragmentPets.selectedPet = response.body();
                         SignUpActivity.ownerNew.setOwnerPets(ownerPets);
 
@@ -261,7 +260,6 @@ public class EditPet extends Fragment {
             call.enqueue(new Callback<LostPet>() {
                 @Override
                 public void onResponse(Call<LostPet> call, Response<LostPet> response) {
-                    System.out.println(response.body());
                     FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager
                             .beginTransaction()
@@ -362,7 +360,6 @@ public class EditPet extends Fragment {
     public void openCamera(View view) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-            System.out.println("Camara");
             startActivityForResult(intent, 1);
         }
     }

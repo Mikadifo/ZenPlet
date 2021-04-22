@@ -96,8 +96,6 @@ public class ChangePassword extends Fragment {
                     call.enqueue(new Callback<Owner>() {
                         @Override
                         public void onResponse(Call<Owner> call, Response<Owner> response) {
-                            System.out.println(response.body());
-                            System.out.println(SignUpActivity.ownerNew);
                             String encryptedOldPassword = AES.encrypt(ownerOldPassword.getText().toString());
                             if (encryptedOldPassword.equals(SignUpActivity.ownerNew.getOwnerPassword())) {
                                 if (newPassword.getText().toString().equals(confirmNewPassword.getText().toString())) {

@@ -113,7 +113,6 @@ public class PostLostPet extends Fragment {
                         mapboxMap.addOnMapLongClickListener(new MapboxMap.OnMapLongClickListener() {
                             @Override
                             public boolean onMapLongClick(@NonNull LatLng point) {
-                                System.out.println(point);
                                 mapboxMap.addMarker(new MarkerOptions()
                                         .position(point));
 
@@ -149,9 +148,7 @@ public class PostLostPet extends Fragment {
                             call.enqueue(new Callback<LostPet>() {
                                 @Override
                                 public void onResponse(Call<LostPet> call, Response<LostPet> response) {
-                                    System.out.println(response.body());
                                     if (response.body().getOwner().getOwnerId() == 0) {
-                                        System.out.println(getContext().getResources().getString(R.string.toast_An_error_has_been_ocurred_while_saving_lost_pet));
                                         Toast.makeText(root.getContext(), getContext().getResources().getString(R.string.toast_An_error_has_been_ocurred_while_saving_lost_pet), Toast.LENGTH_LONG).show();
                                     } else {
                                         Toast.makeText(root.getContext(), getContext().getResources().getString(R.string.toast_The_data_has_been_save_successfully), Toast.LENGTH_LONG).show();
@@ -185,7 +182,7 @@ public class PostLostPet extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                awesomeValidation.addValidation(getActivity(),R.id.texteditAdditionalInfo,"(^[ÁÉÍÓÚA-Za-záéíóú ]{10,300}$)", R.string.invalid_info);
+                awesomeValidation.addValidation(getActivity(),R.id.texteditAdditionalInfo,"(^[ÁÉÍÓÚA-Za-záéíóú ]{10,250}$)", R.string.invalid_info);
                 if(!awesomeValidation.validate()){
                     additionalInfo.setError(getContext().getResources().getString(R.string.invalid_info));
                 }

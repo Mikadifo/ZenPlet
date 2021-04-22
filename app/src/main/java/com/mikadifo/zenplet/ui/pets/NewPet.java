@@ -288,7 +288,6 @@ public class NewPet extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println(requestCode);
         if (requestCode == 1 && resultCode == -1) {
             Bitmap image = (Bitmap) data.getExtras().get("data");
             int newWidth = image.getWidth() / 3;

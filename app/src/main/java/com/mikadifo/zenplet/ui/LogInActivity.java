@@ -39,14 +39,12 @@ public class LogInActivity extends AppCompatActivity {
         EditText password = this.findViewById(R.id.edit_password_from_login);
 
         String encryptedPassword = AES.encrypt(password.getText().toString());
-        System.out.println(encryptedPassword);
 
         OwnerService ownerService = retrofit.create(OwnerService.class);
         Call<Owner> call = ownerService.getLogin(login.getText().toString(), encryptedPassword);
         call.enqueue(new Callback<Owner>() {
             @Override
             public void onResponse(Call<Owner> call, Response<Owner> response) {
-                System.out.println(response.body());
 
                 if (response.body().getOwnerId() != 0) {
                     CallWithToken.token = response.body().getToken();

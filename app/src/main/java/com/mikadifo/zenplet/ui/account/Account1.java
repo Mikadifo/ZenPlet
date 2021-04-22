@@ -167,7 +167,6 @@ public class Account1 extends Fragment {
         btnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("id " + SignUpActivity.ownerNew.getOwnerId());
                 CallWithToken callWithToken = new CallWithToken();
                 Retrofit retrofit = callWithToken.getCallToken();
                 OwnerService ownerService = retrofit.create(OwnerService.class);

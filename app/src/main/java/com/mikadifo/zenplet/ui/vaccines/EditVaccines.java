@@ -169,7 +169,6 @@ public class EditVaccines extends Fragment {
                     call.enqueue(new Callback<Vaccine>() {
                         @Override
                         public void onResponse(Call<Vaccine> call, Response<Vaccine> response) {
-                            System.out.println(response.body());
                             vaccineToUpdate = response.body();
                             petVaccine.setId(new PetVaccinesId(petVaccineSelected.getPetId(), 0L));
                             petVaccine.setPetVaccineDate(date.getText().toString());
@@ -189,7 +188,6 @@ public class EditVaccines extends Fragment {
                             petVaccineCall.enqueue(new Callback<PetVaccine>() {
                                 @Override
                                 public void onResponse(Call<PetVaccine> call, Response<PetVaccine> response) {
-                                    System.out.println(response.body() + "body response de pet vaccine updated");
                                     petVaccine = response.body();
 
                                     PetVaccine beforePetVaccine = new PetVaccine();
@@ -306,7 +304,7 @@ public class EditVaccines extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                awesomeValidation.addValidation(getActivity(), R.id.edit_description_vaccines, "(^[ÁÉÍÓÚA-Za-záéíóú ]{3,300}$)", R.string.invalid_info);
+                awesomeValidation.addValidation(getActivity(), R.id.edit_description_vaccines, "(^[ÁÉÍÓÚA-Za-záéíóú ]{3,250}$)", R.string.invalid_info);
                 if (!awesomeValidation.validate()) {
                     nameDescription.setError(getContext().getResources().getString(R.string.invalid_info));
                 }

@@ -108,9 +108,7 @@ public class NewVaccines extends Fragment {
         spinnerVaccinesForPet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println(position);
                 selectedPet = (Pet) spinnerVaccinesForPet.getItemAtPosition(position);
-                System.out.println(selectedPet);
             }
 
             @Override
@@ -240,7 +238,6 @@ public class NewVaccines extends Fragment {
                 call.enqueue(new Callback<Vaccine>() {
                     @Override
                     public void onResponse(Call<Vaccine> call, Response<Vaccine> response) {
-                        System.out.println(response.body());
                         vaccine = response.body();
                         for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()) {
                             if (pet.getPetId() == selectedPet.getPetId()) {
@@ -263,7 +260,6 @@ public class NewVaccines extends Fragment {
                         petVaccineCall.enqueue(new Callback<PetVaccine>() {
                             @Override
                             public void onResponse(Call<PetVaccine> call, Response<PetVaccine> response) {
-                                System.out.println(response.body());
                                 petVaccine = response.body();
                                 for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()) {
                                     if (pet.getPetId() == response.body().getId().getPetId()) {
@@ -324,7 +320,7 @@ public class NewVaccines extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                awesomeValidation.addValidation(getActivity(), R.id.new_description_vaccines, "(^[ÁÉÍÓÚA-Za-záéíóú ]{3,300}$)", R.string.invalid_info);
+                awesomeValidation.addValidation(getActivity(), R.id.new_description_vaccines, "(^[ÁÉÍÓÚA-Za-záéíóú ]{3,250}$)", R.string.invalid_info);
                 if (!awesomeValidation.validate()) {
                     nameDescription.setError(getContext().getResources().getString(R.string.invalid_info));
                 }

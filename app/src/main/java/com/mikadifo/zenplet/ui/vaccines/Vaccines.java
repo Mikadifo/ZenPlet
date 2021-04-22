@@ -107,7 +107,6 @@ public class Vaccines extends Fragment {
 
     private AdapterView.OnItemClickListener vaccineListener = (adapterView, view, position, id) -> {
         selectedPetVaccine = (PetVaccine) adapterView.getItemAtPosition(position);
-        System.out.println("Este es cuando selecciona vaccine" + selectedPetVaccine);
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager
                 .beginTransaction()
