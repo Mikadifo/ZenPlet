@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
@@ -50,6 +51,7 @@ import retrofit2.Retrofit;
  */
 public class PostLostPet extends Fragment {
     public String lostPetLocation;
+    private Marker marcadorPost;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -110,14 +112,16 @@ public class PostLostPet extends Fragment {
                 mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
                     @Override
                     public void onStyleLoaded(@NonNull Style style) {
+                        marcadorPost = mapboxMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(-2.895737465130722 ,-79.00659846616347))
+                                .title("Marker"));
                         mapboxMap.addOnMapLongClickListener(new MapboxMap.OnMapLongClickListener() {
                             @Override
                             public boolean onMapLongClick(@NonNull LatLng point) {
-                                mapboxMap.addMarker(new MarkerOptions()
+                                mapboxMap.removeMarker(marcadorPost);
+                                marcadorPost = mapboxMap.addMarker(new MarkerOptions()
                                         .position(point));
-
                                 lostPetLocation = point.getLongitude()+","+point.getLatitude();
-
                                 return true;
                             }
                         });
