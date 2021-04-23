@@ -137,7 +137,7 @@ public class EditLostPet extends Fragment {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!awesomeValidation.validate()){
+                if(!awesomeValidation.validate()||additionalInfo.getText().toString().isEmpty()){
                     Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_cannot_be_changed), Toast.LENGTH_LONG).show();
                 }else{
                     LostPet lostPetEdit = new LostPet(

@@ -153,12 +153,12 @@ public class NewVaccines extends Fragment {
 
                         }
                         if (yearCalculated > 50 || yearCalculated < 0) {
-                            Toast.makeText(view.getContext(), "La fecha no es la indicada",
+                            Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.invalid_date),
                                     Toast.LENGTH_LONG).show();
                         } else if (yearCalculated == 0) {
                             if (monthCalculated == 0) {
                                 if (dayCalculated < 0) {
-                                    Toast.makeText(view.getContext(), "La fecha no es la indicada",
+                                    Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.invalid_date),
                                             Toast.LENGTH_LONG).show();
                                 } else {
                                     dateText.setText(birthdateS);
@@ -204,12 +204,12 @@ public class NewVaccines extends Fragment {
 
                         }
                         if (yearCalculated < -5 || yearCalculated > 0) {
-                            Toast.makeText(view.getContext(), "La fecha no es la indicada",
+                            Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.invalid_date),
                                     Toast.LENGTH_LONG).show();
                         } else if (yearCalculated == 0) {
                             if (monthCalculated == 0) {
                                 if (dayCalculated > 0) {
-                                    Toast.makeText(view.getContext(), "La fecha no es la indicada",
+                                    Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.invalid_date),
                                             Toast.LENGTH_LONG).show();
                                 } else {
                                     dateNext.setText(birthdateS);
@@ -229,70 +229,71 @@ public class NewVaccines extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!awesomeValidation.validate()) {
+                if (!awesomeValidation.validate()||nameDescription.getText().toString().isEmpty()||nameVaccines.getText().toString().isEmpty()) {
                     Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.toast_you_must_complete_the_fields), Toast.LENGTH_LONG).show();
-                }
-                CallWithToken callWithToken = new CallWithToken();
-                Retrofit retrofit = callWithToken.getCallToken();
-                vaccine.setVaccinesName(nameVaccines.getText().toString());
-                vaccine.setVaccinesDescription(nameDescription.getText().toString());
-                VaccineService vaccineService = retrofit.create(VaccineService.class);
-                Call<Vaccine> call = vaccineService.saveVaccines(vaccine);
-                call.enqueue(new Callback<Vaccine>() {
-                    @Override
-                    public void onResponse(Call<Vaccine> call, Response<Vaccine> response) {
-                        vaccine = response.body();
-                        for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()) {
-                            if (pet.getPetId() == selectedPet.getPetId()) {
-                                petForVaccine = pet;
-                                petVaccinesList = petForVaccine.getPetVaccines();
-                                petForVaccine.setPetOwner(null);
-                                petForVaccine.setPetVaccines(null);
-                            }
-                        }
-                        //secondayrlist efect
-
-                        petVaccine.setPetVaccineDate(dateText.getText().toString());
-                        petVaccine.setPetVaccineNext(dateNext.getText().toString());
-                        petVaccine.setVaccine(vaccine);
-                        petVaccine.setPet(petForVaccine);
-                        CallWithToken callWithToken = new CallWithToken();
-                        Retrofit retrofit = callWithToken.getCallToken();
-                        PetVaccineService petVaccineService = retrofit.create(PetVaccineService.class);
-                        Call<PetVaccine> petVaccineCall = petVaccineService.savePetVaccines(petVaccine);
-                        petVaccineCall.enqueue(new Callback<PetVaccine>() {
-                            @Override
-                            public void onResponse(Call<PetVaccine> call, Response<PetVaccine> response) {
-                                petVaccine = response.body();
-                                for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()) {
-                                    if (pet.getPetId() == response.body().getId().getPetId()) {
-                                        pet.setPetVaccines(petVaccinesList);
-                                        pet.setPetOwner(SignUpActivity.ownerNew);
-                                        if (pet.getPetVaccines() == null) {
-                                            pet.setPetVaccines(new ArrayList<>());
-                                        }
-                                        pet.getPetVaccines().add(petVaccine);
-                                    }
+                }else {
+                    CallWithToken callWithToken = new CallWithToken();
+                    Retrofit retrofit = callWithToken.getCallToken();
+                    vaccine.setVaccinesName(nameVaccines.getText().toString());
+                    vaccine.setVaccinesDescription(nameDescription.getText().toString());
+                    VaccineService vaccineService = retrofit.create(VaccineService.class);
+                    Call<Vaccine> call = vaccineService.saveVaccines(vaccine);
+                    call.enqueue(new Callback<Vaccine>() {
+                        @Override
+                        public void onResponse(Call<Vaccine> call, Response<Vaccine> response) {
+                            vaccine = response.body();
+                            for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()) {
+                                if (pet.getPetId() == selectedPet.getPetId()) {
+                                    petForVaccine = pet;
+                                    petVaccinesList = petForVaccine.getPetVaccines();
+                                    petForVaccine.setPetOwner(null);
+                                    petForVaccine.setPetVaccines(null);
                                 }
-                                FragmentManager fragmentManager = getFragmentManager();
-                                FragmentTransaction fragmentTransaction = fragmentManager
-                                        .beginTransaction()
-                                        .replace(R.id.nav_host_fragment, new Vaccines());
-                                fragmentTransaction.commit();
                             }
+                            //secondayrlist efect
 
-                            @Override
-                            public void onFailure(Call<PetVaccine> call, Throwable t) {
+                            petVaccine.setPetVaccineDate(dateText.getText().toString());
+                            petVaccine.setPetVaccineNext(dateNext.getText().toString());
+                            petVaccine.setVaccine(vaccine);
+                            petVaccine.setPet(petForVaccine);
+                            CallWithToken callWithToken = new CallWithToken();
+                            Retrofit retrofit = callWithToken.getCallToken();
+                            PetVaccineService petVaccineService = retrofit.create(PetVaccineService.class);
+                            Call<PetVaccine> petVaccineCall = petVaccineService.savePetVaccines(petVaccine);
+                            petVaccineCall.enqueue(new Callback<PetVaccine>() {
+                                @Override
+                                public void onResponse(Call<PetVaccine> call, Response<PetVaccine> response) {
+                                    petVaccine = response.body();
+                                    for (Pet pet : SignUpActivity.ownerNew.getOwnerPets()) {
+                                        if (pet.getPetId() == response.body().getId().getPetId()) {
+                                            pet.setPetVaccines(petVaccinesList);
+                                            pet.setPetOwner(SignUpActivity.ownerNew);
+                                            if (pet.getPetVaccines() == null) {
+                                                pet.setPetVaccines(new ArrayList<>());
+                                            }
+                                            pet.getPetVaccines().add(petVaccine);
+                                        }
+                                    }
+                                    FragmentManager fragmentManager = getFragmentManager();
+                                    FragmentTransaction fragmentTransaction = fragmentManager
+                                            .beginTransaction()
+                                            .replace(R.id.nav_host_fragment, new Vaccines());
+                                    fragmentTransaction.commit();
+                                }
 
-                            }
-                        });
-                    }
+                                @Override
+                                public void onFailure(Call<PetVaccine> call, Throwable t) {
 
-                    @Override
-                    public void onFailure(Call<Vaccine> call, Throwable t) {
+                                }
+                            });
+                        }
 
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<Vaccine> call, Throwable t) {
+
+                        }
+                    });
+                }
             }
         });
         //validacion

@@ -134,7 +134,7 @@ public class PostLostPet extends Fragment {
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (!awesomeValidation.validate()){
+                        if (!awesomeValidation.validate()||additionalInfo.getText().toString().isEmpty()){
                             Toast.makeText(view.getContext(),
                                     getContext().getResources().getString(R.string.toast_you_must_complete_the_fields),
                                     Toast.LENGTH_LONG).show();

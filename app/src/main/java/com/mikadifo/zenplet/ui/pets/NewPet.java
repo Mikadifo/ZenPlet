@@ -147,12 +147,12 @@ public class NewPet extends Fragment {
                             yearCalculated--;
                         }
                         if (yearCalculated > 50 || yearCalculated < 0) {
-                            Toast.makeText(view.getContext(), "La fecha no es la indicada",
+                            Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.invalid_date),
                                     Toast.LENGTH_LONG).show();
                         } else if (yearCalculated == 0) {
                             if (monthCalculated == 0) {
                                 if (dayCalculated < 0) {
-                                    Toast.makeText(view.getContext(), "La fecha no es la indicada",
+                                    Toast.makeText(view.getContext(), getContext().getResources().getString(R.string.invalid_date),
                                             Toast.LENGTH_LONG).show();
                                 } else {
                                     birthdate.setText(birthdateS);
@@ -173,7 +173,7 @@ public class NewPet extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (imageView.getDrawable() == null || !awesomeValidation.validate()) {
+                if (imageView.getDrawable() == null || !awesomeValidation.validate()||name.getText().toString().isEmpty()||breed.getText().toString().isEmpty()) {
                     Toast.makeText(view.getContext(),
                             getContext().getResources().getString(R.string.toast_you_must_complete_the_fields),
                             Toast.LENGTH_LONG).show();
@@ -195,9 +195,9 @@ public class NewPet extends Fragment {
                     pet.setPetSize(spinnerSizeNewPet.getSelectedItem().toString());
                     pet.setPetSize(spinnerSizeNewPet.getSelectedItem().toString());
                     if (radioButtonGenreNewPetMale.isChecked())
-                        pet.setPetGenre("Male");
+                        pet.setPetGenre(getContext().getResources().getString(R.string.stringMaleRatio));
                     else
-                        pet.setPetGenre("Female");
+                        pet.setPetGenre(getContext().getResources().getString(R.string.stringFemaleRatio));
                     pet.setPetBreed(breed.getText().toString());
                     pet.setPetBirthdate(birthdate.getText().toString());
                     pet.setPetImage(fotoEnBase64);

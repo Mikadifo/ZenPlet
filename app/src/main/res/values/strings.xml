@@ -111,5 +111,6 @@
     <string name="invalid_phone">Enter only numbers. Minimum 4 digits and maximum 15</string>
     <string name="invalid_login"> Incorrect email or username</string>
     <string name="invalid_info"> Enter only caracters. Minimum 10 characters and maximum 300</string>
+    <string name="invalid_date"> The date is not indicated</string>
     <string name="invalid_password"> The password must be between 8 and 16 characters long, at least one digit, at least one lowercase and at least one uppercase.</string>
 </resources>
