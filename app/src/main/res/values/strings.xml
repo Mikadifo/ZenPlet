@@ -104,6 +104,10 @@
         <item>giant breed</item>
     </string-array>
     <string name="toast_you_must_complete_the_fields">You must complete all fields</string>
+    <string name="LostPets">Lost Pets</string>
+    <string name="Health">Health</string>
+    <string name="Pets">Pets</string>
+    <string name="Account">Account</string>
     <string name="Text_pets_found_using_our_app.">pets found using our app.</string>
     <string name="invalid_name">Enter only characters. Minimum 3 characters and maximum 30</string>
     <string name="invalid_username">Enter numbers, characters, or _. Minimum 3 characters and maximum 30</string>
