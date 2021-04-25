@@ -75,7 +75,7 @@ public class PetAdapter extends ArrayAdapter<Pet> {
             year--;
 
         }
-        txtPetAge.setText(Integer.toString(year)+" Year "+Integer.toString(mes)+" Month "+Integer.toString(dia)+" Day(s)");
+        txtPetAge.setText(Integer.toString(year)+getContext().getResources().getString(R.string.year)+Integer.toString(mes)+getContext().getResources().getString(R.string.month)+Integer.toString(dia)+getContext().getResources().getString(R.string.day));
         txtPetName.setText(pets.get(pos).getPetName());
         txtPetType.setText(pets.get(pos).getPetBreed());
         txtPetGenre.setText(pets.get(pos).getPetGenre());

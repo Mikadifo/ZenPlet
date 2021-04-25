@@ -111,5 +111,8 @@
     <string name="Pets">Mascotas</string>
     <string name="Account">Cuenta</string>
     <string name="LostPets">"Mascotas Perdidas "</string>
+    <string name="day">Día(s)</string>
+    <string name="month">Meses</string>
+    <string name="year">Años</string>
 
 </resources>
