@@ -135,16 +135,18 @@ public class SignUpActivity extends AppCompatActivity {
             EditText ownerPassword = this.findViewById(R.id.edit_password_from_signup);
             EditText ownerPhoneNumber = this.findViewById(R.id.editTextPhone);
 
-            ownerNew.setOwnerName(ownerName.getText().toString());
-            ownerNew.setOwnerEmail(ownerEmail.getText().toString());
-            ownerNew.setOwnerPassword(AES.encrypt(ownerPassword.getText().toString()));
-            ownerNew.setOwnerPhoneNumber(ownerPhoneNumber.getText().toString());
+            Owner ownerUsing = new Owner();
+            ownerUsing.setOwnerName(ownerName.getText().toString());
+            ownerUsing.setOwnerEmail(ownerEmail.getText().toString());
+            ownerUsing.setOwnerPassword(AES.encrypt(ownerPassword.getText().toString()));
+            ownerUsing.setOwnerPhoneNumber(ownerPhoneNumber.getText().toString());
 
             OwnerService ownerService = retrofit.create(OwnerService.class);
-            Call<Owner> call = ownerService.saveOwner(ownerNew);
+            Call<Owner> call = ownerService.saveOwner(ownerUsing);
             call.enqueue(new Callback<Owner>() {
                 @Override
                 public void onResponse(Call<Owner> call, Response<Owner> response) {
+                    ownerNew = ownerUsing;
                     startActivity(
                             new Intent(SignUpActivity.this, LogInActivity.class)
                     );
