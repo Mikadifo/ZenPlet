@@ -42,14 +42,14 @@ public class PetAdapter extends ArrayAdapter<Pet> {
     private List<Pet> pets;
 
 
-    public PetAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Pet> objects){
+    public PetAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Pet> objects) {
         super(context, resource, objects);
         this.context = context;
         this.pets = objects;
     }
 
     @Override
-    public View getView(final int pos, View convertView, ViewGroup parent){
+    public View getView(final int pos, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View rowView = inflater.inflate(R.layout.pets_list, parent, false);
@@ -59,23 +59,22 @@ public class PetAdapter extends ArrayAdapter<Pet> {
         TextView txtPetGenre = (TextView) rowView.findViewById(R.id.textViewGenrePetsNew);
         TextView txtPetAge = (TextView) rowView.findViewById(R.id.textViewAgePetsNew);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.imgPet);
-        Date date=null;
+        Date date = null;
         try {
             date = new SimpleDateFormat("yyyy-MM-dd").parse(pets.get(pos).getPetBirthdate());
         } catch (ParseException e) {
-            System.out.println("Error:"+e);
+            System.out.println("Error:" + e);
         }
         Calendar fechaNacimiento = Calendar.getInstance();
         Calendar fechaActual = Calendar.getInstance();
         fechaNacimiento.setTime(date);
-        int year = fechaActual.get(Calendar.YEAR)- fechaNacimiento.get(Calendar.YEAR);
-        int mes =fechaActual.get(Calendar.MONTH)- fechaNacimiento.get(Calendar.MONTH);
-        int dia = fechaActual.get(Calendar.DATE)- fechaNacimiento.get(Calendar.DATE);
-        if(mes<0 || (mes==0 && dia<0)){
+        int year = fechaActual.get(Calendar.YEAR) - fechaNacimiento.get(Calendar.YEAR);
+        int mes = fechaActual.get(Calendar.MONTH) - fechaNacimiento.get(Calendar.MONTH);
+        int dia = fechaActual.get(Calendar.DATE) - fechaNacimiento.get(Calendar.DATE);
+        if (mes < 0 || (mes == 0 && dia < 0)) {
             year--;
-
         }
-        txtPetAge.setText(Integer.toString(year)+getContext().getResources().getString(R.string.year)+Integer.toString(mes)+getContext().getResources().getString(R.string.month)+Integer.toString(dia)+getContext().getResources().getString(R.string.day));
+        txtPetAge.setText(year + " " + getContext().getResources().getString(R.string.year) + " " + mes + " " + getContext().getResources().getString(R.string.month) + " " + dia + " " + getContext().getResources().getString(R.string.day));
         txtPetName.setText(pets.get(pos).getPetName());
         txtPetType.setText(pets.get(pos).getPetBreed());
         txtPetGenre.setText(pets.get(pos).getPetGenre());
@@ -85,7 +84,7 @@ public class PetAdapter extends ArrayAdapter<Pet> {
         imageView.setImageBitmap(decodedByte);
 
 
-    return rowView;
+        return rowView;
     }
 
 

@@ -25,8 +25,8 @@
     <string name="change_password">Change Password</string>
     <string name="title_activity_bottom_nav">MainActivity</string>
     <string name="day">Day(s)</string>
-    <string name="month">Month</string>
-    <string name="year">Year</string>
+    <string name="month">Month(s)</string>
+    <string name="year">Year(s)</string>
     <string name="StringName">Name</string>
     <string name="StringDate">Date</string>
     <string name="StringNext">Next:</string>
