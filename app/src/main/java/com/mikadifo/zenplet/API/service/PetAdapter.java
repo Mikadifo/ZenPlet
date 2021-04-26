@@ -70,7 +70,7 @@ public class PetAdapter extends ArrayAdapter<Pet> {
         fechaNacimiento.setTime(date);
         int year = fechaActual.get(Calendar.YEAR) - fechaNacimiento.get(Calendar.YEAR);
         int mes = fechaActual.get(Calendar.MONTH) - fechaNacimiento.get(Calendar.MONTH);
-        int dia = fechaActual.get(Calendar.DATE) - fechaNacimiento.get(Calendar.DATE);
+        int dia = fechaActual.get(Calendar.DAY_OF_MONTH) - fechaNacimiento.get(Calendar.DAY_OF_MONTH);
         if (mes < 0 || (mes == 0 && dia < 0)) {
             year--;
         }

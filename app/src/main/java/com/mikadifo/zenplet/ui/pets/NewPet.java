@@ -142,7 +142,7 @@ public class NewPet extends Fragment {
                         fechaNacimiento.setTime(date);
                         int yearCalculated = fechaActual.get(Calendar.YEAR) - fechaNacimiento.get(Calendar.YEAR);
                         int monthCalculated = fechaActual.get(Calendar.MONTH) - fechaNacimiento.get(Calendar.MONTH);
-                        int dayCalculated = fechaActual.get(Calendar.DATE) - fechaNacimiento.get(Calendar.DATE);
+                        int dayCalculated = fechaActual.get(Calendar.DAY_OF_MONTH) - fechaNacimiento.get(Calendar.DAY_OF_MONTH);
                         if (monthCalculated < 0 || (monthCalculated == 0 && dayCalculated < 0)) {
                             yearCalculated--;
                         }
